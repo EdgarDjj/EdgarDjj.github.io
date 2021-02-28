@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>汇编语言x86笔记 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="汇编语言x86笔记" />
+<meta property="og:description" content="x86汇编语言 x86汇编——寄存器 8086CPU中共有14个寄存器，且均为16位 即 AX，BX，CX，DX，SP，BP，SI，DI，IP，FLAG，CS，DS，SS，ES 共 14 个。而这 14 个寄存器按照一定方" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-22T20:29:48&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-22T20:29:48&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="汇编语言x86笔记"/>
+<meta name="twitter:description" content="x86汇编语言 x86汇编——寄存器 8086CPU中共有14个寄存器，且均为16位 即 AX，BX，CX，DX，SP，BP，SI，DI，IP，FLAG，CS，DS，SS，ES 共 14 个。而这 14 个寄存器按照一定方"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/java-gc%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-collections%E5%B7%A5%E5%85%B7%E7%B1%BB/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "汇编语言x86笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","keywords": "汇编","wordcount":  4035 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0\/","datePublished": "2020-10-22T20:29:48+00:00","dateModified": "2020-10-22T20:29:48+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">汇编语言x86笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%85%B6%E4%BB%96/"><i class="far fa-folder fa-fw"></i>其他</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-22 20:29:48">2020-10-22 20:29:48</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4035 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#x86汇编寄存器">x86汇编——寄存器</a>
+      <ol>
+        <li><a href="#通用寄存器"><strong>通用寄存器</strong></a></li>
+        <li><a href="#控制寄存器"><strong>控制寄存器：</strong></a></li>
+        <li><a href="#段寄存器"><strong>段寄存器：</strong></a></li>
+      </ol>
+    </li>
+    <li><a href="#详细">详细</a>
+      <ol>
+        <li><a href="#数据寄存器axbxcxdx"><strong>数据寄存器（AX，BX，CX，DX）</strong></a></li>
+        <li><a href="#ax-寄存器"><strong>AX 寄存器</strong></a></li>
+        <li><a href="#bx寄存器"><strong>BX寄存器</strong></a></li>
+        <li><a href="#cx-寄存器"><strong>CX 寄存器</strong></a></li>
+        <li><a href="#dx寄存器"><strong>DX寄存器</strong></a></li>
+        <li><a href="#指针寄存器bpsp"><strong>指针寄存器（BP，SP）</strong></a></li>
+        <li><a href="#其他寄存器csipssspdses"><strong>其他寄存器（CS，IP，SS，SP，DS，ES）</strong></a></li>
+        <li><a href="#cs寄存器和ip寄存器"><strong>CS寄存器和IP寄存器</strong></a></li>
+        <li><a href="#ss寄存器和sp寄存器"><strong>SS寄存器和SP寄存器</strong></a></li>
+        <li><a href="#ds寄存器和es寄存器"><strong>DS寄存器和ES寄存器</strong></a></li>
+        <li><a href="#标志寄存器flag"><strong>标志寄存器（FLAG）</strong></a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="x86汇编语言">x86汇编语言</h1>
+<h2 id="x86汇编寄存器">x86汇编——寄存器</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="./%e6%b1%87%e7%bc%96%e8%af%ad%e8%a8%80x86%e7%ac%94%e8%ae%b0/jcq.png"
+        data-srcset="./%e6%b1%87%e7%bc%96%e8%af%ad%e8%a8%80x86%e7%ac%94%e8%ae%b0/jcq.png, ./%e6%b1%87%e7%bc%96%e8%af%ad%e8%a8%80x86%e7%ac%94%e8%ae%b0/jcq.png 1.5x, ./%e6%b1%87%e7%bc%96%e8%af%ad%e8%a8%80x86%e7%ac%94%e8%ae%b0/jcq.png 2x"
+        data-sizes="auto"
+        alt="./汇编语言x86笔记/jcq.png"
+        title="寄存器" /></p>
+<p>8086CPU中共有14个寄存器，且均为16位</p>
+<p>即 AX，BX，CX，DX，SP，BP，SI，DI，IP，FLAG，CS，DS，SS，ES 共 14 个。而这 14 个寄存器按照一定方式又分为了通用寄存器，控制寄存器和段寄存器。</p>
+<h3 id="通用寄存器"><strong>通用寄存器</strong></h3>
+<h4 id="axbxcxdx称作为数据寄存器"><strong>AX，BX，CX，DX称作为数据寄存器：</strong></h4>
+<p>AX (Accumulator)：累加寄存器，也称之为累加器；</p>
+<p>BX (Base)：基地址寄存器；</p>
+<p>CX (Count)：计数器寄存器；</p>
+<p>DX (Data)：数据寄存器；</p>
+<h4 id="sp和bp又称作为指针寄存器"><strong>SP和BP又称作为指针寄存器：</strong></h4>
+<p>SP (Stack Pointer)：堆栈指针寄存器；</p>
+<p>BP (Base Pointer)：基指针寄存器；</p>
+<p><strong>SI和DI又称作为变址寄存器：</strong></p>
+<p>SI (Source Index)：源变址寄存器；</p>
+<p>DI (Destination Index)：目的变址寄存器；</p>
+<h3 id="控制寄存器"><strong>控制寄存器：</strong></h3>
+<p>IP (Instruction Pointer)：指令指针寄存器；</p>
+<p>FLAG：标志寄存器；</p>
+<h3 id="段寄存器"><strong>段寄存器：</strong></h3>
+<p>CS (Code Segment)：代码段寄存器；</p>
+<p>DS (Data Segment)：数据段寄存器；</p>
+<p>SS (Stack Segment)：堆栈段寄存器；</p>
+<p>ES (Extra Segment)：附加段寄存器；</p>
+<h2 id="详细">详细</h2>
+<h3 id="数据寄存器axbxcxdx"><strong>数据寄存器（AX，BX，CX，DX）</strong></h3>
+<p>数据寄存器有 AX，BX，CX，DX 四个组成，由于在 8086 之前的 CPU 为 8 位 CPU，所以为了兼容以前的 8 位程序，在 8086 CPU 中，每一个数据寄存器都可以当做两个单独的寄存器来使用，由此，每一个 16 位寄存器就可以当做 2 个独立的 8 位寄存器来使用了。</p>
+<p>AX 寄存器可以分为两个独立的 8 位的 AH 和 AL 寄存器；</p>
+<p>BX 寄存器可以分为两个独立的 8 位的 BH 和 BL 寄存器；</p>
+<p>CX 寄存器可以分为两个独立的 8 位的 CH 和 CL 寄存器；</p>
+<p>DX 寄存器可以分为两个独立的 8 位的 DH 和 DL 寄存器；</p>
+<p>除了上面 4 个数据寄存器以外，其他寄存器均不可以分为两个独立的 8 位寄存器 ；</p>
+<h3 id="ax-寄存器"><strong>AX 寄存器</strong></h3>
+<p>如上所说，AX 的另外一个名字叫做累加寄存器或者简称为累加器，其可以分为 2 个独立的 8 位寄存器 AH 和 AL，可以有以下代码(即将 AX当做普通的寄存器使用，即可以用来暂存数据)：</p>
+<p>MOV AX,1234H 向寄存器 AX 传入数据 1234H</p>
+<p>MOV AH,56H 向寄存器 AX 的高 8 位寄存器 AH 中传入数据 56H</p>
+<p>MOV AL,78H 向寄存器 AX 的低 8 位寄存器 AL 中传入数据 78H</p>
+<p>既然 AX 又被称作为累加器，AX 寄存器还具有特殊的用途，其可以在使用 DIV 和 MUL 指令时使用</p>
+<p>DIV 在 8086 CPU 中是除法指令，而在使用除法的时候有两种情况，即除数可以是 8 位或者是 16 位的。除数可以存放在寄存器中或者是内存单元中，被除数放在AX中。当除数是 8 位时，被除数一定会是 16 位的，并且默认是放在 AX 寄存器中；而当除数是 16 位时，被除数一定是 32 位的，其中高16位放到DX中，低16位放在AX中。当除法指令执行完成以后，如果除数是 8 位的，则在 AL 中会保存此次除法操作的商，而在 AH 中则会保存此次除法操作的余数；如果除数是 16 位的话，则 AX 中会保存本次除法操作的商，而 DX 则保存本次除法操作的余数。</p>
+<p>MUL 在8086CPU中是乘法指令，在做乘法运算时，两个相乘的数要么都是 8 位，要么都是 16 位。如果两个相乘的数都是 8 位的话，则一个默认是放在 AL 中，而另一个 8 位的乘数则位于其他的寄存器或者说是内存字节单元中；而如果两个相乘的数都是 16 位的话，则一个默认存放在 AX 中，另一个则是某个寄存器中或者是某个内存字单元中。当 MUL 指令执行完毕后，如果是 8 位的乘法运算，则默认乘法运算的结果是保存在 AX 中；如果是 16 位的乘法运算的话，则默认乘法运算的结果有 32 位，其中高位默认保存在 DX 中，而低位则默认保存在 AX 中。</p>
+<p>AX 寄存器在 DIV 指令中的使用：</p>
+<p>MOV DX,0H 设置 32 位被除数的高 16 位为 0H</p>
+<p>MOV AX,8H 设置 32 位被除数的低 16 位为 8H</p>
+<p>MOV BX,2H 设置 16 位除数为 2H</p>
+<p>DIV BX 执行计算</p>
+<p>AX 寄存器在 MUL 指令中的使用：</p>
+<p>MOV AX,800H 设置 16 位乘数为 800H</p>
+<p>MOV BX,100H 设置 16 位乘数为 100H</p>
+<p>MOV DX,0H 清空用来保存乘法结果的高16 位</p>
+<p>MUL BX 执行计算</p>
+<h3 id="bx寄存器"><strong>BX寄存器</strong></h3>
+<p>首先可以明确的是，BX 作为数据寄存器，表明其是可以暂存一般的数据的，即在某种程度上，它和 AX 可以暂存一般性数据的功能是一样的，其同样为了适应以前的 8 位 CPU ，而可以将 BX 当做两个独立的 8 位寄存器使用，即 BH 和 BL。除了暂存一般性数据的功能外，BX 作为通用寄存器的一种，BX 主要还是用于其专属功能——寻址(物理内存地址)上。8086中的地址表示是<strong>段地址:[偏移]</strong>，段地址可省略，省略时取默认情况。内存大小1MB,20位地址。</p>
+<p>BX 寄存器在寻址中的使用：</p>
+<p>MOV BX,5H</p>
+<p>MOV AH,[BX] 设置 AX 的值为偏移地址为 BX 的内存单元中的值(此时默认DS段)</p>
+<h3 id="cx-寄存器"><strong>CX 寄存器</strong></h3>
+<p>CX 寄存器作为数据寄存器的一种呢，其同样具有和AX，BX 一样的特点，即可以暂存一般性的数据，同时还可以将其当做两个独立的 8 位寄存器使用，即CH 和 CL 两个 8 位寄存器，当然，CX 也是有其专门的用途的，CX 中的 C 被翻译为 Counting 也就是计数器的功能，当在汇编指令中使用循环 LOOP 指令时，可以通过 CX 来指定需要循环的次数，而 CPU 在每一次执行 LOOP 指令的时候，都会做两件事：一件就是令 CX = CX – 1，即令 CX 计数器自动减去 1；还有一件就是判断 CX 中的值，如果 CX 中的值为 0 则会跳出循环，而继续执行循环下面的指令，如果 CX 中的值不为 0 ，则会继续执行循环中所指定的指令。</p>
+<p>CX 寄存器在循环中的使用(输出 5 个白底蓝字的 A)：</p>
+<p>MOV AX,0B800H</p>
+<p>MOV DS,AX 使用 80x25 彩色字符模式，内存地址0xB8000 - 0xBFFFFF</p>
+<p>MOV BX,0 从 0xB8000 开始</p>
+<p>MOV CX,5H 循环 5 次（<strong>每次运行到loop就减一</strong>）</p>
+<p>MOV DX,41H A的16 进制为 41H</p>
+<p>MOV AX,01110001B 显示白底蓝字</p>
+<p>s: MOV [BX],DX 显示 ASCII 字符</p>
+<p>ADD BX,1</p>
+<p>MOV [BX],AX 设置字符显示属性</p>
+<p>ADD BX,1</p>
+<p>LOOP s</p>
+<h3 id="dx寄存器"><strong>DX寄存器</strong></h3>
+<p>DX 寄存器作为数据寄存器的一种，同样具有和AX，BX，CX 一样的特点，即可以暂存一般性的数据，同时还可以将其当做两个独立的 8 位寄存器使用，有 DH 和 DL，同时，DX 作为一个通用寄存器，当在使用 DIV 指令进行除法运算时，如果除数为 16 位时，被除数将会是 32 位，而被除数的高 16 位就是存放在 DX 中，执行完 DIV 指令后，本次除法运算所产生的余数将会保存在 DX 中；在执行 MUL 指令时，如果两个相乘的数都是 16 位的话，相乘后产生的结果显然需要 32 位来保存，而这 32 位的结果的高 16 位就是存放在 DX 寄存器中。</p>
+<p>DX 寄存器在 DIV 指令中的使用（即 2293812 / 256 = 8960 余数为 52）：</p>
+<p>MOV DX,0023H 32 位被除数的高 16 位</p>
+<p>MOV AX,0034H 32 位被除数的低 16 位</p>
+<p>MOV BX,100H 16的除数</p>
+<p>DIV BX</p>
+<h3 id="指针寄存器bpsp"><strong>指针寄存器（BP，SP）</strong></h3>
+<h4 id="bp寄存器"><strong>BP寄存器</strong></h4>
+<p>8086 CPU 中的指针寄存器包括两个，SP 和 BP，因为 SP 寄存器实质上必须和 SS 段寄存器一起使用，所以，把 SP 寄存器留到后面和 SS 段寄存器一起作介绍。</p>
+<p>BP也就是基指针寄存器，它和其他的几个用来进行寻址操作所使用的寄存器(还有 BX，SI，DI)没有太大的区别。首先，BP 寄存器作为通用寄存器的一种，说明其是可以暂存数据的，而后，BP 又不是数据寄存器，也就意味着其不能分割成 2 个独立的 8 位寄存器使用。</p>
+<p>当以 […] 的方式访问内存单元而且在 […] 中使用了寄存器 BP 的话，如果在指令中**没有明确或者说是显示的给出段地址时, 段地址使用默认的 SS 寄存器中的值(BX，SI，DI 会默认使用 DS 段寄存器)。**比如 DS:[BP] 则在这里明确给出了段地址位于 DS 中，代表的内存单元即是段地址为 DS ，偏移量为 BP 寄存器中的值的内存单元；而如果是仅使用 [BP] 的话，则代表的内存单元是段地址为 SS，偏移量为 BP 寄存器中的值的内存单元。</p>
+<p>在 8086 CPU 中，只有 4 个寄存器可以以 […] 的方式使用，这四个寄存器分别是 BX，SI，DI，BP。BX 寄存器在寻址中的使用：</p>
+<p>MOV BP,0</p>
+<p>MOV AX,[BP] 将 SS:[BP] 代表的内存单元移入 AX 中</p>
+<p>MOV AX,CS:[BP] 将 CS:[BP] 代表的内存单元移入 AX 中</p>
+<h4 id="变址寄存器sidi"><strong>变址寄存器（SI，DI）</strong></h4>
+<p>首先，变址寄存器和上面介绍的指针寄存器（也就是 BP 和 SP），它们的功能其实都是用于存放某个存储单元地址的偏移，或者是用于某组存储单元开始地址的偏移，即作为存储器指针使用，当然，由于变址寄存器和指针寄存器都是属于通用寄存器，所以它们也可以保存算术结果或者说是具有暂存数据的功能，但是因为它们不是数据寄存器，所以无法分割成 2 个独立的 8 位寄存器使用。</p>
+<p>SI 是源变址寄存器，DI 是目的变址寄存器，8086 CPU 中的 SI 寄存器和 DI 寄存器其实和 BX 寄存器的功能是差不多的，只不过 SI 寄存器和 DI 寄存器均不是数据寄存器，所以它们不能够拆分为 2 个独立的 8 位寄存器。同时，通过使用 SI 和 DI 寄存器也可以用来完成寻址操作。</p>
+<p>MOV SI,0 初始化偏移地址为 0</p>
+<p>MOV AX,[SI] 将段地址为 DS 偏移地址为 SI 的内存单元中的值移入 AX中</p>
+<p>MOV AX,DS:[SI] 将段地址为 DS 偏移地址为 SI 的内存单元中的值移入 AX 中</p>
+<p>MOV AX,SS:[SI] 将段地址为 SS 偏移地址为 SI 的内存单元中的值移入 AX 中</p>
+<h3 id="其他寄存器csipssspdses"><strong>其他寄存器（CS，IP，SS，SP，DS，ES）</strong></h3>
+<p>由于段寄存器总是和其他一些像指针寄存器，变址寄存器，控制寄存器一起使用，所以在这里，不单独介绍段寄存器，而是将段寄存器和一些其他的常用寄存器搭配介绍。</p>
+<h3 id="cs寄存器和ip寄存器"><strong>CS寄存器和IP寄存器</strong></h3>
+<p>CS:IP 两个寄存器指示了 CPU 当前将要读取的指令的地址，其中 CS 为代码段寄存器，而 IP 为指令指针寄存器 。<strong>当一个可执行文件加载到内存中以后，CS:IP 两个寄存器便指向了这个可执行文件的起始地址</strong>，然后 CPU 就可以从这个起始地址开始往下读取指令，当读取完指令后，CS:IP 将会自动的改变，基本上是改变 IP，从而指向下一条要读取的指令，这样就可以执行这个可执行文件了。任何时候，CS:IP 指向的地址中的内容都是 CPU 当前执行的指令。</p>
+<h3 id="ss寄存器和sp寄存器"><strong>SS寄存器和SP寄存器</strong></h3>
+<p>SS:SP 两个寄存器指向的是内存栈的栈顶元素。当使用 PUSH 指令向栈中压入 1 个字节单元时，SP =SP - 1；即栈顶元素会发生变化；当使用 POP 指令从栈中弹出 1 个字节单元时， SP =SP + 1；即栈顶元素会发生变化。</p>
+<h3 id="ds寄存器和es寄存器"><strong>DS寄存器和ES寄存器</strong></h3>
+<p>DS 寄存器和 ES 寄存器都属于段寄存器，其实它们和 CS 寄存器以及 SS 寄存器用起来区别不大，既然是段寄存器的话，自然它们存放的就是某个段地址了。我们知道，CPU 要访问一个内存单元时，必须要提供一个指向这个内存单元的物理地址给 CPU ，而**在 8086 CPU中,物理地址是由段地址左移 4 位(乘以16)后加上偏移地址形成的。**我们也就只需要提供段地址和偏移地址即 OK 。DS寄存器存放的就是数据段的段地址 ，除了BP基指针寄存器外，其余的寄存器都默认使用DS寄存器的值作为段地址。</p>
+<h3 id="标志寄存器flag"><strong>标志寄存器（FLAG）</strong></h3>
+<p>前面已经介绍了 8086 CPU 14个寄存器中的 13 个了，下面我们将介绍最后一个寄存器也就是 FLAG 寄存器。FLAG 中的每一个位都表示不同的状态，存储的信息通常又被称作程序状态字（PSW） 。下面是 FLAG 寄存器中各个位的示意图：</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-22 20:29:48</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0/" data-title="汇编语言x86笔记" data-hashtags="汇编"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0/" data-hashtag="汇编"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0/" data-title="汇编语言x86笔记" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0/" data-title="汇编语言x86笔记"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0/" data-title="汇编语言x86笔记" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0/" data-title="汇编语言x86笔记" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0/" data-title="汇编语言x86笔记" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80x86%E7%AC%94%E8%AE%B0/" data-title="汇编语言x86笔记"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%B1%87%E7%BC%96/">汇编</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/java-gc%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/" class="prev" rel="prev" title="Java GC垃圾收集器"><i class="fas fa-angle-left fa-fw"></i>Java GC垃圾收集器</a>
+            <a href="/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-collections%E5%B7%A5%E5%85%B7%E7%B1%BB/" class="next" rel="next" title="集合框架-Collections工具类">集合框架-Collections工具类<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

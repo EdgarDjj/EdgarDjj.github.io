@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Spring - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/spring/</link>
+        <description>Spring - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Thu, 12 Nov 2020 14:36:45 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/spring/" rel="self" type="application/rss+xml" /><item>
+    <title>Spring</title>
+    <link>https://EdgarDjj.github.io/2020/11/spring/</link>
+    <pubDate>Thu, 12 Nov 2020 14:36:45 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/spring/</guid>
+    <description><![CDATA[Spring 关于《Spring实战》的一些学习 前言 任何实际的应用程序都是很多组件组成的，每个组件负责整个应用功能的一部分，这些组件需要与其他的应用元素进行协调以完成自己的任务。当程序需要运行的时候，需要以某种方]]></description>
+</item><item>
+    <title>SpringIOC和AOP</title>
+    <link>https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/</link>
+    <pubDate>Tue, 27 Oct 2020 17:11:51 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/</guid>
+    <description><![CDATA[Spring IoC AOP IoC IoC（Inverse of Control：控制反转）是一种设计思想，**就是将原本在程序中手动创建对象的控制权，交给由Spring框架管理。**IoC容器是Spring用来实现IoC的载体，Io]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>学习路线 - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</link>
+        <description>学习路线 - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Fri, 06 Nov 2020 09:59:12 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" rel="self" type="application/rss+xml" /><item>
+    <title>学习路线</title>
+    <link>https://EdgarDjj.github.io/2020/11/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</link>
+    <pubDate>Fri, 06 Nov 2020 09:59:12 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</guid>
+    <description><![CDATA[学习路线-后 网络 Internet work 怎么运作 HTTP 是什么 Browsers 怎么运作 DNS 如何运作 Domain Name 是什么 hosting 是什么 基本前端知识 HTML CSS JavaScript 操作系统 和 常识 终端的使用 操作系统如何运作的 程序管理 线程和并发 基本终端指令 grep、awk、sed、lsof、]]></description>
+</item></channel>
+</rss>

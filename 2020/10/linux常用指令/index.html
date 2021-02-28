@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Linux常用指令 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="Linux常用指令" />
+<meta property="og:description" content="Linux常用命令 查看目录以及权限 在Linux中，通常 ls -l列出，其中可以查看文件属性，所属用户组等较为详细的信息。 [edgarding@localhost ~]$ ls -l 总用量 0 drwxrwxr-x. 2 edgarding edgarding 6 10月 29 22:52 perl5 drwxrwxr-x. 2 edgarding edgarding 92 10月 25 14:25 unix_exp drwxr-xr-x. 2 edgarding edgarding 6 7月 28 12:45 公共 drwxr-xr-x." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-29T22:46:20&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-29T22:46:20&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Linux常用指令"/>
+<meta name="twitter:description" content="Linux常用命令 查看目录以及权限 在Linux中，通常 ls -l列出，其中可以查看文件属性，所属用户组等较为详细的信息。 [edgarding@localhost ~]$ ls -l 总用量 0 drwxrwxr-x. 2 edgarding edgarding 6 10月 29 22:52 perl5 drwxrwxr-x. 2 edgarding edgarding 92 10月 25 14:25 unix_exp drwxr-xr-x. 2 edgarding edgarding 6 7月 28 12:45 公共 drwxr-xr-x."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/elasticsearch/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux常用指令",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4\/"
+        },"genre": "posts","keywords": "Linux","wordcount":  3480 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4\/","datePublished": "2020-10-29T22:46:20+00:00","dateModified": "2020-10-29T22:46:20+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Linux常用指令</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/linux/"><i class="far fa-folder fa-fw"></i>Linux</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-29 22:46:20">2020-10-29 22:46:20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3480 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#查看目录以及权限">查看目录以及权限</a></li>
+    <li><a href="#nohup-no-hang-up-不要挂起的意思">Nohup (no hang up 不要挂起的意思)</a></li>
+    <li><a href="#查看进程">查看进程</a></li>
+    <li><a href="#awk">awk</a></li>
+    <li><a href="#tar解压缩">tar解压缩</a>
+      <ol>
+        <li><a href="#常用参数">常用参数</a></li>
+      </ol>
+    </li>
+    <li><a href="#scp">scp</a></li>
+    <li><a href="#rm">rm</a></li>
+    <li><a href="#watch">watch</a></li>
+    <li><a href="#df">df</a></li>
+    <li><a href="#tcpdump">tcpdump</a></li>
+    <li><a href="#lsof">lsof</a></li>
+    <li><a href="#nc">nc</a></li>
+    <li><a href="#netstat">netstat</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#split">split</a></li>
+    <li><a href="#wc--c-filename">wc -c +filename</a></li>
+    <li><a href="#moreless">more/less</a></li>
+    <li><a href="#headtail">head/tail</a></li>
+    <li><a href="#diff">diff</a></li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="linux常用命令">Linux常用命令</h1>
+<h2 id="查看目录以及权限">查看目录以及权限</h2>
+<p>在Linux中，通常 <code>ls -l</code>列出，其中可以查看文件属性，所属用户组等较为详细的信息。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>edgarding@localhost ~<span style="color:#f92672">]</span>$ ls -l
+总用量 <span style="color:#ae81ff">0</span>
+drwxrwxr-x. <span style="color:#ae81ff">2</span> edgarding edgarding  <span style="color:#ae81ff">6</span> 10月 <span style="color:#ae81ff">29</span> 22:52 perl5
+drwxrwxr-x. <span style="color:#ae81ff">2</span> edgarding edgarding <span style="color:#ae81ff">92</span> 10月 <span style="color:#ae81ff">25</span> 14:25 unix_exp
+drwxr-xr-x. <span style="color:#ae81ff">2</span> edgarding edgarding  <span style="color:#ae81ff">6</span> 7月  <span style="color:#ae81ff">28</span> 12:45 公共
+drwxr-xr-x. <span style="color:#ae81ff">2</span> edgarding edgarding  <span style="color:#ae81ff">6</span> 7月  <span style="color:#ae81ff">28</span> 12:45 模板
+drwxr-xr-x. <span style="color:#ae81ff">2</span> edgarding edgarding  <span style="color:#ae81ff">6</span> 7月  <span style="color:#ae81ff">28</span> 12:45 视频
+drwxr-xr-x. <span style="color:#ae81ff">2</span> edgarding edgarding  <span style="color:#ae81ff">6</span> 7月  <span style="color:#ae81ff">28</span> 12:45 图片
+drwxr-xr-x. <span style="color:#ae81ff">2</span> edgarding edgarding  <span style="color:#ae81ff">6</span> 7月  <span style="color:#ae81ff">28</span> 12:45 文档
+drwxr-xr-x. <span style="color:#ae81ff">2</span> edgarding edgarding  <span style="color:#ae81ff">6</span> 7月  <span style="color:#ae81ff">28</span> 12:45 下载
+drwxr-xr-x. <span style="color:#ae81ff">2</span> edgarding edgarding  <span style="color:#ae81ff">6</span> 7月  <span style="color:#ae81ff">28</span> 12:45 音乐
+drwxr-xr-x. <span style="color:#ae81ff">4</span> edgarding edgarding <span style="color:#ae81ff">36</span> 10月 <span style="color:#ae81ff">25</span> 14:34 桌面
+</code></pre></div><p><strong>第一列 第一个字段</strong></p>
+<p>文件类型，后面9个字符是模式，其中分为三组，每一个组三个字段。</p>
+<ol>
+<li>用户权限</li>
+<li>所属组权限</li>
+<li>其他用户权限</li>
+</ol>
+<ul>
+<li>
+<p>r（read）代表可读</p>
+</li>
+<li>
+<p>w（write）代表可写</p>
+</li>
+<li>
+<p>e（execute）代表可执行</p>
+</li>
+</ul>
+<p>如果“-”代表没有权限。</p>
+<p>-rw-r-r&ndash;:为普通文件，对于所属用户可读可写不能执行，对于所属组仅仅可读，对于其他用户可查。</p>
+<p><strong>第二列 硬链接数目</strong></p>
+<blockquote>
+<p>硬链接允许作用之一是允许一个文件拥有多个有效路径名，从而防止误删。但是只能在同一文件系统中的文件之间进行连接，不能对目录进行创建。</p>
+</blockquote>
+<p>第三列是所属用户，第四列为所属组，第五列为文件大小，第六列为文件被修改的时间，最后为文件名。其中使用chown改变所属用户，chgrp改变所属组。</p>
+<h2 id="nohup-no-hang-up-不要挂起的意思">Nohup (no hang up 不要挂起的意思)</h2>
+<blockquote>
+<p>这也是常用的后台启动程序的常用方法，如果交互命令行中运行程序，我们就很容易终止它。在交互环境下，我们输出一般都是直接输出到当前界面，在后台启动的时候通常都会定向到文件，通常都是下面这个命令</p>
+</blockquote>
+<p><code>nohup command &gt;X.file 2 &gt;&amp;1 &amp;</code></p>
+<p>其中1表示标准输出。2表示文件标准错误输出。2&gt;1&amp;即将两者合并，合并到X.file</p>
+<h2 id="查看进程">查看进程</h2>
+<blockquote>
+<p>有的时候我们需要查看进程是否已经启动或者尝试终止进程。经常使用的命令为<code>ps -ef</code>列出当前正在运行的程序，那如何定位我们想要查看的进程A，这个时候使用grep，即ps -ef| grep A.</p>
+</blockquote>
+<h2 id="awk">awk</h2>
+<h2 id="tar解压缩">tar解压缩</h2>
+<p>解压缩命令</p>
+<h3 id="常用参数">常用参数</h3>
+<blockquote>
+<p>-c：创建的tar文件</p>
+<p>-x：解开tar文件</p>
+<p>-t：列出tar文件中包含的文件信息</p>
+<p>-r：附加新的文件到tar文件中</p>
+</blockquote>
+<p>常用命令组合</p>
+<p>tar -xvf /home/a.tar  //打开tar打包文件
+tar -zxvf /home/a.tar.gz //解压以gzip压缩的文件
+tar -jxvf /home/a.tar.bz2 //解压以bzip压缩的文件
+tar -cvf /home/a.tar /home 打包/home下所有文件</p>
+<h2 id="scp">scp</h2>
+<blockquote>
+<p>通过scp命令在多台服务器中相互复制传输文件。为了省下输入密码，可以设置免密登陆。</p>
+</blockquote>
+<p>常用组合：</p>
+<p>例子1：将A服务器中/home/a.txt 复制到B服务器的/home中</p>
+<p>scp -r /home/a.txt root@B_ip:/home</p>
+<h2 id="rm">rm</h2>
+<p>删除</p>
+<h2 id="watch">watch</h2>
+<blockquote>
+<p>这个命令是动态查看命令执行的结果。比如如果需要每隔一秒高亮显示网络连接数的变化情况。则 watch -n 1 -d netstat -ant</p>
+</blockquote>
+<p>例子：每隔一秒高亮显示http连接数的变化情况</p>
+<p>watch -n 1 -d &lsquo;pstree | grep http&rsquo;</p>
+<p>例子:十秒一次输出系统的平均负载</p>
+<p>watch -n 10 &lsquo;cat /proc/loadavg&rsquo;</p>
+<h2 id="df">df</h2>
+<blockquote>
+<p>查看磁盘大小</p>
+</blockquote>
+<p>df -h</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>edgarding@localhost ~<span style="color:#f92672">]</span>$ df -h
+文件系统                 容量  已用  可用 已用% 挂载点
+devtmpfs                 470M     <span style="color:#ae81ff">0</span>  470M    0% /dev
+tmpfs                    487M     <span style="color:#ae81ff">0</span>  487M    0% /dev/shm
+tmpfs                    487M  8.6M  478M    2% /run
+tmpfs                    487M     <span style="color:#ae81ff">0</span>  487M    0% /sys/fs/cgroup
+/dev/mapper/centos-root   17G  6.3G   11G   37% /
+/dev/sda1               1014M  173M  842M   17% /boot
+tmpfs                     98M   28K   98M    1% /run/user/1000
+/dev/sr0                 4.5G  4.5G     <span style="color:#ae81ff">0</span>  100% /run/media/edgarding/CentOS <span style="color:#ae81ff">7</span> x86_64
+vmhgfs-fuse              466G  291G  176G   63% /mnt/hgfs
+</code></pre></div><h2 id="tcpdump">tcpdump</h2>
+<blockquote>
+<p>和它类似的工具在windows中是wireshark，其采用底层库winpcap/libpcap实现。采用了bpf过滤机制。下面我们看看提供的不同参数的含义。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-n</td>
+<td style="text-align:left">使用IP地址表示主机。使用数字表示端口</td>
+</tr>
+<tr>
+<td style="text-align:left">-i</td>
+<td style="text-align:left">指定要监听的端口。如果为&quot;-i any&quot;表示住区所有网卡数据包</td>
+</tr>
+<tr>
+<td style="text-align:left">-v</td>
+<td style="text-align:left">输出诸如ip数据包中的TTL更加详细的信息</td>
+</tr>
+<tr>
+<td style="text-align:left">-t</td>
+<td style="text-align:left">不打印时间戳</td>
+</tr>
+<tr>
+<td style="text-align:left">-e</td>
+<td style="text-align:left">显示以太网帧头部信息</td>
+</tr>
+<tr>
+<td style="text-align:left">-c</td>
+<td style="text-align:left">仅仅抓取指定数量的数据包</td>
+</tr>
+<tr>
+<td style="text-align:left">-x</td>
+<td style="text-align:left">按照十六进制显示数据包内容</td>
+</tr>
+<tr>
+<td style="text-align:left">-X</td>
+<td style="text-align:left">不仅仅输出-x结果还输出十六进制对应的ASCII字符</td>
+</tr>
+<tr>
+<td style="text-align:left">-s</td>
+<td style="text-align:left">设置抓包时的抓包长度</td>
+</tr>
+<tr>
+<td style="text-align:left">-w</td>
+<td style="text-align:left">将输出结果定向到某个文件，一般为pcap后缀</td>
+</tr>
+<tr>
+<td style="text-align:left">-r</td>
+<td style="text-align:left">从文件读取数据包并显示数字表示端口</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>-i</th>
+<th>指定要监听的端口。如果为&quot;-i any&quot;表示住区所有网卡数据包</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-v</td>
+<td>输出诸如ip数据包中的TTL更加详细的信息</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>不打印时间戳</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>显示以太网帧头部信息</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>仅仅抓取指定数量的数据包</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>按照十六进制显示数据包内容</td>
+</tr>
+<tr>
+<td>-X</td>
+<td>不仅仅输出-x结果还输出十六进制对应的ASCII字符</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>设置抓包时的抓包长度</td>
+</tr>
+<tr>
+<td>-w</td>
+<td>将输出结果定向到某个文件，一般为pcap后缀</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>从文件读取数据包并显示</td>
+</tr>
+</tbody>
+</table>
+<p>知道了相关参数，下面看几个案例</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">执行任务</th>
+<th style="text-align:left">执行命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">捕获特定网口数据包</td>
+<td style="text-align:left">tcpdump -i eth0</td>
+</tr>
+<tr>
+<td style="text-align:left">捕获特定个数(1000)的包</td>
+<td style="text-align:left">tcpdump -c 1000 -i eth0</td>
+</tr>
+<tr>
+<td style="text-align:left">将捕获的包保存到文件</td>
+<td style="text-align:left">tcpdump -w a.pcap -i eth0</td>
+</tr>
+<tr>
+<td style="text-align:left">读取pcap格式的包</td>
+<td style="text-align:left">tcpdump -r a.pcap</td>
+</tr>
+<tr>
+<td style="text-align:left">增加捕获包的时间戳</td>
+<td style="text-align:left">tcpdump -n -ttt -i eth0</td>
+</tr>
+<tr>
+<td style="text-align:left">指定捕获包的协议类型</td>
+<td style="text-align:left">tcpdump -i eth0 arp</td>
+</tr>
+<tr>
+<td style="text-align:left">捕获指定端口</td>
+<td style="text-align:left">tcpdump -i eth0 post 22</td>
+</tr>
+<tr>
+<td style="text-align:left">捕获特定目标ip+port的包</td>
+<td style="text-align:left">tcpdump -i eth0 dst address and port 22</td>
+</tr>
+<tr>
+<td style="text-align:left">捕获DNS请求和响应</td>
+<td style="text-align:left">tcpdump -i eth0 -s0 port 53</td>
+</tr>
+<tr>
+<td style="text-align:left">匹配Http请求头</td>
+<td style="text-align:left">tcpdump -s 0 -v -n -l | egrep -i &ldquo;POST /|GET /|Host:&rdquo;</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>将捕获的包保存到文件</th>
+<th>tcpdump -w a.pcap -i eth0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>读取pcap格式的包</td>
+<td>tcpdump -r a.pcap</td>
+</tr>
+<tr>
+<td>增加捕获包的时间戳</td>
+<td>tcpdump -n -ttt -i eth0</td>
+</tr>
+<tr>
+<td>指定捕获包的协议类型</td>
+<td>tcpdump -i eth0 arp</td>
+</tr>
+<tr>
+<td>捕获指定端口</td>
+<td>tcpdump -i eth0 post 22</td>
+</tr>
+<tr>
+<td>捕获特定目标ip+port的包</td>
+<td>tcpdump -i eth0 dst address and port 22</td>
+</tr>
+<tr>
+<td>捕获DNS请求和响应</td>
+<td>tcpdump -i eth0 -s0 port 53</td>
+</tr>
+<tr>
+<td>匹配Http请求头</td>
+<td>tcpdump -s 0 -v -n -l | egrep -i &ldquo;POST /|GET /|Host:&rdquo;</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lsof">lsof</h2>
+<blockquote>
+<p>列出当前系统打开的文件描述符工具。可以得知感兴趣的描述符是被哪些进程使用</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-i</td>
+<td style="text-align:left">显示sokcet文件描述符</td>
+</tr>
+<tr>
+<td style="text-align:left">-c</td>
+<td style="text-align:left">显示指定的命令打开的所有文件描述符</td>
+</tr>
+<tr>
+<td style="text-align:left">-t</td>
+<td style="text-align:left">仅显示打开了目标文件描述符的进程pid</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">执行任务</th>
+<th style="text-align:left">命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">列出所有的网络链接</td>
+<td style="text-align:left">lsof -i</td>
+</tr>
+<tr>
+<td style="text-align:left">列出所有udp的网络链接</td>
+<td style="text-align:left">lsof -i udp</td>
+</tr>
+<tr>
+<td style="text-align:left">列出谁在使用某个端口</td>
+<td style="text-align:left">lsof -i :3306</td>
+</tr>
+<tr>
+<td style="text-align:left">列出谁在使用特定的tcp端口</td>
+<td style="text-align:left">lsof -i tcp:80</td>
+</tr>
+<tr>
+<td style="text-align:left">根据文件描述范围列出文件信息</td>
+<td style="text-align:left">lsof -d 2-3</td>
+</tr>
+</tbody>
+</table>
+<h2 id="nc">nc</h2>
+<blockquote>
+<p>nc&ndash;&gt;“瑞士军刀”。不知大家在渗透过程中，拿了shell有没有使用nc搞点事儿。它用来快速构建网络链接。常用来调试客户端程序。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-i</td>
+<td style="text-align:left">设置数据包传送的时间间隔</td>
+</tr>
+<tr>
+<td style="text-align:left">-l</td>
+<td style="text-align:left">以服务器方式运行。默认为客户端运行</td>
+</tr>
+<tr>
+<td style="text-align:left">-k</td>
+<td style="text-align:left">重复接受并处理某个端口上的所有链接</td>
+</tr>
+<tr>
+<td style="text-align:left">-p</td>
+<td style="text-align:left">以客户端运行时强制其使用指定端口</td>
+</tr>
+<tr>
+<td style="text-align:left">-C</td>
+<td style="text-align:left">将CR和LF两个字符作为结束符</td>
+</tr>
+<tr>
+<td style="text-align:left">-u</td>
+<td style="text-align:left">使用udp协议。默认tcp协议</td>
+</tr>
+<tr>
+<td style="text-align:left">-X</td>
+<td style="text-align:left">nc客户端余代理服务器通信时默认为socks5协议。</td>
+</tr>
+<tr>
+<td style="text-align:left">-z</td>
+<td style="text-align:left">扫描目标机器某个范围服务是否开启</td>
+</tr>
+</tbody>
+</table>
+<p>小贱上案例</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">执行任务</th>
+<th style="text-align:left">执行命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">扫描机器A端口号在30-40的服务</td>
+<td style="text-align:left">nc -z A 30-40</td>
+</tr>
+<tr>
+<td style="text-align:left">连接服务器A 端口号为5000</td>
+<td style="text-align:left">nc -C A 5000</td>
+</tr>
+<tr>
+<td style="text-align:left">传送文件</td>
+<td style="text-align:left">MachineA:nc -v -n ip portE:\a.exe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="netstat">netstat</h2>
+<blockquote>
+<p>netstat是一个网络信息统计工具。它可以得到网卡接口上全部了解，路由表信息，网卡接口信息等。通常在网络编程中我们用它来显示TCP连接以及状态信息。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-n</td>
+<td style="text-align:left">使用IP地址表示主机</td>
+</tr>
+<tr>
+<td style="text-align:left">-a</td>
+<td style="text-align:left">显示结果中包含监听的socket</td>
+</tr>
+<tr>
+<td style="text-align:left">-t</td>
+<td style="text-align:left">仅显示TCP连接</td>
+</tr>
+<tr>
+<td style="text-align:left">-r</td>
+<td style="text-align:left">显示路由信息</td>
+</tr>
+<tr>
+<td style="text-align:left">-i</td>
+<td style="text-align:left">显示网卡接口数据流量</td>
+</tr>
+<tr>
+<td style="text-align:left">-c</td>
+<td style="text-align:left">每隔1s输出一次</td>
+</tr>
+<tr>
+<td style="text-align:left">-o</td>
+<td style="text-align:left">显示socket定时器的信息</td>
+</tr>
+<tr>
+<td style="text-align:left">-p</td>
+<td style="text-align:left">显示socket所属的进程的PID和名字</td>
+</tr>
+</tbody>
+</table>
+<p>下面列举几个常用例子</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">执行任务</th>
+<th style="text-align:left">执行命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">列出所有连接</td>
+<td style="text-align:left">netstat -a</td>
+</tr>
+<tr>
+<td style="text-align:left">只列出TCP或者UDP</td>
+<td style="text-align:left">netstat -at/netstat -au</td>
+</tr>
+<tr>
+<td style="text-align:left">列出监听中的连接</td>
+<td style="text-align:left">netstat -tnl</td>
+</tr>
+<tr>
+<td style="text-align:left">获取进程名、进程号以及用户 ID</td>
+<td style="text-align:left">nestat  -nlpt</td>
+</tr>
+<tr>
+<td style="text-align:left">打印统计信息</td>
+<td style="text-align:left">netstat -s</td>
+</tr>
+<tr>
+<td style="text-align:left">netstat持续输出</td>
+<td style="text-align:left">netstat -ct</td>
+</tr>
+<tr>
+<td style="text-align:left">打印active状态的连接</td>
+<td style="text-align:left">netstat -atnp | grep ESTA</td>
+</tr>
+<tr>
+<td style="text-align:left">查看服务是否运行(npt)</td>
+<td style="text-align:left">netstat -aple| grep ntp</td>
+</tr>
+</tbody>
+</table>
+<h1 id="vmstat">vmstat</h1>
+<blockquote>
+<p>vmstat能够实时输出系统的进程信息，内存使用，cpu使用等资源的使用情况</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-f</td>
+<td style="text-align:left">显示系统自启动以来执行的fork次数</td>
+</tr>
+<tr>
+<td style="text-align:left">-s</td>
+<td style="text-align:left">显示内存相关统计信息</td>
+</tr>
+<tr>
+<td style="text-align:left">-d</td>
+<td style="text-align:left">显示磁盘相关统计信息</td>
+</tr>
+<tr>
+<td style="text-align:left">-p</td>
+<td style="text-align:left">显示指定磁盘分区统计信息</td>
+</tr>
+<tr>
+<td style="text-align:left">count</td>
+<td style="text-align:left">采样次数。</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段名</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">procs</td>
+<td style="text-align:left">r表示等待运行的而进程数目。b表示处于不可中断睡眠状态的进程数目</td>
+</tr>
+<tr>
+<td style="text-align:left">memory</td>
+<td style="text-align:left">swpd：使用的虚拟内存量。free：空闲内存量。buff：用作缓冲区的内存量。cache：用作缓存的内存量。</td>
+</tr>
+<tr>
+<td style="text-align:left">swap</td>
+<td style="text-align:left">si：从磁盘换入的内存量（/s）。so：交换到磁盘的内存量（/s）。</td>
+</tr>
+<tr>
+<td style="text-align:left">io</td>
+<td style="text-align:left">bi：从块设备接收的块（blocks/s）。bo：发送到块设备的块（blocks/s）。</td>
+</tr>
+<tr>
+<td style="text-align:left">system</td>
+<td style="text-align:left">in：每秒中断的次数，包括时钟。cs：每秒上下文切换的次数。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>这里注意哈，如果查看磁盘的更加详细信息，有另外iostat所得到的信心就更加详细哟</p>
+</blockquote>
+<h1 id="mpstat">mpstat</h1>
+<blockquote>
+<p>能够实时监测多处理器系统中各个cpu的使用情况。这个命令的执行需要安装sysstat，在centos中执行yum install systat就好了。</p>
+</blockquote>
+<p>然后我们看看各个字段什么意思。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">cpu</td>
+<td style="text-align:left">表示当前条信息属于哪个cpu的数据</td>
+</tr>
+<tr>
+<td style="text-align:left">%usr</td>
+<td style="text-align:left">进程运行在用户空间所占cpu运行时间的比例</td>
+</tr>
+<tr>
+<td style="text-align:left">%nice</td>
+<td style="text-align:left">nice值为负的进程运行在用户空间的时间占cpu总运行时间的比例</td>
+</tr>
+<tr>
+<td style="text-align:left">%iowait</td>
+<td style="text-align:left">cpu等待磁盘操作的时间占cpu总运行时间的比例</td>
+</tr>
+<tr>
+<td style="text-align:left">%irq</td>
+<td style="text-align:left">cpu用于处理硬件中断时间占cpu总运行时间的比例</td>
+</tr>
+<tr>
+<td style="text-align:left">%soft</td>
+<td style="text-align:left">cpu用于处理软件中断的时间占cpu用运行时间的比例</td>
+</tr>
+<tr>
+<td style="text-align:left">%steal</td>
+<td style="text-align:left">一对虚拟cpu。当超级管理员在处理某个虚拟cpu时，另一个等待它处理完才能运行。这段等待时间表示为steal时间占总运行时间的比例</td>
+</tr>
+<tr>
+<td style="text-align:left">%guest</td>
+<td style="text-align:left">运行虚拟cpu时间占cpu总运行时间的比例</td>
+</tr>
+<tr>
+<td style="text-align:left">%idle</td>
+<td style="text-align:left">系统空闲时间占cpu总运行时间的比例</td>
+</tr>
+</tbody>
+</table>
+<h2 id="split">split</h2>
+<blockquote>
+<p>将文件分割为数个。</p>
+</blockquote>
+<p>split -5 a.txt//将a.txt每5行分割为一个文件</p>
+<h2 id="wc--c-filename">wc -c +filename</h2>
+<blockquote>
+<p>统计文件中单词的个数。</p>
+</blockquote>
+<h2 id="moreless">more/less</h2>
+<blockquote>
+<p>一页一页显示，通过空白键显示下一页/上一页</p>
+</blockquote>
+<h2 id="headtail">head/tail</h2>
+<blockquote>
+<p>查看某文件前几行或者后几行</p>
+</blockquote>
+<h2 id="diff">diff</h2>
+<blockquote>
+<p>diff -c file1 file2 //显示两个文件的差异</p>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-29 22:46:20</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" data-title="Linux常用指令" data-hashtags="Linux"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" data-hashtag="Linux"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" data-title="Linux常用指令" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" data-title="Linux常用指令"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" data-title="Linux常用指令" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" data-title="Linux常用指令" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" data-title="Linux常用指令" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" data-title="Linux常用指令"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" class="prev" rel="prev" title="Redis常见问题"><i class="fas fa-angle-left fa-fw"></i>Redis常见问题</a>
+            <a href="/2020/10/elasticsearch/" class="next" rel="next" title="Elasticsearch">Elasticsearch<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

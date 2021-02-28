@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Effective Java - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/effective-java/</link>
+        <description>Effective Java - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Tue, 17 Nov 2020 23:16:03 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/effective-java/" rel="self" type="application/rss+xml" /><item>
+    <title>EffectiveJava</title>
+    <link>https://EdgarDjj.github.io/2020/11/effectivejava/</link>
+    <pubDate>Tue, 17 Nov 2020 23:16:03 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/effectivejava/</guid>
+    <description><![CDATA[Effective Java 对于所有对象都通用的方法 覆盖equals时遵循的约定 满足条件： 类的每个实例本质上都是相同的 类没有必要提供逻辑相等的测试功能：例java.util.regx.Pattern 父类覆盖了equals方法]]></description>
+</item></channel>
+</rss>

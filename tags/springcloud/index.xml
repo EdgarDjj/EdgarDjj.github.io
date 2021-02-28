@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>SpringCloud - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/springcloud/</link>
+        <description>SpringCloud - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Tue, 17 Nov 2020 19:46:44 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/springcloud/" rel="self" type="application/rss+xml" /><item>
+    <title>SpringCloud</title>
+    <link>https://EdgarDjj.github.io/2020/11/springcloud/</link>
+    <pubDate>Tue, 17 Nov 2020 19:46:44 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/springcloud/</guid>
+    <description><![CDATA[SpringCloud 简述 Spring Cloud 是一系列框架的有序集合。它利用Spring Boot的开发便利性巧妙地简化了分布式系统的基础设施开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用Spring Bo]]></description>
+</item></channel>
+</rss>

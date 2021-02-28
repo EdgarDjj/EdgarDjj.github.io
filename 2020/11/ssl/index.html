@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>SSL - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="SSL" />
+<meta property="og:description" content="SSL（Secure Socket Layer安全层套接层） 前言 什么是SSL，它与HTTPS中的联系？ SSL是一Secure Socket Layer，一种用于加密网络流量的加密协议。SSL处于TCP/IP模型中的应用层和传输层" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/11/ssl/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-03T20:13:46&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-03T20:13:46&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="SSL"/>
+<meta name="twitter:description" content="SSL（Secure Socket Layer安全层套接层） 前言 什么是SSL，它与HTTPS中的联系？ SSL是一Secure Socket Layer，一种用于加密网络流量的加密协议。SSL处于TCP/IP模型中的应用层和传输层"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/11/ssl/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/11/%E9%AB%98%E6%80%A7%E8%83%BDmysql/" /><link rel="next" href="https://EdgarDjj.github.io/2020/11/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "SSL",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/11\/ssl\/"
+        },"genre": "posts","keywords": "SSL","wordcount":  2203 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/11\/ssl\/","datePublished": "2020-11-03T20:13:46+00:00","dateModified": "2020-11-03T20:13:46+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">SSL</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%BD%91%E7%BB%9C/"><i class="far fa-folder fa-fw"></i>网络</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-03 20:13:46">2020-11-03 20:13:46</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2203 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#ssl证书">SSL证书</a></li>
+    <li><a href="#ssl协议的工作流程">SSL协议的工作流程</a></li>
+    <li><a href="#tls传输层">TLS（传输层）</a></li>
+    <li><a href="#ssl证书的安全问题">SSL证书的安全问题</a></li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="sslsecure-socket-layer安全层套接层">SSL（Secure Socket Layer安全层套接层）</h1>
+<h2 id="前言">前言</h2>
+<p>什么是SSL，它与HTTPS中的联系？</p>
+<p>SSL是一Secure Socket Layer，一种用于加密网络流量的加密协议。SSL处于TCP/IP模型中的应用层和传输层之间，它遵循PKCS（公钥加密标准）的客户端-服务器身份验证（通过握手和基于证书的身份验证完成），一旦建立了安全通道的消息通信（使用某些达成共识的加密标准来在发送端和接收端执行适当的加密/解密）。总之除非建立经过身份验证authenticated ，否则encrypted channel将关闭，无法进行消息通行。</p>
+<p>HTTPS是应用层的协议在TCP/IP模型中，因此HTTPS通过SSL来进行加密。</p>
+<h2 id="ssl证书">SSL证书</h2>
+<p>HTTPS核心的一个部分是数据传输之前的握手，握手过程确定了数据加密的密码。在握手过程中，网站会向浏览器发送SSL证书，SSL证书和我们日常用的身份证类似，是一个支持HTTPS网站的身份证明，SSL证书里面包含了网站的域名，证书的有效性，证书的颁发机构以及用于加密传输密码的公钥等信息，由于公钥加密的密码只能在申请证书生成的私钥解密，因此浏览器在生成密码之前需要先核对当前访问域名与证书上绑定的域名是否一致，同时还要对证书的颁发机构进行验证，如果验证失败，浏览器还会给出证书错误的提示。</p>
+<h2 id="ssl协议的工作流程">SSL协议的工作流程</h2>
+<ol>
+<li>
+<p>客户端的浏览器向服务器传送客户端SSL协议的版本号，加密算法的种类，产生的随机以及其他服务器与客户端之间通讯所需要的各种信息。</p>
+</li>
+<li>
+<p>服务器向客户端传送SSL协议的版本号，加密算法的种类，随机数以及其他相关信息，同时服务器还向客户端传送自己的证书。</p>
+</li>
+<li>
+<p>客户利用服务器传过来的信息验证服务器的合法性，服务器的合法性：证书是否过期，发行服务器的CA是否可靠，发行者证书的公钥能否正确解开服务器证书的“发行者的数字签名”，服务器证书上的域名是否和服务器的实际域名相匹配。如果合法性验证没有通过，通讯将断开，如果合法性验证通过，将继续进行第四步。</p>
+</li>
+<li>
+<p>用户端随机产生一个用于后面通讯的“对称密码”，然后用服务器的公钥（服务器的公钥从步骤中的服务器的证书中获得）对其加密，然后将加密后的“预主密码”传给服务器。</p>
+</li>
+<li>
+<p>如果服务器要求客户的身份认证（在握手过程中为可选），用户可以建立一个随机数然后对其进行数据签名，将这个含有签名的随机数和客户自己的证书以及加密过的”预主密码“一起传给服务器。</p>
+</li>
+<li>
+<p>如果服务器要求客户的身份认证，服务器必须检验客户证书和签名随机数的合法性，具体的合法性验证过程包括：客户的证书使用日期是否有效，为客户提供证书的CA 是否可靠，发行CA 的公钥能否正确解开客户证书的发行 CA 的数字签名，检查客户的证书是否在证书废止列表（CRL）中。检验如果没有通过，通讯立刻中断；如果验证通过，服务器将用自己的私钥解开加密的“预主密码”，然后执行一系列步骤来产生主通讯密码（客户端也将通过同样的方法产生相同的主通讯密码）。</p>
+</li>
+<li>
+<p>服务器和客户端用相同的主密码即“通话密码”，一个对称密钥用于 SSL 协议的安全数据通讯的加解密通讯。同时在 SSL 通讯过程中还要完成数据通讯的完整性，防止数据通讯中的任何变化。</p>
+</li>
+<li>
+<p>客户端向服务器端发出信息，指明后面的数据通讯将使用的步骤中的主密码为对称密钥，同时通知服务器客户端的握手过程结束。</p>
+</li>
+<li>
+<p>服务器向客户端发出信息，指明后面的数据通讯将使用的步骤中的主密码为对称密钥，同时通知客户端服务器端的握手过程结束。</p>
+</li>
+<li>
+<p>SSL 的握手部分结束，SSL 安全通道的数据通讯开始，客户和服务器开始使用相同的对称密钥进行数据通讯，同时进行通讯完整性的检验。</p>
+</li>
+</ol>
+<h2 id="tls传输层">TLS（传输层）</h2>
+<p>TSL（传输层安全）是更为安全的升级版SSL。由于SSL这一术语更为常用，因此我们仍然将我们的安全证书称为SSL。</p>
+<p>TSL/SSL 是一种加密通道的规范，它利用对称加密、公私钥不对称加密及其密钥交换算法，CA系统进行加密且可信任的信息传输在HTTP SSL中常用的对称加密算法RC4，AES，3DES等。</p>
+<h2 id="ssl证书的安全问题">SSL证书的安全问题</h2>
+<p>对HTTPS最常见的攻击手段就是SSL证书欺骗或者叫SSL劫持，是一种典型的中间人攻击。不过SSL劫持并非只是用于攻击目的，在一些特殊情况下利用SSL劫持我们可以更顺畅的访问网络，我会在后文提到。</p>
+<p>以攻击为目的的SSL劫持如果不注意浏览器安全提示的话，很容易就中招。当网络中有中间人发起SSL劫持攻击时，攻击者需要伪造一个SSL证书发给浏览器，这个时候由于伪造的SSL证书不受信任，浏览器会给出提示。</p>
+<p>这里有一个误区，当SSL证书不受信任的时候，并不一定就是有SSL劫持发生，有种例外情况是：一些个人网站买不起合法的SSL证书，因此会自己制作一个SSL证书来加密传输的数据。如果你经常访问某个个人网站，而且你知道这个网站是干什么的，那么这种情况可以不用担心。但是如果你访问的是网银，在线支付，或者是hotmail.com，gmail.com等，这类公司性质的网站一定会申请合法的SSL证书（12306.cn除外），一旦SSL证书不受信任，应该果断的终止访问，这个时候网络中一定会存在异常行为，对于一些小区宽带的用户一定要注意这点。</p>
+<p>所以作为个人用户，你一定要知道你访问的是什么网站，如果你只是一个没有多少计算机只是的普通网民，我相信你不会经常上那些自己制作SSL证书的个人网站（12306.cn除外），因此如果你没有办法判断网络是不是有异常，只要是证书有问题的，干脆就别再访问了。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-11-03 20:13:46</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/11/ssl/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/11/ssl/" data-title="SSL" data-hashtags="SSL"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/11/ssl/" data-hashtag="SSL"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/11/ssl/" data-title="SSL" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/11/ssl/" data-title="SSL"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/11/ssl/" data-title="SSL" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/11/ssl/" data-title="SSL" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/11/ssl/" data-title="SSL" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/11/ssl/" data-title="SSL"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/ssl/">SSL</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/11/%E9%AB%98%E6%80%A7%E8%83%BDmysql/" class="prev" rel="prev" title="高性能MySQL"><i class="fas fa-angle-left fa-fw"></i>高性能MySQL</a>
+            <a href="/2020/11/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="next" rel="next" title="工厂模式">工厂模式<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

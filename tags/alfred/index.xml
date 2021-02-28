@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Alfred - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/alfred/</link>
+        <description>Alfred - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Thu, 12 Nov 2020 09:14:10 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/alfred/" rel="self" type="application/rss+xml" /><item>
+    <title>Alfred的使用</title>
+    <link>https://EdgarDjj.github.io/2020/11/alfred%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+    <pubDate>Thu, 12 Nov 2020 09:14:10 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/alfred%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+    <description><![CDATA[Alfred 默认情况下，alfred 至少能胜任 15 项工作： 应用搜索 文件或目录搜索 文本内容搜索 标记搜索 快捷网页搜索 书签搜索 计算器 词典搜索 通讯录搜索 剪切板搜索 代码片段搜索 iTunes管理 1Password搜索 系统常用]]></description>
+</item></channel>
+</rss>

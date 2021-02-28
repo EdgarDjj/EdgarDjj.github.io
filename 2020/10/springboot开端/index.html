@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>SpringBoot开端 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="SpringBoot开端" />
+<meta property="og:description" content="SpringBoot开端 SpringBoot项目搭建和启动 New Project中的各字段的含义： “ GroupID ” 是项目组织唯一的标识符，实际对应 Java 的包结构，是 main 目录里 Java 的目录结构，本项目就将其设置为 ltd.newb" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/springboot%E5%BC%80%E7%AB%AF/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-04T13:54:38&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-04T13:54:38&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="SpringBoot开端"/>
+<meta name="twitter:description" content="SpringBoot开端 SpringBoot项目搭建和启动 New Project中的各字段的含义： “ GroupID ” 是项目组织唯一的标识符，实际对应 Java 的包结构，是 main 目录里 Java 的目录结构，本项目就将其设置为 ltd.newb"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/springboot%E5%BC%80%E7%AB%AF/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/filco-%E5%9C%A3%E6%89%8B%E4%BA%8C%E4%BB%A3mac%E7%AB%AF%E9%80%82%E9%85%8D/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "SpringBoot开端",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/springboot%E5%BC%80%E7%AB%AF\/"
+        },"genre": "posts","keywords": "SpringBoot","wordcount":  2559 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/springboot%E5%BC%80%E7%AB%AF\/","datePublished": "2020-10-04T13:54:38+00:00","dateModified": "2020-10-04T13:54:38+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">SpringBoot开端</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/spring/"><i class="far fa-folder fa-fw"></i>Spring</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-04 13:54:38">2020-10-04 13:54:38</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2559 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#springboot项目搭建和启动">SpringBoot项目搭建和启动</a>
+      <ol>
+        <li></li>
+      </ol>
+    </li>
+    <li><a href="#springboot项目结构">SpringBoot项目结构</a>
+      <ol>
+        <li></li>
+      </ol>
+    </li>
+    <li><a href="#spring">Spring</a>
+      <ol>
+        <li><a href="#什么是spring">什么是Spring？</a></li>
+      </ol>
+    </li>
+    <li><a href="#springmvc和springboot">SpringMVC和SpringBoot</a>
+      <ol>
+        <li><a href="#什么是springmvc">什么是SpringMVC？</a></li>
+        <li><a href="#什么是springboot">什么是SpringBoot？</a></li>
+        <li><a href="#springboot相较于ssm">SpringBoot相较于SSM</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="springboot开端">SpringBoot开端</h1>
+<h2 id="springboot项目搭建和启动">SpringBoot项目搭建和启动</h2>
+<p>New Project中的各字段的含义：</p>
+<ul>
+<li>“ GroupID ” 是项目组织唯一的标识符，实际对应 Java 的包结构，是 main 目录里 Java 的目录结构，本项目就将其设置为 ltd.newbee.mall。</li>
+<li>“ ArtifactID ” 是项目的唯一的标识符，实际对应项目的名称，也就是项目根目录的名称，名为 newbee-mall。</li>
+<li>“ Type ” 可以简单理解为项目管理工具，可以选择 Maven 构建或者 Gradle 构建，本项目选用的是常用的 Maven 方式。</li>
+<li>“ Language ” 表示编程语言的选择，现在支持 Java 、Kotlin 和 Groovy。</li>
+<li>“ Packaging ” 表示项目的打包方式，有两种选择：Jar 和 War，在 Spring Boot 生成后，如果选用的方式不同，那么导入的打包插件也有区别。</li>
+<li>“ Java Version ” 表示 JDK 版本的选择。</li>
+<li>“ Version ” 是项目版本号，IDEA 默认为 0.0.1-SNAPSHOT，也可以自行修改。</li>
+</ul>
+<h4 id="spring-boot项目的调试和启动的三种方式"><strong>Spring Boot</strong>项目的调试和启动的三种方式：</h4>
+<ul>
+<li>IDEA直接启动</li>
+<li>Maven插件启动</li>
+<li>命令行启动</li>
+</ul>
+<h2 id="springboot项目结构">SpringBoot项目结构</h2>
+<h4 id="根目录comexample">根目录com.example</h4>
+<ul>
+<li>数据类实体类domain
+<ul>
+<li>jpa项目：com.example.domain</li>
+<li>mybatis项目：com.example.entity</li>
+</ul>
+</li>
+<li>数据额接口访问层service
+<ul>
+<li>com.example.service</li>
+</ul>
+</li>
+<li>数据服务接口实现层
+<ul>
+<li>com.example.service.impl</li>
+</ul>
+</li>
+<li>前端控制层controller
+<ul>
+<li>com.example.controller</li>
+</ul>
+</li>
+<li>工具类库utils
+<ul>
+<li>com.example.utils</li>
+</ul>
+</li>
+<li>配置类config
+<ul>
+<li>com.example.config</li>
+</ul>
+</li>
+<li>数据传输对象dto（Data Transfer Object）用于封装多个实体类和domain之间的关系，不会破坏原有的实体类结构
+<ul>
+<li>com.example.dto</li>
+</ul>
+</li>
+<li>视图包装对象vo（View Object）用与封装客户端请求的数据，防止部分数据泄露：如管理员ID，保证数据安全，不会破坏原有实体类结构
+<ul>
+<li>com.example.vo</li>
+</ul>
+</li>
+<li>常量类constant
+<ul>
+<li>com.example.constant</li>
+</ul>
+</li>
+</ul>
+<h4 id="根目录resources">根目录resources</h4>
+<ul>
+<li>项目配置文件：resources.application.yml</li>
+<li>静态资源目录：resources.static
+<ul>
+<li>用于存放html、css、js、图片等资源</li>
+</ul>
+</li>
+<li>视图模版目录：resources.templates
+<ul>
+<li>用于存放jsp、thymeleaf等模版文件</li>
+</ul>
+</li>
+<li>mybatis映射文件：resources.mappers</li>
+<li>mybatis配置文件：resources.spring-mybatis.xml</li>
+</ul>
+<h2 id="spring">Spring</h2>
+<blockquote>
+<p>Spring是重量级企业开发框架Enterprise JavaBean（EJB）的替代品，Spring通过<strong>依赖注入</strong>和<strong>面向切面编程</strong>，用简单的**Java对象（Plain Old Java Object，POJO）**实现了EJB的功能。</p>
+</blockquote>
+<h3 id="什么是spring">什么是Spring？</h3>
+<p>Spring一般指代Spring Framework，是一个企业级Java应用程序开发框架，提供了一种简易的开发方式，它避免了那些使得开发变得繁琐混乱的大量业务/工具对象，由框架去对Bean进行管理。即从自己买菜做饭变成了（容器）送菜到你面前去使用。</p>
+<h4 id="三层架构"><strong>三层架构</strong></h4>
+<ul>
+<li>表现层 web层 MVC是表层的一个设计模型</li>
+<li>业务层 service层</li>
+<li>持久层 dao层</li>
+</ul>
+<p>在被管理对象与业务逻辑之间，Spring通过<strong>IOC Inversion of Control（控制反转）<strong>架起使用的桥梁，一个具体的例子就是DI <strong>Dependency Injection（依赖注入）</strong>，有效的实现了</strong>松耦合</strong>。而Spring的核心功能远不止这些，如：</p>
+<ul>
+<li>Spring AOP</li>
+<li>Spring JDBC 提供了JDBC抽象层，消除了冗长的JDBC代码。</li>
+<li>Spring MVC</li>
+<li>Spring JMS 包含生产（produce）和消费（consume）消息的功能。</li>
+<li>等等…..</li>
+</ul>
+<p>其中Spring AOP，提供了<strong>面向切面编程</strong>的实现，而<strong>AOP****面向切面编程</strong>，一种编程思想并不是Spring的专有。可参考Spring-AOP。纵览Spring的整个结构，其实Spring本身并未提供太多具体的功能，它主要专注于让项目代码更加优雅整洁，使其具有灵活性和拓展性。</p>
+<h2 id="springmvc和springboot">SpringMVC和SpringBoot</h2>
+<h3 id="什么是springmvc">什么是SpringMVC？</h3>
+<p>Spring MVC是Spring的一部分，Spring 出来以后，大家觉得很好用，于是按照这种模式设计了一个 MVC框架（一些用Spring 解耦的组件）。SpringMVC是围绕一个DispatcherServlet来设计的，这个Servlet会把请求分发给各个处理器，并支持可配置的处理器映射、视图渲染、本地化、时区与主题渲染等，甚至还能支持文件上传。<strong>主要用于开发WEB应用和网络接口，它是Spring的一个模块，通过Dispatcher Servlet, ModelAndView 和 View Resolver，让应用开发变得很容易</strong>。</p>
+<h3 id="什么是springboot">什么是SpringBoot？</h3>
+<p><strong>虽然Spring的组件代码是轻量级的，但它的配置却是重量级的（需要大量XML配置）</strong> 。Spring 2.5引入了基于注解的组件扫描，这消除了大量针对应用程序自身组件的显式XML配置。Spring 3.0引入了基于Java的配置，这是一种类型安全的可重构配置方式，可以代替XML。</p>
+<p>尽管如此，我们依旧没能逃脱配置的魔爪。开启某些Spring特性时，比如事务管理和Spring MVC，还是需要用XML或Java进行显式配置。启用第三方库时也需要显式配置，比如基于Thymeleaf的Web视图。配置Servlet和过滤器（比如Spring的DispatcherServlet）同样需要在web.xml或Servlet初始化代码里进行显式配置。组件扫描减少了配置量，Java配置让它看上去简洁不少，但Spring还是需要不少配置。</p>
+<p>光配置这些XML文件都够我们头疼的了，占用了我们大部分时间和精力。除此之外，相关库的依赖非常让人头疼，不同库之间的版本冲突也非常常见。</p>
+<p><strong>不过，好消息是：Spring Boot让这一切成为了过去。</strong></p>
+<h3 id="springboot相较于ssm">SpringBoot相较于SSM</h3>
+<p>一个SSM（Spring SpringMVC Mybatis整合）项目的步骤：</p>
+<ol>
+<li>建立maven web项目，并在pom.xml中添加依赖</li>
+<li>配置web.xml，引入spring-*.xml配置文件。</li>
+<li>配置若干个spring-*.xml文件，例如自动扫描、静态资源映射、默认视图解析、数据库连接池等等。</li>
+<li>写业务逻辑代码（dao、service、controller）</li>
+</ol>
+<p>而Spring Boot实现了自动配置，减去了繁琐的项目搭建。</p>
+<p>com</p>
+<p>+- example</p>
+<p>+- myproject</p>
+<p>+- Application.java</p>
+<p>|</p>
+<p>+- domain</p>
+<p>| +- Customer.java</p>
+<p>| +- CustomerRepository.java</p>
+<p>|</p>
+<p>+- service</p>
+<p>| +- CustomerService.java</p>
+<p>|</p>
+<p>+- controller</p>
+<p>| +- CustomerController.java</p>
+<p>|</p>
+<p>| +- config</p>
+<p>| +- swagerConfig.java</p>
+<p>|</p>
+<ol>
+<li>Application.java是项目的启动类</li>
+<li>domain目录主要用于实体（Entity）与数据访问层（Repository）</li>
+<li>service 层主要是业务类代码</li>
+<li>controller 负责页面访问控制</li>
+<li>config 目录主要放一些配置类</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-04 13:54:38</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/springboot%E5%BC%80%E7%AB%AF/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/springboot%E5%BC%80%E7%AB%AF/" data-title="SpringBoot开端" data-hashtags="SpringBoot"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/springboot%E5%BC%80%E7%AB%AF/" data-hashtag="SpringBoot"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/springboot%E5%BC%80%E7%AB%AF/" data-title="SpringBoot开端" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/springboot%E5%BC%80%E7%AB%AF/" data-title="SpringBoot开端"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/springboot%E5%BC%80%E7%AB%AF/" data-title="SpringBoot开端" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/springboot%E5%BC%80%E7%AB%AF/" data-title="SpringBoot开端" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/springboot%E5%BC%80%E7%AB%AF/" data-title="SpringBoot开端" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/springboot%E5%BC%80%E7%AB%AF/" data-title="SpringBoot开端"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/springboot/">SpringBoot</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" class="prev" rel="prev" title="流式编程"><i class="fas fa-angle-left fa-fw"></i>流式编程</a>
+            <a href="/2020/10/filco-%E5%9C%A3%E6%89%8B%E4%BA%8C%E4%BB%A3mac%E7%AB%AF%E9%80%82%E9%85%8D/" class="next" rel="next" title="Filco 圣手二代Mac端适配">Filco 圣手二代Mac端适配<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

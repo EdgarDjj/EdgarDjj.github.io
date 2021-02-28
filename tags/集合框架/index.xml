@@ -1,0 +1,36 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>集合框架 - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/</link>
+        <description>集合框架 - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Fri, 23 Oct 2020 17:30:25 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/" rel="self" type="application/rss+xml" /><item>
+    <title>集合框架-Collections工具类</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-collections%E5%B7%A5%E5%85%B7%E7%B1%BB/</link>
+    <pubDate>Fri, 23 Oct 2020 17:30:25 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-collections%E5%B7%A5%E5%85%B7%E7%B1%BB/</guid>
+    <description><![CDATA[Collections 工具类 Collections 工具值常用方法： 排序 查找，替换操作 同步操作 排序操作 void reverse(List list) // 反转 void shuffle(List list) // 随机排序 void sort(List list) // 按自然排序的升序 void sort(List list, Comparator c)//定制排序，由Comparator控制排序逻辑 void swap(List list, int i , int j)//交换两]]></description>
+</item><item>
+    <title>集合框架-Map</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-map/</link>
+    <pubDate>Sat, 17 Oct 2020 20:11:56 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-map/</guid>
+    <description><![CDATA[Map HashMap、HashTable、ConcurrnetHashMap HashMap 与 HashTable 差别 线程是否安全：HashMap是非线程安全，HashTable是线程安全的，因为HashTable内部的方法都是经过sy]]></description>
+</item><item>
+    <title>集合框架-Set</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/</link>
+    <pubDate>Thu, 15 Oct 2020 19:49:15 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/</guid>
+    <description><![CDATA[Collection-Set Comparable 和 Compator comparable 接口实际上是出自 java.lang 包 它有一个 compareTo(Object obj)方法用来排序。 comparator 接口实际是出自 java.util 包它有一个 compare(Object obj1, Object obj2)方法用来排序 一般对一个集合使用自定义排序时，就要重写 compareTo() 方法或 compare() 方法。 当需要对某一个集合实现两种]]></description>
+</item><item>
+    <title>集合框架</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-list/</link>
+    <pubDate>Mon, 12 Oct 2020 14:38:57 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-list/</guid>
+    <description><![CDATA[Collection-List 概述 除了Map结尾的类以外，其他的都继承了Collection接口。 List(对付顺序)： List接口存储一组不唯一（可以有多个元素引用相同的对象），有序的对象 Set(注重独一无二的性质): 不允许重]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>算法 - 分类 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/categories/%E7%AE%97%E6%B3%95/</link>
+        <description>算法 - 分类 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Wed, 14 Oct 2020 23:27:32 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/categories/%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+    <title>BFS</title>
+    <link>https://EdgarDjj.github.io/2020/10/bfs/</link>
+    <pubDate>Wed, 14 Oct 2020 23:27:32 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/bfs/</guid>
+    <description><![CDATA[BFS 例题 // 计算从起点 start 到终点 target 的最近距离 int BFS(Node start, Node target) { Queue&lt;Node&gt; q; // 核心数据结构 Set&lt;Node&gt; visited; // 避免走回头路 q.offer(start); // 将起点加入队列 visited.add(start); int step = 0; // 记录扩散的步数 while (q not empty) { int sz = q.size(); /* 将当前队列中的所有节点向四周扩散 */ for (int i = 0; i &lt; sz;]]></description>
+</item></channel>
+</rss>

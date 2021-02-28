@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>设计模式 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="设计模式" />
+<meta property="og:description" content="设计模式 设计模式（Design Pattern）是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。 设计模式分三种类型，共23种： 创建型模式：单例模式、建造者模式、工厂模式、抽象工厂模式" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-26T10:41:21&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-26T10:41:21&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="设计模式"/>
+<meta name="twitter:description" content="设计模式 设计模式（Design Pattern）是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。 设计模式分三种类型，共23种： 创建型模式：单例模式、建造者模式、工厂模式、抽象工厂模式"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/restfulapi%E7%AE%80%E6%98%8E/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "设计模式",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F\/"
+        },"genre": "posts","keywords": "设计模式","wordcount":  2277 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F\/","datePublished": "2020-10-26T10:41:21+00:00","dateModified": "2020-10-26T10:41:21+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">设计模式</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><i class="far fa-folder fa-fw"></i>设计模式</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-26 10:41:21">2020-10-26 10:41:21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2277 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#引言">引言</a></li>
+    <li><a href="#创建模式">创建模式</a>
+      <ol>
+        <li><a href="#singleton单态单件">Singleton（单态/单件）</a></li>
+        <li><a href="#factory工厂方法和抽象工厂">Factory（工厂方法和抽象工厂）</a></li>
+        <li><a href="#builder建造者模式">Builder（建造者模式）</a></li>
+        <li><a href="#prototype原型">Prototype（原型）</a></li>
+      </ol>
+    </li>
+    <li><a href="#结构模式">结构模式</a>
+      <ol>
+        <li><a href="#adapter适配器">Adapter（适配器）</a></li>
+        <li><a href="#proxy代理">Proxy（代理）</a></li>
+        <li><a href="#facade外观">Facade（外观）</a></li>
+        <li><a href="#composite组合">Composite（组合）</a></li>
+        <li><a href="#decorator装饰">Decorator（装饰）</a></li>
+        <li><a href="#bridge桥接">Bridge（桥接）</a></li>
+        <li><a href="#flyweight共享元">Flyweight（共享元）</a></li>
+      </ol>
+    </li>
+    <li><a href="#行为模式">行为模式</a>
+      <ol>
+        <li><a href="#command命令">Command（命令）</a></li>
+        <li><a href="#observer观察者模式">Observer（观察者模式）</a></li>
+        <li><a href="#iterator迭代器">Iterator（迭代器）</a></li>
+        <li><a href="#template模板方法">Template（模板方法）</a></li>
+        <li><a href="#strategy策略模式">Strategy（策略模式）</a></li>
+        <li><a href="#chain-of-responsesiability责任链">Chain of Responsesiability（责任链）</a></li>
+        <li><a href="#mediator中介">Mediator（中介）</a></li>
+        <li><a href="#state状态">State（状态）</a></li>
+        <li><a href="#memento注释状态">Memento（注释状态）</a></li>
+        <li><a href="#interpreter解释器">Interpreter（解释器）</a></li>
+        <li><a href="#visitror访问者">Visitror（访问者）</a></li>
+      </ol>
+    </li>
+    <li><a href="#设计模式的六大原则">设计模式的六大原则</a></li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="设计模式">设计模式</h1>
+<blockquote>
+<p>设计模式（Design Pattern）是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。</p>
+</blockquote>
+<p>设计模式分三种类型，共23种：</p>
+<ul>
+<li>创建型模式：单例模式、建造者模式、工厂模式、抽象工厂模式、原型模式。</li>
+<li>结构型模式：适配器模式、桥接模式、装饰模式、组合模式、外观模式、享元模式、代理模式。</li>
+<li>行为型模式：模板方法模式、命令模式、迭代器模式、观察者模式、策略模式、中介者模式、备忘录模式、解释器模式、责任链模式、访问者模式。</li>
+</ul>
+<p>一些重要的设计模式：</p>
+<p><strong>创建型模式：工厂模式、单例模式、抽象工厂模式</strong></p>
+<p><strong>结构型模式：适配器模式、组合模式、外观模式、代理模式</strong></p>
+<p><strong>行为型模式：命令模式、迭代器模式、观察者模式、策略模式</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="./%e8%bf%9b%e9%98%b6/%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f.jpg"
+        data-srcset="./%e8%bf%9b%e9%98%b6/%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f.jpg, ./%e8%bf%9b%e9%98%b6/%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f.jpg 1.5x, ./%e8%bf%9b%e9%98%b6/%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f.jpg 2x"
+        data-sizes="auto"
+        alt="./进阶/设计模式.jpg"
+        title="设计模式" /></p>
+<h2 id="引言">引言</h2>
+<p>设计面向对象的软件比较困难，而设计可复用的面向对象软件更加困难。必须找到相关的对象，以适当的粒度将他们定义，再定义类的接口和继承层次，建立对象之间的基本关系。因此设计的时候必须具有针对性，同时将带来的问题和需求也要有足够的通用性。</p>
+<p>因此未来避免重复设计或尽可能的减少做重复设计。设计模式的诞生因此而来，它是由无数设计者们的经验堆叠而来，它们帮助设计者将新的设计建立在以往的工作的基础上，复用以往成功的设计方案。</p>
+<h2 id="创建模式">创建模式</h2>
+<h3 id="singleton单态单件">Singleton（单态/单件）</h3>
+<p>保证一个类只有一个实例，并提供一个访问它的全局访问点</p>
+<h3 id="factory工厂方法和抽象工厂">Factory（工厂方法和抽象工厂）</h3>
+<p>使用工厂模式就像使用new一样频繁</p>
+<h3 id="builder建造者模式">Builder（建造者模式）</h3>
+<p>汽车由车轮、方向盘、发动机很多部件组成，同时，将这些部件组装成汽车也是一件复杂的工作，Builder模式就是将这两种情况分开进行</p>
+<h3 id="prototype原型">Prototype（原型）</h3>
+<p>用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象</p>
+<h2 id="结构模式">结构模式</h2>
+<h3 id="adapter适配器">Adapter（适配器）</h3>
+<p>使用类再生的两个方式：组合（new）和继承（extends)</p>
+<h3 id="proxy代理">Proxy（代理）</h3>
+<p>剖析代理模式在于用户级别授权机制上的应用</p>
+<h3 id="facade外观">Facade（外观）</h3>
+<p>可拓展使用JDBC针对不同的数据库编程，提供了一种灵活的实现</p>
+<h3 id="composite组合">Composite（组合）</h3>
+<p>将类用树形结构组合成一个单位：你向别人介绍你是某单位，你是单位中的一个元素，别人和你做买卖，相当于和单位做买卖</p>
+<h3 id="decorator装饰">Decorator（装饰）</h3>
+<h3 id="bridge桥接">Bridge（桥接）</h3>
+<p>本应在一起，分开它们，形成两个接口，在他们之间搭建一个桥（动态结合）</p>
+<h3 id="flyweight共享元">Flyweight（共享元）</h3>
+<p>提供Java运行性能，降低小而大量的重复的类的开销</p>
+<h2 id="行为模式">行为模式</h2>
+<h3 id="command命令">Command（命令）</h3>
+<p>将行为封装</p>
+<h3 id="observer观察者模式">Observer（观察者模式）</h3>
+<p>如何使用JavaAPI提供的现成Observer</p>
+<h3 id="iterator迭代器">Iterator（迭代器）</h3>
+<p>Java的Collection，在大多场合无需自己制造一个Iterator，只要将对象装入Collection中，直接使用Iterator进行对象遍历</p>
+<h3 id="template模板方法">Template（模板方法）</h3>
+<h3 id="strategy策略模式">Strategy（策略模式）</h3>
+<p>不同算法各自封装，用户端可随意挑选需要的算法</p>
+<h3 id="chain-of-responsesiability责任链">Chain of Responsesiability（责任链）</h3>
+<p>各司其职的类串成一串，类似击鼓传花，如果自己能完成就不要委托给下一个</p>
+<h3 id="mediator中介">Mediator（中介）</h3>
+<p>Mediator像十字路口的红绿灯，每个车辆只需和红绿灯交互就可以</p>
+<h3 id="state状态">State（状态）</h3>
+<p>状态是编程中常常碰到的实例，将状态对象化，设立状态变换器，便可在状态中轻松切换1</p>
+<h3 id="memento注释状态">Memento（注释状态）</h3>
+<p>在内存中保留原来数据的备份</p>
+<h3 id="interpreter解释器">Interpreter（解释器）</h3>
+<p>对语言的分析，用的少</p>
+<h3 id="visitror访问者">Visitror（访问者）</h3>
+<p>访问者在进行访问的时候，完成一系列实质性操作，而且还可以拓展。</p>
+<h2 id="设计模式的六大原则">设计模式的六大原则</h2>
+<ul>
+<li>单一职责（一个类和方法只只做一件事）</li>
+<li>里式替换（多态，子类可以拓展父类）</li>
+<li>依赖倒置（细节依赖抽象，下层依赖上层）</li>
+<li>接口隔离（建立单一接口）</li>
+<li>迪米特原则（最少知道，降低耦合）</li>
+<li>开闭原则（抽象架构，拓展实现）</li>
+</ul>
+<p><strong>1、开闭原则（Open Close Principle）</strong></p>
+<p>开闭原则就是说对<strong>扩展开放，对修改关闭</strong>。在程序需要进行拓展的时候，不能去修改原有的代码，实现一个热插拔的效果。所以一句话概括就是：为了使程序的扩展性好，易于维护和升级。想要达到这样的效果，我们需要使用接口和抽象类，后面的具体设计中我们会提到这点。</p>
+<p><strong>2、里氏代换原则（Liskov Substitution Principle）</strong></p>
+<p>里氏代换原则(Liskov Substitution Principle LSP)面向对象设计的基本原则之一。 里氏代换原则中说，任何基类可以出现的地方，子类一定可以出现。 LSP是继承复用的基石，只有当衍生类可以替换掉基类，软件单位的功能不受到影响时，基类才能真正被复用，而衍生类也能够在基类的基础上增加新的行为。里氏代换原则是对“开-闭”原则的补充。实现“开-闭”原则的关键步骤就是抽象化。而基类与子类的继承关系就是抽象化的具体实现，所以里氏代换原则是对实现抽象化的具体步骤的规范。—— From Baidu 百科</p>
+<p><strong>3、依赖倒转原则（Dependence Inversion Principle）</strong></p>
+<p>这个是开闭原则的基础，具体内容：真对接口编程，依赖于抽象而不依赖于具体。</p>
+<p><strong>4、接口隔离原则（Interface Segregation Principle）</strong></p>
+<p>这个原则的意思是：使用多个隔离的接口，比使用单个接口要好。还是一个降低类之间的耦合度的意思，从这儿我们看出，其实设计模式就是一个软件的设计思想，从大型软件架构出发，为了升级和维护方便。所以上文中多次出现：降低依赖，降低耦合。</p>
+<p><strong>5、迪米特法则（最少知道原则）（Demeter Principle）</strong></p>
+<p>为什么叫最少知道原则，就是说：一个实体应当尽量少的与其他实体之间发生相互作用，使得系统功能模块相对独立。</p>
+<p><strong>6、合成复用原则（Composite Reuse Principle）</strong></p>
+<p>原则是尽量使用合成/聚合的方式，而不是使用继承。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-26 10:41:21</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式" data-hashtags="设计模式"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-hashtag="设计模式"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-title="设计模式"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="prev" rel="prev" title="单例模式"><i class="fas fa-angle-left fa-fw"></i>单例模式</a>
+            <a href="/2020/10/restfulapi%E7%AE%80%E6%98%8E/" class="next" rel="next" title="RESTfulAPI简明">RESTfulAPI简明<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

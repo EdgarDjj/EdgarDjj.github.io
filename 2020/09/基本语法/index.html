@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>基本语法 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="基本语法" />
+<meta property="og:description" content="基本语法 基本数据类型 8大基本类型 基本类型 大小 包装器类型 默认值 boolean Boolean false char 2字节 Character ‘u0000’ byte 1字节 Byte 0 short 2字节 Short 0 int 4字节 Integer 0 long 8字节 Long 0L float 4字节 Float 0f double 8字节 Double 0d tip 整数计算时，数据溢出，预防例子： avg =" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-09-30T09:08:40&#43;00:00" />
+<meta property="article:modified_time" content="2020-09-30T09:08:40&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="基本语法"/>
+<meta name="twitter:description" content="基本语法 基本数据类型 8大基本类型 基本类型 大小 包装器类型 默认值 boolean Boolean false char 2字节 Character ‘u0000’ byte 1字节 Byte 0 short 2字节 Short 0 int 4字节 Integer 0 long 8字节 Long 0L float 4字节 Float 0f double 8字节 Double 0d tip 整数计算时，数据溢出，预防例子： avg ="/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/09/cookie-session/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "基本语法",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/09\/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95\/"
+        },"genre": "posts","keywords": "Java","wordcount":  4238 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/09\/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95\/","datePublished": "2020-09-30T09:08:40+00:00","dateModified": "2020-09-30T09:08:40+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">基本语法</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/java%E5%9F%BA%E7%A1%80/"><i class="far fa-folder fa-fw"></i>Java基础</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-09-30 09:08:40">2020-09-30 09:08:40</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4238 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#基本数据类型">基本数据类型</a>
+      <ol>
+        <li><a href="#8大基本类型">8大基本类型</a></li>
+      </ol>
+    </li>
+    <li><a href="#自动拆装箱">自动拆装箱</a>
+      <ol>
+        <li><a href="#基本数类型有什么好处">基本数类型有什么好处</a></li>
+        <li><a href="#为什么包装类">为什么包装类</a></li>
+        <li><a href="#自动拆箱与自动装箱">自动拆箱与自动装箱</a></li>
+      </ol>
+    </li>
+    <li><a href="#string">String</a>
+      <ol>
+        <li><a href="#字符串的不可变性">字符串的不可变性</a></li>
+        <li><a href="#字符串拼接的几种方式和区别">字符串拼接的几种方式和区别</a></li>
+        <li><a href="#string总结">String总结</a></li>
+      </ol>
+    </li>
+    <li><a href="#java各种关键字">Java各种关键字</a>
+      <ol>
+        <li><a href="#transient">transient</a></li>
+      </ol>
+    </li>
+    <li><a href="#object类">Object类</a>
+      <ol>
+        <li><a href="#object常见方法">Object常见方法</a></li>
+        <li><a href="#hashcode介绍">hashcode（）介绍</a></li>
+        <li><a href="#为什么要有hashcode">为什么要有hashcode</a></li>
+        <li><a href="#hashcode与equals的相关规定">hashcode（）与equals（）的相关规定</a></li>
+        <li><a href="#为什么两个对象有相同的hashcode值它们也不一定相等">为什么两个对象有相同的hashcode值，它们也不一定相等</a></li>
+        <li><a href="#与equals">==与equals</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="基本语法">基本语法</h1>
+<h2 id="基本数据类型">基本数据类型</h2>
+<h3 id="8大基本类型">8大基本类型</h3>
+<table>
+<thead>
+<tr>
+<th>基本类型</th>
+<th>大小</th>
+<th>包装器类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean</td>
+<td></td>
+<td>Boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td>char</td>
+<td>2字节</td>
+<td>Character</td>
+<td>‘u0000’</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>1字节</td>
+<td>Byte</td>
+<td>0</td>
+</tr>
+<tr>
+<td>short</td>
+<td>2字节</td>
+<td>Short</td>
+<td>0</td>
+</tr>
+<tr>
+<td>int</td>
+<td>4字节</td>
+<td>Integer</td>
+<td>0</td>
+</tr>
+<tr>
+<td>long</td>
+<td>8字节</td>
+<td>Long</td>
+<td>0L</td>
+</tr>
+<tr>
+<td>float</td>
+<td>4字节</td>
+<td>Float</td>
+<td>0f</td>
+</tr>
+<tr>
+<td>double</td>
+<td>8字节</td>
+<td>Double</td>
+<td>0d</td>
+</tr>
+</tbody>
+</table>
+<h4 id="tip">tip</h4>
+<p>整数计算时，数据溢出，预防例子：</p>
+<p><code>avg = a + ((b - a) &gt;&gt; 1)</code></p>
+<h2 id="自动拆装箱">自动拆装箱</h2>
+<h3 id="基本数类型有什么好处">基本数类型有什么好处</h3>
+<p>new 一个对象时存储在堆里的，我们通过栈中的引用来使用这些对象，因此对象本身来说比较消耗资源。基本数据类型在栈内存中存储，因此会更加高效。</p>
+<h3 id="为什么包装类">为什么包装类</h3>
+<p>Java是一种面向对象语言，很多地方需要使用对象而不是基本数据类型。为了让基本数据类型也有对象的特征，就出现包装类型。</p>
+<h3 id="自动拆箱与自动装箱">自动拆箱与自动装箱</h3>
+<p>从JavaSE5中，Java开始提供了自动拆箱与装箱功能。</p>
+<ul>
+<li>自动装箱：Integer.valueOf()</li>
+<li>自动拆箱：xxxValue（）</li>
+</ul>
+<h2 id="string">String</h2>
+<h3 id="字符串的不可变性">字符串的不可变性</h3>
+<h4 id="定义一个字符串">定义一个字符串</h4>
+<p><code>String s = “abcd”</code></p>
+<h4 id="使用变量赋值变量">使用变量赋值变量</h4>
+<p><code>String s2 = s</code></p>
+<p>s2 保存了相同的引用值，因为他们代表同意对象</p>
+<h3 id="字符串拼接的几种方式和区别">字符串拼接的几种方式和区别</h3>
+<h4 id="字符串不变性与字符串拼接">字符串不变性与字符串拼接</h4>
+<p><code>s = s.concat(“ef”)</code></p>
+<h4 id="使用拼接字符串">使用+拼接字符串</h4>
+<p>使用+拼接字符串不能理解为<strong>运算符重载</strong>，其实并不是，Java是不支持运算符重载的。其实只是Java提供的一个<strong>语法糖</strong>。</p>
+<h4 id="stringbuffer">StringBuffer</h4>
+<p>字符串常量的String类以外，还提供了可以用来定义字符串变量的StringBuffer类，它的对象是可以扩充和修改的。</p>
+<p>其与StringBuilder的区别是synchronize线程安全。</p>
+<h4 id="stringbuilder">StringBuilder</h4>
+<p>和StringBuffer作用是一样的，但不是线程安全的，但效率比StringBuffer高，因此在不考虑线程安全的情况下，建议使用StringBuilder。</p>
+<h4 id="stringutilsjoin">StringUtils.join</h4>
+<p>除了JDK中内置的字符串拼接方法，还可以使用一些开源类库apache.commons中提供的StringUtils类，其中join方法可以拼接字符串</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String a <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">“</span>dasd<span style="color:#960050;background-color:#1e0010">”</span><span style="color:#f92672">;</span>
+
+StringUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">join</span><span style="color:#f92672">(</span>a<span style="color:#f92672">,</span> <span style="color:#960050;background-color:#1e0010">“</span>dafd<span style="color:#960050;background-color:#1e0010">”</span><span style="color:#f92672">);</span>
+</code></pre></div><p>运行时间：</p>
+<p>StringBuilder<code>&lt;</code>StringBuffer<code>&lt;</code>concat<code>&lt;</code>+<code>&lt;</code>StringUtils.join</p>
+<h3 id="string总结">String总结</h3>
+<p>常用的字符串拼接方式有五种，分别是使用<code>+</code>、使用<code>concat</code>、使用<code>StringBuilder</code>、使用<code>StringBuffer</code>以及使用<code>StringUtils.join</code>。</p>
+<p>直接使用<code>StringBuilder</code>的方式是效率最高的。因为<code>StringBuilder</code>天生就是设计来定义可变字符串和字符串的变化操作的</p>
+<h2 id="java各种关键字">Java各种关键字</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>访问控制</td>
+<td>private</td>
+<td>protected</td>
+<td>public</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>类，方法和变量修饰符</td>
+<td>abstract</td>
+<td>class</td>
+<td>extends</td>
+<td>final</td>
+<td>implements</td>
+<td>interface</td>
+<td>native</td>
+</tr>
+<tr>
+<td></td>
+<td>new</td>
+<td>static</td>
+<td>strictfp</td>
+<td>synchronized</td>
+<td>transient</td>
+<td>volatile</td>
+<td></td>
+</tr>
+<tr>
+<td>程序控制</td>
+<td>break</td>
+<td>continue</td>
+<td>return</td>
+<td>do</td>
+<td>while</td>
+<td>if</td>
+<td>else</td>
+</tr>
+<tr>
+<td></td>
+<td>for</td>
+<td>instanceof</td>
+<td>switch</td>
+<td>case</td>
+<td>default</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>错误处理</td>
+<td>try</td>
+<td>catch</td>
+<td>throw</td>
+<td>throws</td>
+<td>finally</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>包相关</td>
+<td>import</td>
+<td>package</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>基本类型</td>
+<td>boolean</td>
+<td>byte</td>
+<td>char</td>
+<td>double</td>
+<td>float</td>
+<td>int</td>
+<td>long</td>
+</tr>
+<tr>
+<td></td>
+<td>short</td>
+<td>null</td>
+<td>true</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>变量引用</td>
+<td>super</td>
+<td>this</td>
+<td>void</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>保留字</td>
+<td></td>
+<td>const</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="transient">transient</h3>
+<blockquote>
+<p>Java语言的关键字，变量修饰符，如果用transient声明一个实例变量，当对象存储时，它的值不需要维持。这里的对象存储是指，Java的serialization提供的一种持久化对象实例的机制。当一个对象被序列化的时候，transient型变量的值不包括在序列化的表示中，然而非transient型的变量是被包括进去的。使用情况是：当持久化对象时，可能有一个特殊的对象数据成员，我们不想用serialization机制来保存它。为了在一个特定对象的一个域上关闭serialization，可以在这个域前加上关键字transient。</p>
+</blockquote>
+<p>简单点说，就是被transient修饰的成员变量，在序列化的时候其值会被忽略，在被反序列化后， transient 变量的值被设为初始值， 如 int 型的是 0，对象型的是 null。</p>
+<h4 id="instanceof">instanceof</h4>
+<p>instanceof是Java的保留关键字，用于测试左边和右边的实例是否相等，返回一个boolean的数据类型。</p>
+<h4 id="volatile">volatile</h4>
+<p>与synchronized不同，volatile是一个变量修饰符，只能用来修饰变量。volatile的用法比较简单，只需要在声明一个可能被多线程同时访问的变量时，使用voilatile修饰就可以了。</p>
+<p>1 . 保证了不同线程对该变量操作的内存可见性;</p>
+<p>2 . 禁止指令重排序</p>
+<h4 id="synchronized">synchronized</h4>
+<p><code>synchronized</code>是Java提供的一个并发控制的关键字。主要有两种用法，分别是同步方法和同步代码块。也就是说，<code>synchronized</code>既可以修饰方法也可以修饰代码块。</p>
+<h4 id="final">final</h4>
+<p>表示“这部分是无法修改的”。使用final定义：变量、方法、类。</p>
+<ul>
+<li>final变量：则不能更改final变量的值</li>
+<li>final方法：则无法对该方法进行覆盖重写</li>
+<li>final类：则无法对该类进行进程</li>
+</ul>
+<h4 id="static">static</h4>
+<p>用来修饰成员变量和成员方法。</p>
+<ul>
+<li>静态变量：不属于类的对象或者实例。因为静态变量与所有的对象实例共享，因此不具有线程安全性。</li>
+<li>静态方法：静态方法是属于类而不是实例。</li>
+<li>静态代码块：静态块是一组指令在类装载的时候在内存中由ClassLoader执行。常用语初始化类的静态变量。大多时候还用于在类装载时候创建静态资源。Java不允许在静态块中使用非静态变量。一个类中可以有多个静态块，尽管这似乎没有什么用。静态块只在类装载入内存时，执行一次。</li>
+</ul>
+<h4 id="const">const</h4>
+<p>const是Java预留关键词，用于后期拓展用，用法跟final相似不常用。</p>
+<h2 id="object类">Object类</h2>
+<h3 id="object常见方法">Object常见方法</h3>
+<p>Object是一个特殊的类，它是所有类的父类。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">native</span> Class<span style="color:#f92672">&lt;?&gt;</span> getClass<span style="color:#f92672">()</span><span style="color:#75715e">//native方法，用于返回当前运行时对象的Class对象，使用了final关键字修饰，故不允许子类重写。
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">native</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">hashCode</span><span style="color:#f92672">()</span> <span style="color:#75715e">//native方法，用于返回对象的哈希码，主要使用在哈希表中，比如JDK中的HashMap。
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>Object obj<span style="color:#f92672">)</span><span style="color:#75715e">//用于比较2个对象的内存地址是否相等，String类对该方法进行了重写用户比较字符串的值是否相等。
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">native</span> Object <span style="color:#a6e22e">clone</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> CloneNotSupportedException<span style="color:#75715e">//naitive方法，用于创建并返回当前对象的一份拷贝。一般情况下，对于任何对象 x，表达式 x.clone() != x 为true，x.clone().getClass() == x.getClass() 为true。Object本身没有实现Cloneable接口，所以不重写clone方法并且进行调用的话会发生CloneNotSupportedException异常。
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">toString</span><span style="color:#f92672">()</span><span style="color:#75715e">//返回类的名字@实例的哈希码的16进制的字符串。建议Object所有的子类都重写这个方法。
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">native</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">notify</span><span style="color:#f92672">()</span><span style="color:#75715e">//native方法，并且不能重写。唤醒一个在此对象监视器上等待的线程(监视器相当于就是锁的概念)。如果有多个线程在等待只会任意唤醒一个。
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">native</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">notifyAll</span><span style="color:#f92672">()</span><span style="color:#75715e">//native方法，并且不能重写。跟notify一样，唯一的区别就是会唤醒在此对象监视器上等待的所有线程，而不是一个线程。
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">native</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wait</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> timeout<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException<span style="color:#75715e">//native方法，并且不能重写。暂停线程的执行。注意：sleep方法没有释放锁，而wait方法释放了锁 。timeout是等待时间。
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wait</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> timeout<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> nanos<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException<span style="color:#75715e">//多了nanos参数，这个参数表示额外时间（以毫微秒为单位，范围是 0-999999）。 所以超时的时间还需要加上nanos毫秒。
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wait</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> InterruptedException<span style="color:#75715e">//跟之前的2个wait方法一样，只不过该方法一直等待，没有超时时间这个概念
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">finalize</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Throwable <span style="color:#f92672">{</span> <span style="color:#f92672">}</span><span style="color:#75715e">//实例被垃圾回收器回收的时候触发的操作
+</span></code></pre></div><h3 id="hashcode介绍">hashcode（）介绍</h3>
+<p>hashcode（）的作用就是获取hashcode（散列码），实际上是一个int整数，作用是确定该对象在hash表中的索引位置。hashcode（）定义在Object类中，因此，Java的任意一个对象都拥有一个hashCode（）函数，且hashcode（）方法为native方法，是由c++和c实现的，该方法通常用来将对象的内存地址转换为整数之后返回。</p>
+<p>hash表中存储的是键值对（key-value），用来快速查找对象。</p>
+<h3 id="为什么要有hashcode">为什么要有hashcode</h3>
+<p>例如HashSet，HashSet会先计算对象的hashcode值，然后通过该hashcode判断对象加入的位置，同时对其它已经加入的对象的hashcode进行比较，如果没有相符的hashcode，HashSet会假设对象没有重复。如果发现有相同的hashcode值的对象会调用equals（）方法来检查hashcode相等的对象是否真的相等，如果相等HashSet就不会让其加入操作。</p>
+<h3 id="hashcode与equals的相关规定">hashcode（）与equals（）的相关规定</h3>
+<ol>
+<li>如果两个对象相等，则hashcode一定是相同的</li>
+<li>两个对象相等，对两个对象分别调用equals方法返回true</li>
+<li>两个对象有着相同的hashcode值，它们也不一定相等</li>
+<li><strong>因此，equals方法被覆盖过，则hashCode（）也必须被覆盖</strong></li>
+<li>hashCode（）的默认行为对heap上的对象产生独特值。如果没有重写hashCode（），则该class的两个对象无论如何都不会相等（即使两个对象指向相同的数据）</li>
+</ol>
+<h3 id="为什么两个对象有相同的hashcode值它们也不一定相等">为什么两个对象有相同的hashcode值，它们也不一定相等</h3>
+<p>因为在散列表中，hashcode（）相等，及两个键值对的hash值相等。然而，hash值相等，并不能一定得出键值对相等。</p>
+<p>“两个不同的键值对，hash值相等”。这就hash冲突。</p>
+<p>此外，在这种情况下。若要判断两个对象是否相等，除了要覆盖equals()之外，也要覆盖hashCode()函数。否则，equals()无效。</p>
+<blockquote>
+<p>举个例子：我们改写下hashCode()的算法为：num%3 ;</p>
+<p>当num=1时，余数为1；</p>
+<p>当num=4时，余数也为1；</p>
+<p>这时他们的hashCode()是相同的，但equals()却是不同的。</p>
+</blockquote>
+<h3 id="与equals">==与equals</h3>
+<p>==：判断两个对象的地址是不是相等，即判断两个对象是不是同一个对象。（基本数据类型==比较的是值，引用数据类型==比较的是内存地址）</p>
+<p>equals（）：判断的也是两个对象是否相等，一般有两种使用情况：</p>
+<ul>
+<li>类没有覆盖equals（）方法，则通过equals（）比较该类的两个对象时，等价于“==”比较这两个对象</li>
+<li>类覆盖率equals（）方法。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">test1</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        String a <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ab&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">// a 为一个引用
+</span><span style="color:#75715e"></span>        String b <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ab&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">// b为另一个引用,对象的内容一样
+</span><span style="color:#75715e"></span>        String aa <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ab&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">// 放在常量池中
+</span><span style="color:#75715e"></span>        String bb <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ab&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">// 从常量池中查找
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>aa <span style="color:#f92672">==</span> bb<span style="color:#f92672">)</span> <span style="color:#75715e">// true
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;aa==bb&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>a <span style="color:#f92672">==</span> b<span style="color:#f92672">)</span> <span style="color:#75715e">// false，非同一对象
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;a==b&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>a<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>b<span style="color:#f92672">))</span> <span style="color:#75715e">// true
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;aEQb&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>42 <span style="color:#f92672">==</span> 42<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#75715e">// true
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>String 中的 equals()方法是被重写过的，因为 Object 的 equals()方法是比较的对象的内存地址，而 String 的 equals()方法比较的是对象的值。</li>
+<li>当创建 String 类型的对象时，虚拟机会在常量池中查找有没有已经存在的值和要创建的值相同的对象，如果有就把它赋给当前引用。如果没有就在常量池中重新创建一个 String 对象。</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-09-30 09:08:40</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" data-title="基本语法" data-hashtags="Java"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" data-hashtag="Java"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" data-title="基本语法" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" data-title="基本语法"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" data-title="基本语法" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" data-title="基本语法" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" data-title="基本语法" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" data-title="基本语法"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/java/">Java</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/09/cookie-session/" class="prev" rel="prev" title="Cookie&amp;Session"><i class="fas fa-angle-left fa-fw"></i>Cookie&amp;Session</a>
+            <a href="/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" class="next" rel="next" title="函数式编程">函数式编程<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

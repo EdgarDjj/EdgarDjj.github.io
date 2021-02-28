@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>消息中间件 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="消息中间件" />
+<meta property="og:description" content="消息中间件 前言 消息（Message）是指应用在应用间传送的数据。 **消息队列中间件（Message Queue Middleware，简称MQ）**指利用高效可靠的消息传递机制进行与平台无关的数据交流，并基于数据" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-28T16:26:09&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-28T16:26:09&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="消息中间件"/>
+<meta name="twitter:description" content="消息中间件 前言 消息（Message）是指应用在应用间传送的数据。 **消息队列中间件（Message Queue Middleware，简称MQ）**指利用高效可靠的消息传递机制进行与平台无关的数据交流，并基于数据"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/springmvc%E5%8E%9F%E7%90%86/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "消息中间件",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6\/"
+        },"genre": "posts","keywords": "消息中间件","wordcount":  2797 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6\/","datePublished": "2020-10-28T16:26:09+00:00","dateModified": "2020-10-28T16:26:09+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">消息中间件</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"><i class="far fa-folder fa-fw"></i>消息中间件</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-28 16:26:09">2020-10-28 16:26:09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2797 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#mq的作用">MQ的作用</a>
+      <ol>
+        <li><a href="#冗余存储">冗余（存储）</a></li>
+        <li><a href="#拓展性">拓展性</a></li>
+        <li><a href="#削峰">削峰</a></li>
+        <li><a href="#异步通信">异步通信</a></li>
+        <li><a href="#降低系统耦合性">降低系统耦合性</a></li>
+      </ol>
+    </li>
+    <li><a href="#常用的mq">常用的MQ</a>
+      <ol>
+        <li><a href="#带来的问题">带来的问题</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="消息中间件">消息中间件</h1>
+<h2 id="前言">前言</h2>
+<p>消息（Message）是指应用在应用间传送的数据。</p>
+<p>**消息队列中间件（Message Queue Middleware，简称MQ）**指利用高效可靠的消息传递机制进行与平台无关的数据交流，并基于数据通信来进行分布式系统的继承。通过提供消息传递和消息排队模型，它可以在分布式环境下扩展进程间的通信。</p>
+<p>一般有两种传递模式：</p>
+<ul>
+<li>点对点（P2P，Point to Point）</li>
+<li>发布/订阅（Pub/Sub）</li>
+</ul>
+<p>P2P是基于队列，消息生产者生产消息到队列，消息消费者从队列中接收消息，队列的存在使得消息异步传输成为可能。</p>
+<p>Pub/Sub定义了如何向一个内容节点发布或订阅消息，这个内容节点称为topic（主题），topic可以认为是消息传递的一个中介，消息发布者将消息发布到某个主题，而消息订阅者则从主题中订阅消息。在消息的一对多广播中采用。</p>
+<h2 id="mq的作用">MQ的作用</h2>
+<h3 id="冗余存储">冗余（存储）</h3>
+<p>在有些情况下，处理数据的过程可能会失败，而MQ可以将数据持久化直到它们完全被处理。</p>
+<h3 id="拓展性">拓展性</h3>
+<p>MQ解耦了应用的处理过程，因此提高消息入队和处理效率是很容易的，只要另外增加处理即可，不需要更改代码，也不需要调节参数。</p>
+<h3 id="削峰">削峰</h3>
+<p>通过异步处理，将短时间高并发产生的事务消息存储在消息队列中，从而削平高分期的并发事务。</p>
+<h3 id="异步通信">异步通信</h3>
+<p>在很多时候，应用不想也不需要立刻处理消息。MQ提供了异步处理机制。</p>
+<blockquote>
+<p>在不使用消息队列服务器的时候，用户的请求数据直接写入数据库，在高并发的情况下数据库压力剧增，使得响应速度变慢。但是在使用消息队列之后，用户的请求数据发送给消息队列之后立即 返回，再由消息队列的消费者进程从消息队列中获取数据，异步写入数据库。由于消息队列服务器处理速度快于数据库（消息队列也比数据库有更好的伸缩性），因此响应速度得到大幅改善。</p>
+</blockquote>
+<h3 id="降低系统耦合性">降低系统耦合性</h3>
+<ol>
+<li>分布式消息队列</li>
+<li>分布式服务</li>
+</ol>
+<p>目前使用比较多的用来构建<strong>SOA（Service Oriented Architecture 面向服务体系结构）的分布式服务框架</strong>是阿里巴巴开源的<strong>Dubbo</strong>。</p>
+<p>**消息队列使利用发布-订阅模式工作，消息发送者（生产者）发布消息，一个或多个消息接受者（消费者）订阅消息。**消息发送者将消息发送至分布式消息队列即结束对消息的处理，消息接受者从分布式消息队列获取该消息后进行后续处理，并不需要知道该消息从何而来。<strong>对新增业务，只要对该类消息感兴趣，即可订阅该消息，对原有系统和业务没有任何影响，从而实现网站业务的可扩展性设计</strong>。</p>
+<p>消息接受者对消息进行过滤、处理、包装后，构造成一个新的消息类型，将消息继续发送出去，等待其他消息接受者订阅该消息。因此基于事件（消息对象）驱动的业务架构可以是一系列流程。</p>
+<p><strong>另外为了避免消息队列服务器宕机造成消息丢失，会将成功发送到消息队列的消息存储在消息生产者服务器上，等消息真正被消费者服务器处理后才删除消息。在消息队列服务器宕机后，生产者服务器会选择分布式消息队列服务器集群中的其他服务器发布消息</strong></p>
+<h2 id="常用的mq">常用的MQ</h2>
+<h3 id="带来的问题">带来的问题</h3>
+<ul>
+<li><strong>系统可用性降低：</strong> 系统可用性在某种程度上降低，为什么这样说呢？在加入 MQ 之前，你不用考虑消息丢失或者说 MQ 挂掉等等的情况，但是，引入 MQ 之后你就需要去考虑了！</li>
+<li><strong>系统复杂性提高：</strong> 加入 MQ 之后，你需要保证消息没有被重复消费、处理消息丢失的情况、保证消息传递的顺序性等等问题！</li>
+<li><strong>一致性问题：</strong> 消息队列可以实现异步，消息队列带来的异步确实可以提高系统响应速度。但是，万一消息的真正消费者并没有正确消费消息怎么办？这样就会导致数据不一致的情况了!</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>ActiveMQ</th>
+<th>RabbitMQ</th>
+<th>RocketMQ</th>
+<th>Kafka</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单机吞吐量</td>
+<td>万级，吞吐量比 RocketMQ 和 Kafka 要低了一个数量级</td>
+<td>万级，吞吐量比 RocketMQ 和 Kafka 要低了一个数量级</td>
+<td>10 万级，RocketMQ 也是可以支撑高吞吐的一种 MQ</td>
+<td>10 万级别，这是 kafka 最大的优点，就是吞吐量高。一般配合大数据类的系统来进行实时数据计算、日志采集等场景</td>
+</tr>
+<tr>
+<td>topic 数量对吞吐量的影响</td>
+<td></td>
+<td></td>
+<td>topic 可以达到几百，几千个的级别，吞吐量会有较小幅度的下降这是 RocketMQ 的一大优势，在同等机器下，可以支撑大量的 topic</td>
+<td>topic 从几十个到几百个的时候，吞吐量会大幅度下降。所以在同等机器下，kafka 尽量保证 topic 数量不要过多。如果要支撑大规模 topic，需要增加更多的机器资源</td>
+</tr>
+<tr>
+<td>可用性</td>
+<td>高，基于主从架构实现高可用性</td>
+<td>高，基于主从架构实现高可用性</td>
+<td>非常高，分布式架构</td>
+<td>非常高，kafka 是分布式的，一个数据多个副本，少数机器宕机，不会丢失数据，不会导致不可用</td>
+</tr>
+<tr>
+<td>消息可靠性</td>
+<td>有较低的概率丢失数据</td>
+<td></td>
+<td>经过参数优化配置，可以做到 0 丢失</td>
+<td>经过参数优化配置，消息可以做到 0 丢失</td>
+</tr>
+<tr>
+<td>时效性</td>
+<td>ms 级</td>
+<td>微秒级，这是 rabbitmq 的一大特点，延迟是最低的</td>
+<td>ms 级</td>
+<td>延迟在 ms 级以内</td>
+</tr>
+<tr>
+<td>功能支持</td>
+<td>MQ 领域的功能极其完备</td>
+<td>基于 erlang 开发，所以并发能力很强，性能极其好，延时很低</td>
+<td>MQ 功能较为完善，还是分布式的，扩展性好</td>
+<td>功能较为简单，主要支持简单的 MQ 功能，在大数据领域的实时计算以及日志采集被大规模使用，是事实上的标准</td>
+</tr>
+<tr>
+<td>优劣势总结</td>
+<td>非常成熟，功能强大，在业内大量的公司以及项目中都有应用。偶尔会有较低概率丢失消息，而且现在社区以及国内应用都越来越少，官方社区现在对 ActiveMQ 5.x 维护越来越少，几个月才发布一个版本而且确实主要是基于解耦和异步来用的，较少在大规模吞吐的场景中使用</td>
+<td>erlang 语言开发，性能极其好，延时很低；吞吐量到万级，MQ 功能比较完备而且开源提供的管理界面非常棒，用起来很好用。社区相对比较活跃，几乎每个月都发布几个版本分在国内一些互联网公司近几年用 rabbitmq 也比较多一些但是问题也是显而易见的，RabbitMQ 确实吞吐量会低一些，这是因为他做的实现机制比较重。而且 erlang 开发，国内有几个公司有实力做 erlang 源码级别的研究和定制？如果说你没这个实力的话，确实偶尔会有一些问题，你很难去看懂源码，你公司对这个东西的掌控很弱，基本职能依赖于开源社区的快速维护和修复 bug。而且 rabbitmq 集群动态扩展会很麻烦，不过这个我觉得还好。其实主要是 erlang 语言本身带来的问题。很难读源码，很难定制和掌控。</td>
+<td>接口简单易用，而且毕竟在阿里大规模应用过，有阿里品牌保障。日处理消息上百亿之多，可以做到大规模吞吐，性能也非常好，分布式扩展也很方便，社区维护还可以，可靠性和可用性都是 ok 的，还可以支撑大规模的 topic 数量，支持复杂 MQ 业务场景。而且一个很大的优势在于，阿里出品都是 java 系的，我们可以自己阅读源码，定制自己公司的 MQ，可以掌控。社区活跃度相对较为一般，不过也还可以，文档相对来说简单一些，然后接口这块不是按照标准 JMS 规范走的有些系统要迁移需要修改大量代码。还有就是阿里出台的技术，你得做好这个技术万一被抛弃，社区黄掉的风险，那如果你们公司有技术实力我觉得用 RocketMQ 挺好的</td>
+<td>kafka 的特点其实很明显，就是仅仅提供较少的核心功能，但是提供超高的吞吐量，ms 级的延迟，极高的可用性以及可靠性，而且分布式可以任意扩展。同时 kafka 最好是支撑较少的 topic 数量即可，保证其超高吞吐量。而且 kafka 唯一的一点劣势是有可能消息重复消费，那么对数据准确性会造成极其轻微的影响，在大数据领域中以及日志采集中，这点轻微影响可以忽略这个特性天然适合大数据实时计算以及日志收集。</td>
+</tr>
+</tbody>
+</table>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-28 16:26:09</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" data-title="消息中间件" data-hashtags="消息中间件"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" data-hashtag="消息中间件"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" data-title="消息中间件" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" data-title="消息中间件"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" data-title="消息中间件" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" data-title="消息中间件" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" data-title="消息中间件" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" data-title="消息中间件"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">消息中间件</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/springmvc%E5%8E%9F%E7%90%86/" class="prev" rel="prev" title="SpringMVC原理"><i class="fas fa-angle-left fa-fw"></i>SpringMVC原理</a>
+            <a href="/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" class="next" rel="next" title="Redis常见问题">Redis常见问题<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

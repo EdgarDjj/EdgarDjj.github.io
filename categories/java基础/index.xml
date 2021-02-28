@@ -1,0 +1,71 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Java基础 - 分类 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/categories/java%E5%9F%BA%E7%A1%80/</link>
+        <description>Java基础 - 分类 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Thu, 12 Nov 2020 15:59:05 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/categories/java%E5%9F%BA%E7%A1%80/" rel="self" type="application/rss+xml" /><item>
+    <title>Java反射机制</title>
+    <link>https://EdgarDjj.github.io/2020/11/java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</link>
+    <pubDate>Thu, 12 Nov 2020 15:59:05 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</guid>
+    <description><![CDATA[Java反射机制 Class类 RTTI（Run-Time Type Identification）运行时类型识别，其作用是运行时识别一个对象的类型和类的信息。 运编译器已知道所有类型（在没有反射机制创建和使用类对象]]></description>
+</item><item>
+    <title>Java注解</title>
+    <link>https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/</link>
+    <pubDate>Thu, 12 Nov 2020 15:25:16 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/</guid>
+    <description><![CDATA[Java注解 前言 实际上Java注解与普通修饰符(public、static、void等)的使用方式并没有多大区别，下面的例子是常见的注解： public class AnnotationDemo { //@Test注解修饰方法A @Test public static void A(){ System.out.println(&#34;Test.....&#34;); } //一个方法]]></description>
+</item><item>
+    <title>集合框架-Collections工具类</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-collections%E5%B7%A5%E5%85%B7%E7%B1%BB/</link>
+    <pubDate>Fri, 23 Oct 2020 17:30:25 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-collections%E5%B7%A5%E5%85%B7%E7%B1%BB/</guid>
+    <description><![CDATA[Collections 工具类 Collections 工具值常用方法： 排序 查找，替换操作 同步操作 排序操作 void reverse(List list) // 反转 void shuffle(List list) // 随机排序 void sort(List list) // 按自然排序的升序 void sort(List list, Comparator c)//定制排序，由Comparator控制排序逻辑 void swap(List list, int i , int j)//交换两]]></description>
+</item><item>
+    <title>集合框架-Map</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-map/</link>
+    <pubDate>Sat, 17 Oct 2020 20:11:56 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-map/</guid>
+    <description><![CDATA[Map HashMap、HashTable、ConcurrnetHashMap HashMap 与 HashTable 差别 线程是否安全：HashMap是非线程安全，HashTable是线程安全的，因为HashTable内部的方法都是经过sy]]></description>
+</item><item>
+    <title>集合框架-Set</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/</link>
+    <pubDate>Thu, 15 Oct 2020 19:49:15 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/</guid>
+    <description><![CDATA[Collection-Set Comparable 和 Compator comparable 接口实际上是出自 java.lang 包 它有一个 compareTo(Object obj)方法用来排序。 comparator 接口实际是出自 java.util 包它有一个 compare(Object obj1, Object obj2)方法用来排序 一般对一个集合使用自定义排序时，就要重写 compareTo() 方法或 compare() 方法。 当需要对某一个集合实现两种]]></description>
+</item><item>
+    <title>集合框架</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-list/</link>
+    <pubDate>Mon, 12 Oct 2020 14:38:57 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-list/</guid>
+    <description><![CDATA[Collection-List 概述 除了Map结尾的类以外，其他的都继承了Collection接口。 List(对付顺序)： List接口存储一组不唯一（可以有多个元素引用相同的对象），有序的对象 Set(注重独一无二的性质): 不允许重]]></description>
+</item><item>
+    <title>流式编程</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/</link>
+    <pubDate>Sat, 03 Oct 2020 18:57:06 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/</guid>
+    <description><![CDATA[流式编程 集合优化了对象的存储，而流和对象的处理有关 流是一系列与特定存储机制无关的元素——实际上，流并没有“存储”之说。 使用流，无需迭代集合中的元素，就可以从管道提取和操作元素。这些管道通常被组合在一起]]></description>
+</item><item>
+    <title>函数式编程</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</link>
+    <pubDate>Sat, 03 Oct 2020 18:56:54 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</guid>
+    <description><![CDATA[函数式编程 函数式编程语言操纵代码片段就像操作数据一样容易。 虽然 Java 不是函数式语言，但 Java 8 Lambda 表达式和方法引用 (Method References) 允许你以函数式编程。 函数编程（FP）：通过合并现有代码来生成新功能而不是从头开始编写所有内容]]></description>
+</item><item>
+    <title>基本语法</title>
+    <link>https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</link>
+    <pubDate>Wed, 30 Sep 2020 09:08:40 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</guid>
+    <description><![CDATA[基本语法 基本数据类型 8大基本类型 基本类型 大小 包装器类型 默认值 boolean Boolean false char 2字节 Character ‘u0000’ byte 1字节 Byte 0 short 2字节 Short 0 int 4字节 Integer 0 long 8字节 Long 0L float 4字节 Float 0f double 8字节 Double 0d tip 整数计算时，数据溢出，预防例子： avg =]]></description>
+</item></channel>
+</rss>

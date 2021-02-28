@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>架构 - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/%E6%9E%B6%E6%9E%84/</link>
+        <description>架构 - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Mon, 26 Oct 2020 19:05:43 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/%E6%9E%B6%E6%9E%84/" rel="self" type="application/rss+xml" /><item>
+    <title>网站架构</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E7%BD%91%E7%AB%99%E6%9E%B6%E6%9E%84/</link>
+    <pubDate>Mon, 26 Oct 2020 19:05:43 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E7%BD%91%E7%AB%99%E6%9E%B6%E6%9E%84/</guid>
+    <description><![CDATA[网站架构 大型网站软件系统的特点： 高并发、大流量 高可用：系统需要不间断提供服务 海量数据 用户分布广泛，网络情况复杂 安全环境恶劣 需求快速变更，发布频繁 渐进式发展：几乎所有大网站都是从一个小网站开始的 发展历程]]></description>
+</item></channel>
+</rss>

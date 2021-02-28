@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Java并发编程一 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="Java并发编程一" />
+<meta property="og:description" content="Java并发编程一 并发编程基础 线程 进程是代码在数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位，线程则是进程的一个执行路径，一个进程至少有一个线程，进程中多个线程共享进程的资源。 线程的创建" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-20T16:10:04&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-20T16:10:04&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Java并发编程一"/>
+<meta name="twitter:description" content="Java并发编程一 并发编程基础 线程 进程是代码在数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位，线程则是进程的一个执行路径，一个进程至少有一个线程，进程中多个线程共享进程的资源。 线程的创建"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/%E9%A9%BE%E7%85%A7%E7%A7%91%E7%9B%AE%E4%BA%8C/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/spring-data-redis/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Java并发编程一",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80\/"
+        },"genre": "posts","keywords": "Java并发编程","wordcount":  3305 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80\/","datePublished": "2020-10-20T16:10:04+00:00","dateModified": "2020-10-20T16:10:04+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Java并发编程一</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/juc/"><i class="far fa-folder fa-fw"></i>JUC</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-20 16:10:04">2020-10-20 16:10:04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3305 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#并发编程基础">并发编程基础</a>
+      <ol>
+        <li><a href="#线程">线程</a></li>
+        <li><a href="#线程的创建">线程的创建</a></li>
+        <li><a href="#线程死锁">线程死锁</a></li>
+        <li><a href="#守护线程与用户线程">守护线程与用户线程</a></li>
+        <li><a href="#threadlocal">ThreadLocal</a></li>
+      </ol>
+    </li>
+    <li><a href="#并发编程的其它知识">并发编程的其它知识</a>
+      <ol>
+        <li></li>
+        <li><a href="#synchronized-和-volatile">synchronized 和 volatile</a></li>
+      </ol>
+    </li>
+    <li><a href="#锁">锁</a>
+      <ol>
+        <li><a href="#锁的内存语义">锁的内存语义</a></li>
+        <li><a href="#乐观锁和悲观锁">乐观锁和悲观锁</a></li>
+        <li><a href="#公平锁和非公平锁">公平锁和非公平锁</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="java并发编程一">Java并发编程一</h1>
+<h2 id="并发编程基础">并发编程基础</h2>
+<h3 id="线程">线程</h3>
+<p>进程是代码在数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位，线程则是进程的一个执行路径，一个进程至少有一个线程，进程中多个线程共享进程的资源。</p>
+<h3 id="线程的创建">线程的创建</h3>
+<h4 id="继承-thread-类并重写-run-的方法">继承 Thread 类并重写 run 的方法</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#75715e">// 继承Thread类，并重写run方法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span> <span style="color:#66d9ef">extends</span> Thread <span style="color:#f92672">{</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I am a child thread&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#75715e">// 创建线程
+</span><span style="color:#75715e"></span>        MyThread myThread <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MyThread<span style="color:#f92672">();</span>
+      <span style="color:#75715e">// 启动线程
+</span><span style="color:#75715e"></span>        myThread<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>缺点：如果继承了Thread就无法继承其他类，任务和代码没有分离。</p>
+<h4 id="实现-runnable-接口的-run-方法">实现 Runnable 接口的 run 方法</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RunnableTask</span> <span style="color:#66d9ef">implements</span> Runnable <span style="color:#f92672">{</span>
+
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I am a child thread&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+<span style="color:#75715e">//        MyThread myThread = new MyThread();
+</span><span style="color:#75715e">//        myThread.start();
+</span><span style="color:#75715e"></span>        RunnableTask task <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RunnableTask<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>task<span style="color:#f92672">).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>task<span style="color:#f92672">).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>两个线程公用一个task代码逻辑，如果需要可以给RunableTask添加参数，进行业务区分，且也可以支持继承其他类，但与Thread类重新一样，都没有返回值。</p>
+<h4 id="使用-futuretask-方式">使用 FutureTask 方式</h4>
+<p>而使用FutureTask的方式可以拿到结果返回值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CallerTask</span> <span style="color:#66d9ef">implements</span> Callable<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">call</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello world&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// 创建异步任务
+</span><span style="color:#75715e"></span>        FutureTask<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> futureTask <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FutureTask<span style="color:#f92672">&lt;&gt;(</span><span style="color:#66d9ef">new</span> CallerTask<span style="color:#f92672">());</span>
+        <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>futureTask<span style="color:#f92672">).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+        String result <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            result <span style="color:#f92672">=</span> futureTask<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException <span style="color:#f92672">|</span> ExecutionException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>result<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><h3 id="线程死锁">线程死锁</h3>
+<h4 id="什么是线程死锁">什么是线程死锁</h4>
+<p>死锁是指两个或两个以上的线程在执行过程中，因争夺资源而资源而造成的互相等待的现象，在无外力的作用的情况下，这些线程会一直相互等待而无法继续运行下去。</p>
+<h5 id="死锁的条件">死锁的条件</h5>
+<ul>
+<li>互斥条件</li>
+<li><strong>请求并持有资源</strong></li>
+<li>不可剥夺条件</li>
+<li><strong>环路等待条件</strong></li>
+</ul>
+<p>破坏死锁的条件，只有请求并持有资源和环路等待条件是可以被破坏的</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Description:
+</span><span style="color:#75715e"> * 死锁
+</span><span style="color:#75715e"> * @author:edgarding
+</span><span style="color:#75715e"> * @date:2020/10/20
+</span><span style="color:#75715e"> **/</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DeadLock</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> Object resourceA <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">();</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> Object resourceB <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">();</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Thread threadA <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#a6e22e">@Override</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>resourceA<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; get A ResourceA&#34;</span><span style="color:#f92672">);</span>
+                    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                        Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>1000<span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+                    <span style="color:#f92672">}</span>
+                    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; waiting get ResourceB&#34;</span><span style="color:#f92672">);</span>
+                    <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>resourceB<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;get ResourceB&#34;</span><span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">});</span>
+
+        Thread threadB <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#a6e22e">@Override</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>resourceB<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; get B ResourceB&#34;</span><span style="color:#f92672">);</span>
+                    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                        Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>1000<span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+                    <span style="color:#f92672">}</span>
+                    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; waiting get ResourceA&#34;</span><span style="color:#f92672">);</span>
+                    <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>resourceA<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;get ResourceA&#34;</span><span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">});</span>
+
+        threadA<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+        threadB<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+输出结果<span style="color:#960050;background-color:#1e0010">：</span>
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>0<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> get A ResourceA
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>1<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> get B ResourceB
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>1<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> waiting get ResourceA
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>0<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> waiting get ResourceB
+</code></pre></div><p>破坏以上死锁条件，仅需要将threadB的持有资源条件改下，和请求的顺序改下。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">        Thread threadB <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#a6e22e">@Override</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+              <span style="color:#75715e">// 注意这将resourceB改为resourceA
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>resourceA<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; get B ResourceB&#34;</span><span style="color:#f92672">);</span>
+                    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                        Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>1000<span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+                    <span style="color:#f92672">}</span>
+                    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; waiting get ResourceA&#34;</span><span style="color:#f92672">);</span>
+                    <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>resourceB<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;get ResourceA&#34;</span><span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">});</span>
+输出结果<span style="color:#960050;background-color:#1e0010">：</span>
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>0<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> get A ResourceA
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>0<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> waiting get ResourceB
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>0<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span>get ResourceB
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>1<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> get B ResourceB
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>1<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> waiting get ResourceA
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>1<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span>get ResourceA
+</code></pre></div><p>解决死锁的几个常见方法：</p>
+<ul>
+<li>避免一个线程同时获得多个锁</li>
+<li>避免一个线程在锁内同时占有多个资源，尽量保证每个锁只占用一个资源</li>
+<li>尝试使用定时锁</li>
+<li>对于数据库锁，加锁去锁都必须在同一个数据库连接里</li>
+</ul>
+<h3 id="守护线程与用户线程">守护线程与用户线程</h3>
+<p>Java 中的线程分为两类：<strong>daemon 线程</strong>（守护线程）和 <strong>user  线程</strong>（用户线程）</p>
+<p>JVM启动时，会调用main函数，main函数所在的线程就是一个用户线程，而在JVM中启动不仅仅只有main这一个用户线程，还会启动许多守护线程，例如：垃圾回收线程。</p>
+<p>区别之一就是当最后一个非守护线程结束的时候，JVM会退出，并不管当前是否有守护线程。</p>
+<p>调用thread.setDaemon(true) 设置为守护线程。</p>
+<h3 id="threadlocal">ThreadLocal</h3>
+<p>当创建一个变量后，每个线程访问的时候访问的是自己线程的变量。</p>
+<p>ThreadLocal 是JDK 包提供，提供了线程本地变量，也就是如果创建了一个ThreadLocal变量，那么访问这个变量每个线程都会有这个变量的一个本地变量。</p>
+<h4 id="treadlocal的使用示例">TreadLocal的使用示例</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ThreadLocalTest</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> ThreadLocal<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> localVariable <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ThreadLocal<span style="color:#f92672">&lt;&gt;();</span>
+
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>String str<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// 打印当前localVariable变量的值
+</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> localVariable<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">());</span>
+        <span style="color:#75715e">// 清除当前本地内存中localVariable变量
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// localVariable.remove();
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// 创建线程one
+</span><span style="color:#75715e"></span>        Thread threadOne <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#a6e22e">@Override</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">// 设置线程one中本地变量localVariable的值
+</span><span style="color:#75715e"></span>                localVariable<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;thread local variable&#34;</span><span style="color:#f92672">);</span>
+                <span style="color:#75715e">// 调用打印函数
+</span><span style="color:#75715e"></span>                print<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;threadOne&#34;</span><span style="color:#f92672">);</span>
+                <span style="color:#75715e">// 打印本地变量值
+</span><span style="color:#75715e"></span>                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;threadOne remove after&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> localVariable<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">());</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">});</span>
+        <span style="color:#75715e">// 创建线程two
+</span><span style="color:#75715e"></span>        Thread threadTwo <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#a6e22e">@Override</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+                localVariable<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;threadTwo local variable&#34;</span><span style="color:#f92672">);</span>
+                print<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;threadTwo&#34;</span><span style="color:#f92672">);</span>
+                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;threadTwo remove after&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> localVariable<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">());</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">});</span>
+        threadOne<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+        threadTwo<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h4 id="threadlocal实现原理">ThreadLocal实现原理</h4>
+<p>Thread类中有一个threadLocals和一个inherittableThreadLocals，他们都是ThreadLocalMap类型的变量，而ThreadLocalMap是一个定制化的HashMap，每个线程的变量都是null，只有当前线程第一次调用ThreadLocal的set或者get方法时，才会创建他们。其实每个线程的本地变量不是存放在ThreadLocal实例里面，而是存放在threadLocals变量里面，就是说，ThreadLocal类型的本地变量存放在具体的线程内存空间中。</p>
+<h5 id="void-sett-value">void set（T value）</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>T value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#75715e">// 获取当前线程
+</span><span style="color:#75715e"></span>        Thread t <span style="color:#f92672">=</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>
+      <span style="color:#75715e">// 将当前线程作为key，去查找对应的线程变量，找到则设置
+</span><span style="color:#75715e"></span>        ThreadLocalMap map <span style="color:#f92672">=</span> getMap<span style="color:#f92672">(</span>t<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>map <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+            map<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span>
+          <span style="color:#75715e">// 第一次调用就创建当前线程对应的HashMap
+</span><span style="color:#75715e"></span>            createMap<span style="color:#f92672">(</span>t<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><h5 id="t-get">T get（）</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">public</span> T <span style="color:#a6e22e">get</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        Thread t <span style="color:#f92672">=</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>
+        ThreadLocalMap map <span style="color:#f92672">=</span> getMap<span style="color:#f92672">(</span>t<span style="color:#f92672">);</span>
+      <span style="color:#75715e">// 如果threadLocals不为null，则返回对应本地变量的值
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>map <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            ThreadLocalMap<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span> e <span style="color:#f92672">=</span> map<span style="color:#f92672">.</span><span style="color:#a6e22e">getEntry</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>e <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;unchecked&#34;</span><span style="color:#f92672">)</span>
+                T result <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>T<span style="color:#f92672">)</span>e<span style="color:#f92672">.</span><span style="color:#a6e22e">value</span><span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">return</span> result<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> setInitialValue<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><h2 id="并发编程的其它知识">并发编程的其它知识</h2>
+<h4 id="内存可见性问题">内存可见性问题</h4>
+<p>当一个线程操作一个共享变量的时候，会将共享变量从主内存中取到自己的工作内存中，处理完后，再将工作变量更新到主内存中。</p>
+<h3 id="synchronized-和-volatile">synchronized 和 volatile</h3>
+<h4 id="synchronized">synchronized</h4>
+<p>synchronized是Java提供的一种原子性内置锁，Java中的每个对象都可以将它当做一个同步锁来进行使用，这些Java内置的使用者看不到的锁，被称为内部锁（监视器锁）。</p>
+<blockquote>
+<p>原子性操作Atomcity：指执行一系列操作时，要么全部执行，要么全部不执行，不存在只执行一部分的问题。</p>
+</blockquote>
+<p>线程的代码在进入synchronized的代码块时会自动获取内部锁，这时其它线程范文将会被阻塞挂起。而内置锁是排他锁，当一个线程获得这个锁后，其它线程必须等待该线程释放锁后才能获取该锁。因此会造成一个问题，就是当阻塞一个线程的时候，需要从用户态切换到内核态执行阻塞状态操作，这是很耗时的操作，而synchronized的使用就会导致上下文的切换。</p>
+<p>synchronized用的锁是存在Java对象头里的。</p>
+<ul>
+<li>偏向锁：加锁和解锁不需要额外的消耗</li>
+<li>轻量锁：竞争的线程不会阻塞</li>
+<li>重量锁：线程竞争不使用自旋，不会消耗CPU</li>
+</ul>
+<h4 id="volatile">volatile</h4>
+<p>由于锁太笨重，会带来上下文的切换开销，杜宇解决内存可见性问题，Java还提供一种弱形式同步，就是使用volatile关键字，该关键字可以确保一个变量的更新和对其他线程马上可见。当一个变量被声明为一个volatile时，共享变量不会把值缓存到寄存器或者其他中，会直接更新到主内存中。</p>
+<p><strong>特性</strong>：可见性、原子性</p>
+<p><strong>实现原则</strong></p>
+<ul>
+<li>Locak前缀指令会引起处理器缓存直接写回到内存</li>
+<li>一个处理器的缓存回写到内存会导致其它处理器的缓存无效</li>
+</ul>
+<p>及和synchronized的使用区别在于，一个在于使用在方法上，一个使用在变量上。</p>
+<p>虽然volatile提供了可见性保证，但并不保证操作的原子性。</p>
+<blockquote>
+<p>内存可见性问题：当一个线程对共享变量进行修改的时候，另一线程能直接获取到修改后的共享变量</p>
+</blockquote>
+<p>使用场所：</p>
+<ul>
+<li>写入变量值不依赖变量的当前值。</li>
+<li>读写变量值时没有加锁。</li>
+</ul>
+<h4 id="java中的cas操作">Java中的CAS操作</h4>
+<p>CAS及Compare And Swap，其是JDK提供的非阻塞原子性操作。</p>
+<ul>
+<li>经典ABA问题
+<ul>
+<li>通过添加一个时间戳进行解决</li>
+</ul>
+</li>
+</ul>
+<h2 id="锁">锁</h2>
+<h3 id="锁的内存语义">锁的内存语义</h3>
+<ul>
+<li>线程A释放一个锁，实际上是线程A向接下来要获取该锁的线程发送消息</li>
+<li>线程B获取一个锁，实际上是线程B接收了某个线程发出的消息（在释放这个锁对共享变量进行修改的）消息</li>
+<li>线程A释放锁，线程B接收到线程A释放的锁，实际上是线程A通过主内存向线程B发送消息。</li>
+</ul>
+<h3 id="乐观锁和悲观锁">乐观锁和悲观锁</h3>
+<h4 id="悲观锁">悲观锁</h4>
+<p>悲观锁的定义来源于数据库引入的名词，但在并发中也引入了此思想。</p>
+<p>悲观锁指对外界修改持有保守态度，认为数据很容易被其它线程修改，所以在数据被处理前，先对数据加锁，并在整个数据处理对的过程中，使得数据处于锁定的状态。</p>
+<h4 id="乐观锁">乐观锁</h4>
+<p>乐观锁是相对悲观锁来说的，认为数据在一般情况下不会造成冲突，所以在访问记录前不会加排它锁，而是在进行数据提交更新时，才会正式对数据冲突进行检测。</p>
+<h3 id="公平锁和非公平锁">公平锁和非公平锁</h3>
+<p><strong>按照抢锁机制来划分</strong></p>
+<p>公平锁表示线程获取锁的顺序是按照线程的请求顺序来进行的。先到先得。</p>
+<p>ReentrantLock提供公平与非公平锁的实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 公平锁
+</span><span style="color:#75715e"></span>ReentrantLock pairLock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantLock<span style="color:#960050;background-color:#1e0010">（</span><span style="color:#66d9ef">true</span><span style="color:#960050;background-color:#1e0010">）</span>
+<span style="color:#75715e">// 非公平锁
+</span><span style="color:#75715e"></span>ReentrantLock pariLock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantLock<span style="color:#960050;background-color:#1e0010">（</span><span style="color:#66d9ef">false</span><span style="color:#960050;background-color:#1e0010">）</span>
+</code></pre></div><p>在没有公平的需求下，尽量使用非公平锁，公平锁会带来性能开销。</p>
+<h4 id="独享锁与共享锁">独享锁与共享锁</h4>
+<p><strong>按照锁被单个线程持有还是能被多个线程持有</strong></p>
+<p>独占锁 = 悲观锁</p>
+<p>共享锁 = 乐观锁</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-20 16:10:04</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" data-title="Java并发编程一" data-hashtags="Java并发编程"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" data-hashtag="Java并发编程"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" data-title="Java并发编程一" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" data-title="Java并发编程一"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" data-title="Java并发编程一" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" data-title="Java并发编程一" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" data-title="Java并发编程一" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" data-title="Java并发编程一"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发编程</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/%E9%A9%BE%E7%85%A7%E7%A7%91%E7%9B%AE%E4%BA%8C/" class="prev" rel="prev" title="驾照科目二"><i class="fas fa-angle-left fa-fw"></i>驾照科目二</a>
+            <a href="/2020/10/spring-data-redis/" class="next" rel="next" title="Spring Data Redis">Spring Data Redis<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

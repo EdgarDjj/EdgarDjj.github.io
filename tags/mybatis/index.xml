@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>MyBatis - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/mybatis/</link>
+        <description>MyBatis - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Wed, 11 Nov 2020 17:41:51 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/mybatis/" rel="self" type="application/rss+xml" /><item>
+    <title>MyBatis</title>
+    <link>https://EdgarDjj.github.io/2020/11/mybatis/</link>
+    <pubDate>Wed, 11 Nov 2020 17:41:51 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/mybatis/</guid>
+    <description><![CDATA[Mybatis Mybatis中#{}和${}的区别 其最大的差别就是 #{} 可以防止sql注入，后 ${} 不可以。 SQL注入 一般前台有两个输入框，一个用户名一个密码，传入到后台后会拼接两个参数 select USER from table where username=userinput and password=userinput 来查询用户和校对，]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>消息中间件 - 分类 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/</link>
+        <description>消息中间件 - 分类 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Wed, 28 Oct 2020 16:26:09 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="self" type="application/rss+xml" /><item>
+    <title>消息中间件</title>
+    <link>https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/</link>
+    <pubDate>Wed, 28 Oct 2020 16:26:09 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/</guid>
+    <description><![CDATA[消息中间件 前言 消息（Message）是指应用在应用间传送的数据。 **消息队列中间件（Message Queue Middleware，简称MQ）**指利用高效可靠的消息传递机制进行与平台无关的数据交流，并基于数据]]></description>
+</item></channel>
+</rss>

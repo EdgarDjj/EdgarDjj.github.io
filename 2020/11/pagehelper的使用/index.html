@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>PageHelper的使用 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="PageHelper的使用" />
+<meta property="og:description" content="PageHelper 在实际项目开发中，常常需要使用到分页，分页的方式分为两种： 前端分页 后端分页 前端分页： 一次 ajax 请求数据的所有记录，然后在前端缓存并且计算 count 和分页逻辑，一般前端组件会提供分页动作。 特点：简单，很适合小规模" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-11T16:32:38&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-11T16:32:38&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="PageHelper的使用"/>
+<meta name="twitter:description" content="PageHelper 在实际项目开发中，常常需要使用到分页，分页的方式分为两种： 前端分页 后端分页 前端分页： 一次 ajax 请求数据的所有记录，然后在前端缓存并且计算 count 和分页逻辑，一般前端组件会提供分页动作。 特点：简单，很适合小规模"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" /><link rel="next" href="https://EdgarDjj.github.io/2020/11/mybatis/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "PageHelper的使用",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/11\/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8\/"
+        },"genre": "posts","keywords": "PageHelper","wordcount":  1922 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/11\/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8\/","datePublished": "2020-11-11T16:32:38+00:00","dateModified": "2020-11-11T16:32:38+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">PageHelper的使用</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%8F%92%E4%BB%B6/"><i class="far fa-folder fa-fw"></i>插件</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-11 16:32:38">2020-11-11 16:32:38</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1922 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#不使用分页插件的分页操作">不使用分页插件的分页操作</a></li>
+      </ol>
+    </li>
+    <li><a href="#mybatis分页插件pagehelper使用">MyBatis分页插件PageHelper使用</a>
+      <ol>
+        <li><a href="#pagehelperstartpage-静态方法调用">PageHelper.startPage 静态方法调用</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="pagehelper">PageHelper</h1>
+<p>在实际项目开发中，常常需要使用到分页，分页的方式分为两种：</p>
+<ul>
+<li>前端分页</li>
+<li>后端分页</li>
+</ul>
+<p><strong>前端分页：</strong></p>
+<p>一次 <code>ajax</code> 请求数据的所有记录，然后在前端缓存并且计算 <code>count</code> 和分页逻辑，一般前端组件会提供分页动作。</p>
+<p>特点：简单，很适合小规模的web平台；当数据量大的时候会产生性能问题，在查询和网络传输的时间会很长。</p>
+<p><strong>后端分页：</strong></p>
+<p>在 <code>ajax</code> 请求中指定页码 <code>pageNum</code> 和每页的大小 <code>pageSize</code> ，后端查询出当页的数据返回，前端只负责渲染。</p>
+<p>特点：复杂一点；性能瓶颈来自于对数据库的压力。</p>
+<h3 id="不使用分页插件的分页操作">不使用分页插件的分页操作</h3>
+<p>查询 count 的 select 语句，然后再写一个真正分页查询语句，MySQL中有对分页的支持，是通过limit子句</p>
+<p><code>limit</code>关键字的用法是：<code>LIMIT [offset], rows</code></p>
+<p><code>offset</code>是相对首行的偏移量（首行是0），<code>rows</code>是返回条数</p>
+<p>例如</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#f92672">//</span> <span style="color:#960050;background-color:#1e0010">查询的是前</span><span style="color:#ae81ff">5</span><span style="color:#960050;background-color:#1e0010">条记录</span>
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> tableA <span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">5</span>;
+<span style="color:#f92672">//</span> <span style="color:#960050;background-color:#1e0010">查询的是第</span><span style="color:#ae81ff">6</span><span style="color:#960050;background-color:#1e0010">条到第</span><span style="color:#ae81ff">10</span><span style="color:#960050;background-color:#1e0010">条的记录</span>
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> tableA <span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>
+</code></pre></div><h2 id="mybatis分页插件pagehelper使用">MyBatis分页插件PageHelper使用</h2>
+<p>可在yml中配置：</p>
+<ul>
+<li>dialect：默认情况会使用PageHelper方式进行分页，如果想要实现自己的分页逻辑，可以实现 <code>Dialect</code>(<code>com.github.pagehelper.Dialect</code>) 接口，然后配置该属性为实现类的全限定名称。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">pagehelper</span>:
+  <span style="color:#f92672">auto-dialect</span>: <span style="color:#66d9ef">false</span>
+</code></pre></div><p>将自动配置关闭即可</p>
+<p>使用自定义dialect实现时，下面参数没有任何作用：</p>
+<ol>
+<li><code>helperDialect</code>：分页插件会自动检测当前的数据库链接，自动选择合适的分页方式。
+你也可以实现 <code>AbstractHelperDialect</code>，然后配置该属性为实现类的全限定名称即可使用自定义的实现方法。</li>
+<li><code>offsetAsPageNum</code>：默认值为 <code>false</code>，该参数对使用 <code>RowBounds</code> 作为分页参数时有效。 当该参数设置为 <code>true</code> 时，会将 <code>RowBounds</code> 中的 <code>offset</code> 参数当成 <code>pageNum</code> 使用，可以用页码和页面大小两个参数进行分页。</li>
+<li><code>rowBoundsWithCount</code>：默认值为<code>false</code>，该参数对使用 <code>RowBounds</code> 作为分页参数时有效。 当该参数设置为<code>true</code>时，使用 <code>RowBounds</code> 分页会进行 count 查询。</li>
+<li><code>pageSizeZero</code>：默认值为 <code>false</code>，当该参数设置为 <code>true</code> 时，如果 <code>pageSize=0</code> 或者 <code>RowBounds.limit = 0</code> 就会查询出全部的结果（相当于没有执行分页查询，但是返回结果仍然是 <code>Page</code> 类型）。</li>
+<li><code>reasonable</code>：分页合理化参数，默认值为<code>false</code>。当该参数设置为 <code>true</code> 时，<code>pageNum&lt;=0</code> 时会查询第一页， <code>pageNum&gt;pages</code>（超过总数时），会查询最后一页。默认<code>false</code> 时，直接根据参数进行查询。</li>
+<li><code>params</code>：为了支持<code>startPage(Object params)</code>方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值， 可以配置 <code>pageNum,pageSize,count,pageSizeZero,reasonable</code>，不配置映射的用默认值， 默认值为<code>pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero</code>。</li>
+<li><code>supportMethodsArguments</code>：支持通过 Mapper 接口参数来传递分页参数，默认值<code>false</code>，分页插件会从查询方法的参数值中，自动根据上面 <code>params</code> 配置的字段中取值，查找到合适的值时就会自动分页。 使用方法可以参考测试代码中的 <code>com.github.pagehelper.test.basic</code> 包下的 <code>ArgumentsMapTest</code> 和 <code>ArgumentsObjTest</code>。</li>
+<li><code>autoRuntimeDialect</code>：默认值为 <code>false</code>。设置为 <code>true</code> 时，允许在运行时根据多数据源自动识别对应方言的分页 （不支持自动选择<code>sqlserver2012</code>，只能使用<code>sqlserver</code>），用法和注意事项参考下面的<strong>场景五</strong>。</li>
+<li><code>closeConn</code>：默认值为 <code>true</code>。当使用运行时动态数据源或没有设置 <code>helperDialect</code> 属性自动获取数据库类型时，会自动获取一个数据库连接， 通过该属性来设置是否关闭获取的这个连接，默认<code>true</code>关闭，设置为 <code>false</code> 后，不会关闭获取的连接，这个参数的设置要根据自己选择的数据源来决定。</li>
+<li><code>aggregateFunctions</code>(5.1.5+)：默认为所有常见数据库的聚合函数，允许手动添加聚合函数（影响行数），所有以聚合函数开头的函数，在进行 count 转换时，会套一层。其他函数和列会被替换为 count(0)，其中count列可以自己配置。</li>
+</ol>
+<p><strong>重要提示：</strong></p>
+<p>当 <code>offsetAsPageNum=false</code> 的时候，由于 <code>PageNum</code> 问题，<code>RowBounds</code>查询的时候 <code>reasonable</code> 会强制为 <code>false</code>。使用 <code>PageHelper.startPage</code> 方法不受影响。</p>
+<h3 id="pagehelperstartpage-静态方法调用">PageHelper.startPage 静态方法调用</h3>
+<p>除了 <code>PageHelper.startPage</code> 方法外，还提供了类似用法的 <code>PageHelper.offsetPage</code> 方法。</p>
+<p>在你需要进行分页的 MyBatis 查询方法前调用 <code>PageHelper.startPage</code> 静态方法即可，紧跟在这个方法后的第一个<strong>MyBatis 查询方法</strong>会被进行分页。</p>
+<blockquote>
+<p>//获取第1页，10条内容，默认查询总数</p>
+<p>count PageHelper.startPage(1, 10);</p>
+<p>//紧跟着的第一个select方法会被分页</p>
+<p>List<!-- raw HTML omitted --> list = countryMapper.selectIf(1); assertEquals(2, list.get(0).getId());</p>
+<p>assertEquals(10, list.size());</p>
+<p>//分页时，实际返回的结果list类型是Page<!-- raw HTML omitted -->，如果想取出分页信息，需要强制转换为Page<!-- raw HTML omitted --> assertEquals(182, ((Page) list).getTotal());</p>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-11-11 16:32:38</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" data-title="PageHelper的使用" data-hashtags="PageHelper"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" data-hashtag="PageHelper"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" data-title="PageHelper的使用" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" data-title="PageHelper的使用"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" data-title="PageHelper的使用" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" data-title="PageHelper的使用" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" data-title="PageHelper的使用" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" data-title="PageHelper的使用"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/pagehelper/">PageHelper</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" class="prev" rel="prev" title="什么是JWT"><i class="fas fa-angle-left fa-fw"></i>什么是JWT</a>
+            <a href="/2020/11/mybatis/" class="next" rel="next" title="MyBatis">MyBatis<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

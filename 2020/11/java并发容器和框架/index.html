@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Java并发容器和框架 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="Java并发容器和框架" />
+<meta property="og:description" content="Java并发容器和框架 ConcurrentHashMap 的实现原理与使用 ConcurrentHashMap是线程安全且高效的HashMap。 在并发编程中使用HashMap可能操作程序死循环，而使用线程安全的HashTable效率又十" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-16T21:09:45&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-16T21:09:45&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Java并发容器和框架"/>
+<meta name="twitter:description" content="Java并发容器和框架 ConcurrentHashMap 的实现原理与使用 ConcurrentHashMap是线程安全且高效的HashMap。 在并发编程中使用HashMap可能操作程序死循环，而使用线程安全的HashTable效率又十"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BA%8C/" /><link rel="next" href="https://EdgarDjj.github.io/2020/11/springcloud/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Java并发容器和框架",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/11\/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6\/"
+        },"genre": "posts","keywords": "JUC","wordcount":  3079 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/11\/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6\/","datePublished": "2020-11-16T21:09:45+00:00","dateModified": "2020-11-16T21:09:45+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Java并发容器和框架</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/juc/"><i class="far fa-folder fa-fw"></i>JUC</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-16 21:09:45">2020-11-16 21:09:45</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3079 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#concurrenthashmap-的实现原理与使用">ConcurrentHashMap 的实现原理与使用</a>
+      <ol>
+        <li><a href="#concurrenthashmap的结构">ConcurrentHashMap的结构</a></li>
+        <li><a href="#concurrenthashmap如何保证线程安全">ConcurrentHashMap如何保证线程安全</a></li>
+      </ol>
+    </li>
+    <li><a href="#关于hash算法和哈希冲突">关于Hash算法和哈希冲突</a>
+      <ol>
+        <li></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="java并发容器和框架">Java并发容器和框架</h1>
+<h2 id="concurrenthashmap-的实现原理与使用">ConcurrentHashMap 的实现原理与使用</h2>
+<p>ConcurrentHashMap是线程安全且高效的HashMap。</p>
+<p>在并发编程中使用HashMap可能操作程序死循环，而使用线程安全的HashTable效率又十分低下，因此ConcurrentHashMap诞生。</p>
+<ol>
+<li>HashMap在并发情况下，执行put操作会引起死循环，是因为多线程会导致HashMap的Empty链表形成环形数据结构，一旦形成环形数据结构，Entry的next节点永不为空，就会产生死循环，无法获取节点。</li>
+<li>HashTable由于每个方法都是用了synchronized进行同步，因此在线程竞争激烈的情况下，会导致其它线程也访问HashTable的同步方法时会被阻塞或轮询状态，从而也无法自己使用get或put操作，造成效率低下。</li>
+<li>ConcurrentHashMap的分段锁技术</li>
+</ol>
+<p>HashTable在容器竞争激烈的并发情况下表现的效率低，是因为多个线程竞争一把锁，假如容器内有多把锁，每一个把锁中有一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而有效提升并发效率，这就是<strong>分段锁</strong>。、</p>
+<h3 id="concurrenthashmap的结构">ConcurrentHashMap的结构</h3>
+<p><strong>JDK7：</strong></p>
+<p>ConcurrentHashMap是由segment数组结构和HashEntry数组结构组成。Segment是一种可重入锁（ReentrantLock）在ConcurrentHashMap扮演锁的角色。HashEntry则用于存储键值对数据。</p>
+<p>一个ConcurrentHashMap里包含一个Segment[]数组，Segment的结构与HashMap结构类似，是一种链表加数组的散列表，一个Segment里包含一个HashEntry[]数组，每个HashEntry是一个种链表结构的元素，每个Segment守护着一个HashEntry数组里的元素，每个想对HashEntry[]数组进行修改的时候，都要获取当前HashEntry所在Segment的锁。</p>
+<p><strong>JDK8：</strong></p>
+<p>ConcurrentHashMap取消了Segment分段锁，采用CAS和synchronized来保证并发安全，数据结构和HashMap1.8的结构类似，数组+链表/红黑树。Java8在链表超过一定阈值（8）的时候，将链表（寻址时间复杂度O（n））转换为红黑树（O（log（n））</p>
+<p>synchronized只锁定当前链表或红黑树的首节点，这样只要hash不冲突，就不会产生并发，效率又提升了许多。</p>
+<h3 id="concurrenthashmap如何保证线程安全">ConcurrentHashMap如何保证线程安全</h3>
+<p>关于node节点的状态，有以下四种:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> MOVED     <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span> <span style="color:#75715e">// hash for forwarding nodes
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> TREEBIN   <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>2<span style="color:#f92672">;</span> <span style="color:#75715e">// hash for roots of trees
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> RESERVED  <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>3<span style="color:#f92672">;</span> <span style="color:#75715e">// hash for transient reservations
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> HASH_BITS <span style="color:#f92672">=</span> 0x7fffffff<span style="color:#f92672">;</span> <span style="color:#75715e">// usable bits of normal node hash
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">final</span> V <span style="color:#a6e22e">putVal</span><span style="color:#f92672">(</span>K key<span style="color:#f92672">,</span> V value<span style="color:#f92672">,</span> <span style="color:#66d9ef">boolean</span> onlyIfAbsent<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>key <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> value <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> NullPointerException<span style="color:#f92672">();</span>
+        <span style="color:#75715e">//计算当前key的hash值
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> hash <span style="color:#f92672">=</span> spread<span style="color:#f92672">(</span>key<span style="color:#f92672">.</span><span style="color:#a6e22e">hashCode</span><span style="color:#f92672">());</span>
+        <span style="color:#66d9ef">int</span> binCount <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+        <span style="color:#75715e">//如果这次没有put成功，会重试
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;[]</span> tab <span style="color:#f92672">=</span> table<span style="color:#f92672">;;)</span> <span style="color:#f92672">{</span>
+            Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> f<span style="color:#f92672">;</span> <span style="color:#66d9ef">int</span> n<span style="color:#f92672">,</span> i<span style="color:#f92672">,</span> fh<span style="color:#f92672">;</span>
+            <span style="color:#75715e">//ConcurrentHashMap的初次put会做init操作
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>tab <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> <span style="color:#f92672">(</span>n <span style="color:#f92672">=</span> tab<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span>
+                tab <span style="color:#f92672">=</span> initTable<span style="color:#f92672">();</span>
+            <span style="color:#75715e">//如果对应的node为空，以cas的方式put元素，如果成功，直接退出循环
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>f <span style="color:#f92672">=</span> tabAt<span style="color:#f92672">(</span>tab<span style="color:#f92672">,</span> i <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>n <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;</span> hash<span style="color:#f92672">))</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>casTabAt<span style="color:#f92672">(</span>tab<span style="color:#f92672">,</span> i<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span>
+                             <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;(</span>hash<span style="color:#f92672">,</span> key<span style="color:#f92672">,</span> value<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)))</span>
+                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>                   <span style="color:#75715e">// no lock when adding to empty bin
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span>
+            <span style="color:#75715e">//如果tab[i]的hash值为MOVED，表明该链表正在进行transfer操作,当前线程先帮助进行扩容操作,然后put
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>fh <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span><span style="color:#a6e22e">hash</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> MOVED<span style="color:#f92672">)</span>
+                tab <span style="color:#f92672">=</span> helpTransfer<span style="color:#f92672">(</span>tab<span style="color:#f92672">,</span> f<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                V oldVal <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+                <span style="color:#75715e">//锁住node节点，对节点下的链表/红黑树进行同步操作
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>f<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>tabAt<span style="color:#f92672">(</span>tab<span style="color:#f92672">,</span> i<span style="color:#f92672">)</span> <span style="color:#f92672">==</span> f<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>fh <span style="color:#f92672">&gt;=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  <span style="color:#75715e">//大于0说明当前node是一个可用的链表节点
+</span><span style="color:#75715e"></span>                            binCount <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span>
+                            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> e <span style="color:#f92672">=</span> f<span style="color:#f92672">;;</span> <span style="color:#f92672">++</span>binCount<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                K ek<span style="color:#f92672">;</span>
+                                <span style="color:#75715e">//如果当前key已经存在，判断是否新值替换旧值(根据传入的onlyIfAbsen决定),然后退出
+</span><span style="color:#75715e"></span>                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">.</span><span style="color:#a6e22e">hash</span> <span style="color:#f92672">==</span> hash <span style="color:#f92672">&amp;&amp;</span>
+                                    <span style="color:#f92672">((</span>ek <span style="color:#f92672">=</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> key <span style="color:#f92672">||</span>
+                                     <span style="color:#f92672">(</span>ek <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> key<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>ek<span style="color:#f92672">))))</span> <span style="color:#f92672">{</span>
+                                    oldVal <span style="color:#f92672">=</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">val</span><span style="color:#f92672">;</span>
+                                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>onlyIfAbsent<span style="color:#f92672">)</span>
+                                        e<span style="color:#f92672">.</span><span style="color:#a6e22e">val</span> <span style="color:#f92672">=</span> value<span style="color:#f92672">;</span>
+                                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+                                <span style="color:#f92672">}</span>
+                                <span style="color:#75715e">//如果下一个节点为空，直接put进去，然后退出
+</span><span style="color:#75715e"></span>                                Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> pred <span style="color:#f92672">=</span> e<span style="color:#f92672">;</span>
+                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>e <span style="color:#f92672">=</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                    pred<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;(</span>hash<span style="color:#f92672">,</span> key<span style="color:#f92672">,</span>
+                                                              value<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+                                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+                                <span style="color:#f92672">}</span>
+                                <span style="color:#75715e">//继续遍历
+</span><span style="color:#75715e"></span>                            <span style="color:#f92672">}</span>
+                        <span style="color:#f92672">}</span>
+                        <span style="color:#75715e">//如果当前节点是一个树状结构，向树中插入一个元素
+</span><span style="color:#75715e"></span>                        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>f <span style="color:#66d9ef">instanceof</span> TreeBin<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                            Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> p<span style="color:#f92672">;</span>
+                            binCount <span style="color:#f92672">=</span> 2<span style="color:#f92672">;</span>
+                            <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>p <span style="color:#f92672">=</span> <span style="color:#f92672">((</span>TreeBin<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;)</span>f<span style="color:#f92672">).</span><span style="color:#a6e22e">putTreeVal</span><span style="color:#f92672">(</span>hash<span style="color:#f92672">,</span> key<span style="color:#f92672">,</span>
+                                                           value<span style="color:#f92672">))</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                oldVal <span style="color:#f92672">=</span> p<span style="color:#f92672">.</span><span style="color:#a6e22e">val</span><span style="color:#f92672">;</span>
+                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>onlyIfAbsent<span style="color:#f92672">)</span>
+                                    p<span style="color:#f92672">.</span><span style="color:#a6e22e">val</span> <span style="color:#f92672">=</span> value<span style="color:#f92672">;</span>
+                            <span style="color:#f92672">}</span>
+                        <span style="color:#f92672">}</span>
+                    <span style="color:#f92672">}</span>
+                <span style="color:#f92672">}</span>
+                <span style="color:#75715e">//binCount是用来统计链表长度的
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>binCount <span style="color:#f92672">!=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    <span style="color:#75715e">//如果长度达到阈值，转化为红黑树
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>binCount <span style="color:#f92672">&gt;=</span> TREEIFY_THRESHOLD<span style="color:#f92672">)</span>
+                        treeifyBin<span style="color:#f92672">(</span>tab<span style="color:#f92672">,</span> i<span style="color:#f92672">);</span>
+                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>oldVal <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+                        <span style="color:#66d9ef">return</span> oldVal<span style="color:#f92672">;</span>
+                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//统计长度，检查时候需要扩容
+</span><span style="color:#75715e"></span>        addCount<span style="color:#f92672">(</span>1L<span style="color:#f92672">,</span> binCount<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><h2 id="关于hash算法和哈希冲突">关于Hash算法和哈希冲突</h2>
+<p><strong>Hash算法</strong>:就是根据设定的Hash函数H(key)和处理冲突方法，将一组关键字映射到一个有限的地址区间上的算法。所以Hash算法也被称为散列算法、杂凑算法。</p>
+<p><strong>Hash表</strong>:通过Hash算法后得到的有限地址区间上的集合。数据存放的位置和key之前存在一定的关系(<code>H(key)=stored_value_hash(数据存放位置)</code>),可以实现快速查询。与之相对的，如果数据存放位置和key之间不存在任何关联关系的集合，称之为<code>非Hash表</code>。</p>
+<p><strong>Hash冲突</strong>:由于用于计算的数据是无限的<code>H(key),key属于(-∞,+∞)</code>,而映射到区间是有限的，所以肯定会存在两个key:key1,key2，H(key1)=H(key2)，这就是hash冲突。一般的解决Hash冲突方法有:开放定址法、再哈希法、链地址法（拉链法）、建立公共溢出区。</p>
+<h4 id="开放地址法">开放地址法</h4>
+<p>开放定址法也称为<code>再散列法</code>，基本思想就是，如果<code>p=H(key)</code>出现冲突时，则以<code>p</code>为基础，再次hash，<code>p1=H(p)</code>,如果p1再次出现冲突，则以p1为基础，以此类推，直到找到一个不冲突的哈希地址<code>pi</code>。 因此开放定址法所需要的hash表的长度要大于等于所需要存放的元素，而且因为存在再次hash，所以<code>只能在删除的节点上做标记，而不能真正删除节点。</code></p>
+<p>缺点:容易产生堆积问题;不适合大规模的数据存储;插入时会发生多次冲突的情况;删除时要考虑与要删除元素互相冲突的另一个元素，比较复杂。</p>
+<h4 id="再哈希法双重散列多重散列">再哈希法(双重散列，多重散列)</h4>
+<p>提供多个不同的hash函数，当<code>R1=H1(key1)</code>发生冲突时，再计算<code>R2=H2(key1)</code>，直到没有冲突为止。 这样做虽然不易产生堆集，但增加了计算的时间。</p>
+<h4 id="链地址法拉链法">链地址法(拉链法)</h4>
+<p>链地址法:将哈希值相同的元素构成一个同义词的单链表,并将单链表的头指针存放在哈希表的第i个单元中，查找、插入和删除主要在同义词链表中进行。链表法适用于经常进行插入和删除的情况。HashMap采用的就是链地址法来解决hash冲突。(链表长度大于等于8时转为红黑树)</p>
+<h4 id="建立公共溢出区">建立公共溢出区</h4>
+<p>将哈希表分为公共表和溢出表，当溢出发生时，将所有溢出数据统一放到溢出区。</p>
+<h4 id="hashmap中的处理冲突">HashMap中的处理冲突</h4>
+<p>下面是HashMap的put方法:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">final</span> V <span style="color:#a6e22e">putVal</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> hash<span style="color:#f92672">,</span> K key<span style="color:#f92672">,</span> V value<span style="color:#f92672">,</span> <span style="color:#66d9ef">boolean</span> onlyIfAbsent<span style="color:#f92672">,</span>
+                <span style="color:#66d9ef">boolean</span> evict<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;[]</span> tab<span style="color:#f92672">;</span> Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> p<span style="color:#f92672">;</span> <span style="color:#66d9ef">int</span> n<span style="color:#f92672">,</span> i<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>tab <span style="color:#f92672">=</span> table<span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> <span style="color:#f92672">(</span>n <span style="color:#f92672">=</span> tab<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">)</span> <span style="color:#75715e">//如果hash数组为空，初始化一下
+</span><span style="color:#75715e"></span>        n <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>tab <span style="color:#f92672">=</span> resize<span style="color:#f92672">()).</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>p <span style="color:#f92672">=</span> tab<span style="color:#f92672">[</span>i <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>n <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;</span> hash<span style="color:#f92672">])</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>  <span style="color:#75715e">//计算落在hash桶的位置，如果当前桶为空，直接新增节点
+</span><span style="color:#75715e"></span>        tab<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> newNode<span style="color:#f92672">(</span>hash<span style="color:#f92672">,</span> key<span style="color:#f92672">,</span> value<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>  <span style="color:#75715e">//当前桶存在元素
+</span><span style="color:#75715e"></span>        Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> e<span style="color:#f92672">;</span> K k<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>p<span style="color:#f92672">.</span><span style="color:#a6e22e">hash</span> <span style="color:#f92672">==</span> hash <span style="color:#f92672">&amp;&amp;</span>
+            <span style="color:#f92672">((</span>k <span style="color:#f92672">=</span> p<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> key <span style="color:#f92672">||</span> <span style="color:#f92672">(</span>key <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> key<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>k<span style="color:#f92672">))))</span> 
+            <span style="color:#75715e">//如果key已经存在，替换元素
+</span><span style="color:#75715e"></span>            e <span style="color:#f92672">=</span> p<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>p <span style="color:#66d9ef">instanceof</span> TreeNode<span style="color:#f92672">)</span> <span style="color:#75715e">//如果当前是树结构了(不是链表了),向树上添加元素
+</span><span style="color:#75715e"></span>            e <span style="color:#f92672">=</span> <span style="color:#f92672">((</span>TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;)</span>p<span style="color:#f92672">).</span><span style="color:#a6e22e">putTreeVal</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span> tab<span style="color:#f92672">,</span> hash<span style="color:#f92672">,</span> key<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>  <span style="color:#75715e">//当前结构依然时链表，遍历链表，直到末尾或者找到key相同的元素替换
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> binCount <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> <span style="color:#f92672">;</span> <span style="color:#f92672">++</span>binCount<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">//到达末尾，新增元素，如果链表长度达到8，转为红黑树
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>e <span style="color:#f92672">=</span> p<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
+                    p<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> newNode<span style="color:#f92672">(</span>hash<span style="color:#f92672">,</span> key<span style="color:#f92672">,</span> value<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>binCount <span style="color:#f92672">&gt;=</span> TREEIFY_THRESHOLD <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#75715e">// -1 for 1st
+</span><span style="color:#75715e"></span>                        treeifyBin<span style="color:#f92672">(</span>tab<span style="color:#f92672">,</span> hash<span style="color:#f92672">);</span>
+                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+                <span style="color:#f92672">}</span>
+                <span style="color:#75715e">//遍历链表的过程中，发现了有key相同的元素，直接替换，然后break
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>e<span style="color:#f92672">.</span><span style="color:#a6e22e">hash</span> <span style="color:#f92672">==</span> hash <span style="color:#f92672">&amp;&amp;</span>
+                    <span style="color:#f92672">((</span>k <span style="color:#f92672">=</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">key</span><span style="color:#f92672">)</span> <span style="color:#f92672">==</span> key <span style="color:#f92672">||</span> <span style="color:#f92672">(</span>key <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> key<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>k<span style="color:#f92672">))))</span>
+                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+                p <span style="color:#f92672">=</span> e<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>e <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#75715e">//如果是已经存在的元素，判断是否替换(onlyIfAbsent)
+</span><span style="color:#75715e"></span>            V oldValue <span style="color:#f92672">=</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">value</span><span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>onlyIfAbsent <span style="color:#f92672">||</span> oldValue <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> value<span style="color:#f92672">;</span>
+            afterNodeAccess<span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span> oldValue<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#f92672">++</span>modCount<span style="color:#f92672">;</span>
+    <span style="color:#75715e">//如果容量超过阈值，扩容
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(++</span>size <span style="color:#f92672">&gt;</span> threshold<span style="color:#f92672">)</span>
+        resize<span style="color:#f92672">();</span>
+    afterNodeInsertion<span style="color:#f92672">(</span>evict<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-11-16 21:09:45</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/" data-title="Java并发容器和框架" data-hashtags="JUC"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/" data-hashtag="JUC"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/" data-title="Java并发容器和框架" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/" data-title="Java并发容器和框架"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/" data-title="Java并发容器和框架" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/" data-title="Java并发容器和框架" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/" data-title="Java并发容器和框架" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/" data-title="Java并发容器和框架"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/juc/">JUC</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/11/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BA%8C/" class="prev" rel="prev" title="Java并发编程二"><i class="fas fa-angle-left fa-fw"></i>Java并发编程二</a>
+            <a href="/2020/11/springcloud/" class="next" rel="next" title="SpringCloud">SpringCloud<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

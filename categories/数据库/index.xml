@@ -1,0 +1,43 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>数据库 - 分类 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+        <description>数据库 - 分类 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Tue, 03 Nov 2020 19:42:51 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="self" type="application/rss+xml" /><item>
+    <title>高性能MySQL</title>
+    <link>https://EdgarDjj.github.io/2020/11/%E9%AB%98%E6%80%A7%E8%83%BDmysql/</link>
+    <pubDate>Tue, 03 Nov 2020 19:42:51 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/%E9%AB%98%E6%80%A7%E8%83%BDmysql/</guid>
+    <description><![CDATA[高性能MySQL 一条MySQL的更新语句的执行过程： 并发控制 共享锁（shared lock）读锁 排他锁（exclusive lock）写锁 在不同的搜索引擎下，写锁和读锁有着不同的优先级，写锁的优先级一般大]]></description>
+</item><item>
+    <title>Redis常见问题</title>
+    <link>https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</link>
+    <pubDate>Wed, 28 Oct 2020 18:34:24 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</guid>
+    <description><![CDATA[Redis常见问题 Redis是什么？ Redis是通过C编写的一种键值对存储数据库，由于是基于内存的，因此读写速度非常快，多被用于做缓存。 Redis过期Key是怎么清理的？ 惰性清理 在访问key时，如果发]]></description>
+</item><item>
+    <title>Redis学习</title>
+    <link>https://EdgarDjj.github.io/2020/10/redis%E5%AD%A6%E4%B9%A0/</link>
+    <pubDate>Wed, 14 Oct 2020 12:31:40 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/redis%E5%AD%A6%E4%B9%A0/</guid>
+    <description><![CDATA[Redis学习 介绍 Redis 就是一个使用 C 语言开发的数据库，Redis 的数据就是存在内存中，所以读写速度非常快，因此多被用于缓存。 另外，Redis 除了做缓存之外，Redis 也经常用来做分布式锁，甚至是消息队列]]></description>
+</item><item>
+    <title>Redis学习（前置）</title>
+    <link>https://EdgarDjj.github.io/2020/10/redis%E5%AD%A6%E4%B9%A0%E5%89%8D%E7%BD%AE/</link>
+    <pubDate>Tue, 13 Oct 2020 22:21:36 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/redis%E5%AD%A6%E4%B9%A0%E5%89%8D%E7%BD%AE/</guid>
+    <description><![CDATA[Redis（前置） 缓存 基本思想 缓存就是用空间换时间，提高系统的性能以及减少请求相应时间。 像CPU与内存之间的速度不匹配的问题，用缓存进行平衡这种速度不匹配。在操作系统中，在页表的方案基础之上引入快表来]]></description>
+</item><item>
+    <title>MySQL57学习笔记</title>
+    <link>https://EdgarDjj.github.io/2020/09/mysql57%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Tue, 29 Sep 2020 08:14:05 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/09/mysql57%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[MySQL57 概念 SQL：Structure Query Language (结构化查询语言) 数据（Data） 数据库中存储的基本对象[图、文、声、像] 数据库（DataBase） 人们收集并取出一个应用所需要的大量数据之后，应将其保存起来，以供]]></description>
+</item></channel>
+</rss>

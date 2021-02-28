@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Java注解 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="Java注解" />
+<meta property="og:description" content="Java注解 前言 实际上Java注解与普通修饰符(public、static、void等)的使用方式并没有多大区别，下面的例子是常见的注解： public class AnnotationDemo { //@Test注解修饰方法A @Test public static void A(){ System.out.println(&#34;Test.....&#34;); } //一个方法" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-12T15:25:16&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-12T15:25:16&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Java注解"/>
+<meta name="twitter:description" content="Java注解 前言 实际上Java注解与普通修饰符(public、static、void等)的使用方式并没有多大区别，下面的例子是常见的注解： public class AnnotationDemo { //@Test注解修饰方法A @Test public static void A(){ System.out.println(&#34;Test.....&#34;); } //一个方法"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/11/spring/" /><link rel="next" href="https://EdgarDjj.github.io/2020/11/java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Java注解",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/11\/java%E6%B3%A8%E8%A7%A3\/"
+        },"genre": "posts","keywords": "Java基础","wordcount":  2297 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/11\/java%E6%B3%A8%E8%A7%A3\/","datePublished": "2020-11-12T15:25:16+00:00","dateModified": "2020-11-12T15:25:16+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Java注解</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/java%E5%9F%BA%E7%A1%80/"><i class="far fa-folder fa-fw"></i>Java基础</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-12 15:25:16">2020-11-12 15:25:16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2297 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#基本语法">基本语法</a>
+      <ol>
+        <li><a href="#声明注解和元注解">声明注解和元注解</a></li>
+        <li><a href="#注解元素及其数据结构类型">注解元素及其数据结构类型</a></li>
+        <li><a href="#java内置注解与其他元注解">Java内置注解与其他元注解</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="java注解">Java注解</h1>
+<h2 id="前言">前言</h2>
+<p>实际上Java注解与普通修饰符(public、static、void等)的使用方式并没有多大区别，下面的例子是常见的注解：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AnnotationDemo</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">//@Test注解修饰方法A
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">A</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Test.....&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">//一个方法上可以拥有多个不同的注解
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Deprecated</span>
+    <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;uncheck&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">B</span><span style="color:#f92672">(){</span>
+
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>通过在方法上使用@Test注解后，在运行该方法时，测试框架会自动识别该方法并单独调用，@Test实际上是一种标记注解，起标记作用，运行时告诉测试框架该方法为测试方法。而对于@Deprecated和@SuppressWarnings(“uncheck”)，则是Java本身内置的注解，在代码中，可以经常看见它们，但这并不是一件好事，毕竟当方法或是类上面有@Deprecated注解时，说明该方法或是类都已经过期不建议再用，@SuppressWarnings 则表示忽略指定警告，比如@SuppressWarnings(“uncheck”)，这就是注解的最简单的使用方式，那么下面我们就来看看注解定义的基本语法</p>
+<blockquote>
+<p>想象代码具有生命，注解就是对于代码中某些鲜活的个体贴上去的一张标签。</p>
+</blockquote>
+<h2 id="基本语法">基本语法</h2>
+<h3 id="声明注解和元注解">声明注解和元注解</h3>
+<h4 id="注解的定义">注解的定义</h4>
+<p>注解通过 <code>@interface</code> 来进行定义</p>
+<pre><code>public @interface Test {
+
+}
+</code></pre><p>我们先来看看前面的Test注解是如何声明的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//声明Test注解
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Target</span><span style="color:#f92672">(</span>ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">METHOD</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">RUNTIME</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> Test <span style="color:#f92672">{</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>我们使用了<code>@interface</code>声明了Test注解，并使用<code>@Target</code>注解传入<code>ElementType.METHOD</code>参数来标明@Test只能用于方法上，<code>@Retention(RetentionPolicy.RUNTIME)</code>则用来表示该注解生存期是运行时，从代码上看注解的定义很像接口的定义，确实如此，毕竟在编译后也会生成Test.class文件。对于<code>@Target</code>和<code>@Retention</code>是由Java提供的元注解，所谓元注解就是标记其他注解的注解</p>
+<ul>
+<li>
+<p>@Target 用来约束注解可以应用的地方（如方法、类或字段），其中ElementType是枚举类型，其定义如下，也代表可能的取值范围</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> ElementType <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/**标明该注解可以用于类、接口（包括注解类型）或enum声明*/</span>
+    TYPE<span style="color:#f92672">,</span>
+  
+    <span style="color:#75715e">/** 标明该注解可以用于字段(域)声明，包括enum实例 */</span>
+    FIELD<span style="color:#f92672">,</span>
+  
+    <span style="color:#75715e">/** 标明该注解可以用于方法声明 */</span>
+    METHOD<span style="color:#f92672">,</span>
+  
+    <span style="color:#75715e">/** 标明该注解可以用于参数声明 */</span>
+    PARAMETER<span style="color:#f92672">,</span>
+  
+    <span style="color:#75715e">/** 标明注解可以用于构造函数声明 */</span>
+    CONSTRUCTOR<span style="color:#f92672">,</span>
+  
+    <span style="color:#75715e">/** 标明注解可以用于局部变量声明 */</span>
+    LOCAL_VARIABLE<span style="color:#f92672">,</span>
+  
+    <span style="color:#75715e">/** 标明注解可以用于注解声明(应用于另一个注解上)*/</span>
+    ANNOTATION_TYPE<span style="color:#f92672">,</span>
+  
+    <span style="color:#75715e">/** 标明注解可以用于包声明 */</span>
+    PACKAGE<span style="color:#f92672">,</span>
+  
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 标明注解可以用于类型参数声明（1.8新加入）
+</span><span style="color:#75715e">     * @since 1.8
+</span><span style="color:#75715e">     */</span>
+    TYPE_PARAMETER<span style="color:#f92672">,</span>
+  
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 类型使用声明（1.8新加入)
+</span><span style="color:#75715e">     * @since 1.8
+</span><span style="color:#75715e">     */</span>
+    TYPE_USE
+  
+</code></pre></div><p>请注意，当注解未指定Target值时，则此注解可以用于任何元素之上，多个值使用{}包含并用逗号隔开，如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Target</span><span style="color:#f92672">(</span>value<span style="color:#f92672">={</span>CONSTRUCTOR<span style="color:#f92672">,</span> FIELD<span style="color:#f92672">,</span> LOCAL_VARIABLE<span style="color:#f92672">,</span> METHOD<span style="color:#f92672">,</span> PACKAGE<span style="color:#f92672">,</span> PARAMETER<span style="color:#f92672">,</span> TYPE<span style="color:#f92672">}</span>
+</code></pre></div></li>
+<li>
+<p><strong>@Retention用来约束注解的生命周期</strong>，分别有三个值，源码级别（source），类文件级别（class）或者运行时级别（runtime），其含有如下：</p>
+<ul>
+<li>SOURCE：注解将被编译器丢弃（该类型的注解信息只会保留在源码里，源码经过编译后，注解信息会被丢弃，不会保留在编译好的class文件里）</li>
+<li>CLASS：注解在class文件中可用，但会被VM丢弃（该类型的注解信息会保留在源码里和class文件里，在执行的时候，不会加载到虚拟机中），请注意，当注解未定义Retention值时，默认值是CLASS，如Java内置注解，@Override、@Deprecated、@SuppressWarnning等</li>
+<li>RUNTIME：注解信息将在运行期(JVM)也保留，因此可以通过反射机制读取注解的信息（源码、class文件和执行的时候都有注解的信息），如SpringMvc中的@Controller、@Autowired、@RequestMapping等。</li>
+</ul>
+</li>
+</ul>
+<p>而这个两个注解@Rentention和@Target都是元注解，是注解在注解上的注解。</p>
+<p>元注解有5个：</p>
+<ul>
+<li>@Retention：用来约束注解的生命周期</li>
+<li>@Target：标注注解所能运用的地方</li>
+<li>@Documented：能将注解中的元素包含到Javadoc中去</li>
+<li>@Inherited：继承的意思，就是说如果一个父类被@Inherited注解过的注解进行注解的话，那么他的子类没有任何注解应用的话，那么这个子类就是继承了父类的注解</li>
+<li>@Repeatable：是Java8加入进来，即注解的值可以取多个，例如一个人可以是程序员，画家，数学家等等</li>
+</ul>
+<h3 id="注解元素及其数据结构类型">注解元素及其数据结构类型</h3>
+<p>注解支持的元素数据类型除了基本的数据类型，还包含如下：</p>
+<ul>
+<li>String</li>
+<li>Class</li>
+<li>enum</li>
+<li>Anootation</li>
+</ul>
+<p>除此以外，使用其他数据类型编译器会报错。</p>
+<h4 id="编译器对默认值的限制">编译器对默认值的限制</h4>
+<ol>
+<li>元素不能有不确定的值，就是说，元素要么具有默认值，要么在声明的时候定义默认值，无论如何都不能以null作为值</li>
+</ol>
+<h3 id="java内置注解与其他元注解">Java内置注解与其他元注解</h3>
+<ul>
+<li>
+<p>@Override：用于标明此方法覆盖了父类的方法，源码如下</p>
+<pre><code>@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.SOURCE)
+public @interface Override {
+}
+</code></pre></li>
+<li>
+<p>@Deprecated：用于标明已经过时的方法或类，源码如下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Documented</span>
+<span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">RUNTIME</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@Target</span><span style="color:#f92672">(</span>value<span style="color:#f92672">={</span>CONSTRUCTOR<span style="color:#f92672">,</span> FIELD<span style="color:#f92672">,</span> LOCAL_VARIABLE<span style="color:#f92672">,</span> METHOD<span style="color:#f92672">,</span> PACKAGE<span style="color:#f92672">,</span> PARAMETER<span style="color:#f92672">,</span> TYPE<span style="color:#f92672">})</span>
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> Deprecated <span style="color:#f92672">{</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
+<li>
+<p>@SuppressWarnnings：用于有选择的关闭编译器对类、方法、成员变量、变量初始化的警告，其实现源码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Target</span><span style="color:#f92672">({</span>TYPE<span style="color:#f92672">,</span> FIELD<span style="color:#f92672">,</span> METHOD<span style="color:#f92672">,</span> PARAMETER<span style="color:#f92672">,</span> CONSTRUCTOR<span style="color:#f92672">,</span> LOCAL_VARIABLE<span style="color:#f92672">})</span>
+<span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">SOURCE</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> SuppressWarnings <span style="color:#f92672">{</span>
+    String<span style="color:#f92672">[]</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>其内部有一个String数组，主要接收值如下：</p>
+<pre><code>deprecation：使用了不赞成使用的类或方法时的警告；
+unchecked：执行了未检查的转换时的警告，例如当使用集合时没有用泛型 (Generics) 来指定集合保存的类型; 
+fallthrough：当 Switch 程序块直接通往下一种情况而没有 Break 时的警告;
+path：在类路径、源文件路径等中有不存在的路径时的警告; 
+serial：当在可序列化的类上缺少 serialVersionUID 定义时的警告; 
+finally：任何 finally 子句不能正常完成时的警告; 
+all：关于以上所有情况的警告。
+</code></pre></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-11-12 15:25:16</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/11/java%E6%B3%A8%E8%A7%A3/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/" data-title="Java注解" data-hashtags="Java基础"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/" data-hashtag="Java基础"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/" data-title="Java注解" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/" data-title="Java注解"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/" data-title="Java注解" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/" data-title="Java注解" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/" data-title="Java注解" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/11/java%E6%B3%A8%E8%A7%A3/" data-title="Java注解"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/java%E5%9F%BA%E7%A1%80/">Java基础</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/11/spring/" class="prev" rel="prev" title="Spring"><i class="fas fa-angle-left fa-fw"></i>Spring</a>
+            <a href="/2020/11/java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" class="next" rel="next" title="Java反射机制">Java反射机制<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

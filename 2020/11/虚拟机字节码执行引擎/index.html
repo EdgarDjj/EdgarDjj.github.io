@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>虚拟机字节码执行引擎 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="虚拟机字节码执行引擎" />
+<meta property="og:description" content="虚拟机字节码执行引擎 简述时栈帧结构 栈帧（Stack Frame）是用于支持虚拟机进行方法调用和方法执行后背后的数据结构。 存储了方法的 局部变量表 操作数栈 动态连接 方法返回地址 一些额外的附加信息 局部变量表（L" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-06T11:14:41&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-06T11:14:41&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="虚拟机字节码执行引擎"/>
+<meta name="twitter:description" content="虚拟机字节码执行引擎 简述时栈帧结构 栈帧（Stack Frame）是用于支持虚拟机进行方法调用和方法执行后背后的数据结构。 存储了方法的 局部变量表 操作数栈 动态连接 方法返回地址 一些额外的附加信息 局部变量表（L"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/11/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" /><link rel="next" href="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "虚拟机字节码执行引擎",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/11\/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E\/"
+        },"genre": "posts","keywords": "JVM","wordcount":  2770 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/11\/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E\/","datePublished": "2020-11-06T11:14:41+00:00","dateModified": "2020-11-06T11:14:41+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">虚拟机字节码执行引擎</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/jvm/"><i class="far fa-folder fa-fw"></i>JVM</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-06 11:14:41">2020-11-06 11:14:41</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2770 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#简述时栈帧结构">简述时栈帧结构</a>
+      <ol>
+        <li><a href="#局部变量表local-variables-table">局部变量表（Local Variables Table）</a></li>
+        <li><a href="#操作数栈operand-stack">操作数栈（Operand Stack）</a></li>
+        <li><a href="#动态连接">动态连接</a></li>
+        <li><a href="#方法返回地址">方法返回地址</a></li>
+      </ol>
+    </li>
+    <li><a href="#方法调用">方法调用</a>
+      <ol>
+        <li></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="虚拟机字节码执行引擎">虚拟机字节码执行引擎</h1>
+<h2 id="简述时栈帧结构">简述时栈帧结构</h2>
+<p><strong>栈帧</strong>（Stack Frame）是用于支持虚拟机进行方法调用和方法执行后背后的数据结构。</p>
+<p>存储了方法的</p>
+<ol>
+<li>局部变量表</li>
+<li>操作数栈</li>
+<li>动态连接</li>
+<li>方法返回地址</li>
+<li>一些额外的附加信息</li>
+</ol>
+<h3 id="局部变量表local-variables-table">局部变量表（Local Variables Table）</h3>
+<p>一组变量值的存储空间，存放方法的局部变量和方法参数。</p>
+<p>局部变量的容量以变量槽（Variable Slot）为最小单位，一个变量槽可以存储一个32位以内的数据类型（随着计算机的处理、操作系统变化也可为64位）。Java中仅有long和double为8字节。</p>
+<h3 id="操作数栈operand-stack">操作数栈（Operand Stack）</h3>
+<p>操作栈如同局部变量表一样，操作数栈的最大深度也在编译的时候写入到Code属性的max_stacks数据项中。操作栈中元素的数据类型必须与字节码指令的序列严格匹配，在编译程序代码的时候，编译器必须要严格保证这一点，在类校验阶段的数据流分析还要再次验证这一点。</p>
+<p>Java<strong>虚拟机的解释执行引擎</strong>，里面的栈就是操作数栈。</p>
+<h3 id="动态连接">动态连接</h3>
+<p>每个栈帧都包含一个指向运行时常量池中该栈帧所属方法的引用，持有这个引用视为了支持方法调用过程中的动态连接（Dynamic Linking）</p>
+<h3 id="方法返回地址">方法返回地址</h3>
+<p>两种方式退出当前方法</p>
+<ul>
+<li>执行引擎遇到任意一个方法返回的字节码指令</li>
+<li>遇到异常</li>
+</ul>
+<h2 id="方法调用">方法调用</h2>
+<p>方法调用不等同于方法中的代码被执行，方法调用的唯一阶段就是确定哪个方法被调用，暂时还未涉及方法内部的运行过程。</p>
+<h4 id="解析resolve">解析（resolve）</h4>
+<p>在类加载的解析阶段，会将其中的一部分符号引用转换为直接引用，这种解析能够成立的前提是：方法在程序真正执行之前就有一个确定的调用版本，并且该方法的调用版本在运行期是不可修改的。这类方法的调用称为 <strong>解析</strong>。</p>
+<h4 id="分派dispatch">分派（Dispatch）</h4>
+<h4 id="静态分配">静态分配</h4>
+<p>静态分配和重载（Overload）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> test<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Description:
+</span><span style="color:#75715e"> * 方法静态分配演示
+</span><span style="color:#75715e"> * @author:edgarding
+</span><span style="color:#75715e"> * @date:2020/11/6
+</span><span style="color:#75715e"> **/</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StaticDispatch</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Human</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Woman</span> <span style="color:#66d9ef">extends</span> Human <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Man</span> <span style="color:#66d9ef">extends</span> Human <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sayHello</span><span style="color:#f92672">(</span>Human guy<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;this is human say&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sayHello</span><span style="color:#f92672">(</span>Woman guy<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;this is woman say&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sayHello</span><span style="color:#f92672">(</span>Man guy<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;this is man say&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Human man <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Man<span style="color:#f92672">();</span>
+        Human woman <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Woman<span style="color:#f92672">();</span>
+        StaticDispatch staticDispatch <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StaticDispatch<span style="color:#f92672">();</span>
+        staticDispatch<span style="color:#f92672">.</span><span style="color:#a6e22e">sayHello</span><span style="color:#f92672">(</span>man<span style="color:#f92672">);</span>
+        staticDispatch<span style="color:#f92672">.</span><span style="color:#a6e22e">sayHello</span><span style="color:#f92672">(</span>woman<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><pre><code>输出结果：
+this is human say
+this is human say
+</code></pre><p>上面的“Human”称为变量的”静态类型“（Static Type）或者叫”外观类型“（Apparent Type），而后面的”man“或者”woman“称为变量的实际类型（Actual Type）或运行时类型（Runtime Type）。</p>
+<p>静态类型和实际类型在程序中都可能会发生变化，区别是静态类型的变化仅仅是在使用时发生的，变量本身的静态类型不会发生改变，并且最终的静态类型是在编译期可知的；而实际类型只有在运行期才可以确定，编译器在编译时并不知道一个对象的实际类型是什么。</p>
+<p>如上述代码，在main（）方法中的两次sayHello（）方法的调用，在方法接收者已经确定是对象”staticDispatch“的前提下，使用哪个版本就完全取决于传入参数的数量和数据类型。</p>
+<p>代码中故意定义了两个静态类型相同、实际类型不同的两个参数，但虚拟机（编译器）在重载的时候是通过参数的静态类型作为判断标准，而不是实际类型。</p>
+<p><strong>所有依赖静态类型来决定方法执行版本的分派动作都称为静态分配。静态分配的嘴典型应用表现就是方法重载。静态分配的动作实际上不是由JVM来决定而是编译器决定的，因此将静态分派的动作在一些资料中将其划入”解析“而不是”分派“的原因</strong>。</p>
+<h5 id="重载方法的优先级">重载方法的优先级</h5>
+<p>Javac编译器虽然能确定出重载的版本，但在有些时候重载的版本不是唯一的，只能确定一个”相对合适的版本“。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> JVM<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.io.Serializable<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Description:
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * @author:edgarding
+</span><span style="color:#75715e"> * @date:2020/11/7
+</span><span style="color:#75715e"> **/</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OverLoad</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">say</span><span style="color:#f92672">(</span>Character character<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello character&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">say</span><span style="color:#f92672">(</span><span style="color:#66d9ef">char</span> arg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello char&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">say</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> arg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello int arg&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">say</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> arg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello long arg&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">say</span><span style="color:#f92672">(</span><span style="color:#66d9ef">char</span><span style="color:#f92672">...</span> arg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello char...&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">say</span><span style="color:#f92672">(</span>Serializable serializable<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello serializable&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        say<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;a&#39;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><pre><code>输出结果：
+Hello ch
+</code></pre><p>由于’a’是一个char类型，所以自动会寻找参数为char的重载方法</p>
+<p>如果注释掉<code>say(char ch)</code>，那么输出就变为 <code>Hello int</code>，这时发生了一次自动类型转换，将’a’转换为了97，因此自动寻参找int参数的方法。</p>
+<p>如果在将 <code>say(int arg)</code>注释，那么会发生两次自动类型转换，97将转换成97L，会输出 <code>Hello long</code>。</p>
+<p>如果 依次将其注释，其转换顺序为</p>
+<blockquote>
+<p>char - int - long - float - double</p>
+</blockquote>
+<p>进行匹配，但不会匹配到byte 和 short类型重载，<strong>因为char到byte或short是不安全的</strong>。</p>
+<p>如果将基本类型的参数全部注释，后面的参数类型转换结果为</p>
+<pre><code>Hello Character
+Hello serializable
+</code></pre><p>出现serializable的原因是java.lang.Serializable是java.lang.Character类的一个实现接口。</p>
+<p><strong>由此可知，重载的转换从子类向父类依次往上搜寻，这也是Java实现方法重载的本质。</strong></p>
+<h4 id="动态分派">动态分派</h4>
+<p>动态分配的一个重要体现——“重写（override）</p>
+<p><strong>运行期根据实际类型确定方法执行版本的过程称为动态分派</strong>。</p>
+<p>通过字节码中发现<code>invokevirtual</code>是确定最终执行的目标方法。</p>
+<p>它的执行步骤</p>
+<ol>
+<li>找到操作数栈顶的第一个元素所执行的对象的  <strong>实际类型</strong> ，记住C</li>
+<li>如果在C中找到与常量中描述符合简单名称都相同你的方法，则进行访问校验，通过则返回方法的直接引用，否则抛出异常。</li>
+<li>否则按照继承关系从下往上一次进行搜索</li>
+<li>如果始终没有找到合适的方法则抛出 <code>java.lang.AbstractMethodError</code> 异常。</li>
+</ol>
+<p><strong>多态性的根源在于虚方法调用 <code>invokevirtual</code> 指令，但只对方法有效，对字段无效。</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> JVM<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Description:
+</span><span style="color:#75715e"> * 字段无多态性
+</span><span style="color:#75715e"> * @author:edgarding
+</span><span style="color:#75715e"> * @date:2020/11/7
+</span><span style="color:#75715e"> **/</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FieldHasNoPolymorphic</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Father</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> money <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Father</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            money <span style="color:#f92672">=</span> 2<span style="color:#f92672">;</span>
+          
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">showMoney</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Father&#39;s money:&#34;</span> <span style="color:#f92672">+</span> money<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Son</span> <span style="color:#66d9ef">extends</span> Father<span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> money <span style="color:#f92672">=</span> 3<span style="color:#f92672">;</span>
+
+        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Son</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            money <span style="color:#f92672">=</span> 4<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">showMoney</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Son&#39;s money:&#34;</span> <span style="color:#f92672">+</span> money<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Father guy <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Son<span style="color:#f92672">();</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;this guy&#39;s money:&#34;</span> <span style="color:#f92672">+</span> guy<span style="color:#f92672">.</span><span style="color:#a6e22e">money</span> <span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><pre><code>输出结果：
+Son's money:0
+Son's money:4
+this guy's money:2
+</code></pre><p>在进行 <code>Father guy = new Son()</code>时，首先会隐式调用了Father的构造函数，而Father构造函数中对<code>showMoney()</code>的调用是一次虚方法调用，实际执行的是<code>Son::showMoney()</code>方法，所以输出的是”Son’s money：0“，虽然这时候父类的money=2，但子类中money还没被进行初始化，只有要用到子类的构造函数执行时，才会被进行初始化。因此第一句 <code>Son's money:0</code>的由来就是如此。</p>
+<p>第二句的 <code>Son's money:4</code>进行了子类的构造函数。</p>
+<p>第三句，有main（）函数访问的是通过静态类型访问到了父类中money，输出了2。</p>
+<blockquote>
+<p>虚函数：在运行的时候，系统根据对象的实际类型决定。即不使用final修饰的就是虚方法。</p>
+</blockquote>
+<p>Java是一门静态多分派、动态单分派的语言。</p>
+<blockquote>
+<p>单分派、多分派：</p>
+<p>方法的接受者与方法的参数统称为方法的宗量。根据分派基于多少种宗量分为单分派和多分派。</p>
+</blockquote>
+<h4 id="动态类型语言">动态类型语言</h4>
+<p>关键特征：类型检查的主体过程是在运行期而不是编译期运行的，如python、JavaScript、Ruby等</p>
+<p>相对的，在编译期进行检查的就是静态类型，如Java、C等。</p>
+<p><strong>静态类型：</strong></p>
+<p>能在编译期确定变量类型，最显著的好处编译器可以提供更加全面严谨的类型检查，利于稳定和项目容易达到更大的规模。</p>
+<p><strong>动态类型：</strong></p>
+<p>在运行期才确定类型，可以为开发人员提供更大的灵活性，代码更加清晰整洁。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-11-06 11:14:41</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" data-title="虚拟机字节码执行引擎" data-hashtags="JVM"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" data-hashtag="JVM"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" data-title="虚拟机字节码执行引擎" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" data-title="虚拟机字节码执行引擎"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" data-title="虚拟机字节码执行引擎" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" data-title="虚拟机字节码执行引擎" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" data-title="虚拟机字节码执行引擎" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" data-title="虚拟机字节码执行引擎"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/jvm/">JVM</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/11/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" class="prev" rel="prev" title="学习路线"><i class="fas fa-angle-left fa-fw"></i>学习路线</a>
+            <a href="/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" class="next" rel="next" title="什么是JWT">什么是JWT<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

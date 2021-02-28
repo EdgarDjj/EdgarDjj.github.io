@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>PageHelper - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/pagehelper/</link>
+        <description>PageHelper - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Wed, 11 Nov 2020 16:32:38 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/pagehelper/" rel="self" type="application/rss+xml" /><item>
+    <title>PageHelper的使用</title>
+    <link>https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+    <pubDate>Wed, 11 Nov 2020 16:32:38 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+    <description><![CDATA[PageHelper 在实际项目开发中，常常需要使用到分页，分页的方式分为两种： 前端分页 后端分页 前端分页： 一次 ajax 请求数据的所有记录，然后在前端缓存并且计算 count 和分页逻辑，一般前端组件会提供分页动作。 特点：简单，很适合小规模]]></description>
+</item></channel>
+</rss>

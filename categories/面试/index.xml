@@ -1,0 +1,57 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>面试 - 分类 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/categories/%E9%9D%A2%E8%AF%95/</link>
+        <description>面试 - 分类 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Fri, 20 Nov 2020 20:50:52 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/categories/%E9%9D%A2%E8%AF%95/" rel="self" type="application/rss+xml" /><item>
+    <title>面试题-JavaWeb和网络</title>
+    <link>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-javaweb%E5%92%8C%E7%BD%91%E7%BB%9C/</link>
+    <pubDate>Fri, 20 Nov 2020 20:50:52 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-javaweb%E5%92%8C%E7%BD%91%E7%BB%9C/</guid>
+    <description><![CDATA[面试题-JavaWeb和网络 Java Web Jsp 和 Servlet 有什么区别？ JSP的本质是Servlet，JVM只能识别Java类，不能识别jsp的代码，Web容器将jsp代码编译成JVM能够识别的类。 Jsp更擅长 页面表现，而]]></description>
+</item><item>
+    <title>面试题-对象拷贝和异常</title>
+    <link>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D%E5%92%8C%E5%BC%82%E5%B8%B8/</link>
+    <pubDate>Fri, 20 Nov 2020 20:48:59 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D%E5%92%8C%E5%BC%82%E5%B8%B8/</guid>
+    <description><![CDATA[面试题-对象拷贝和异常 对象拷贝 为什么要使用克隆？ 想对一个对象进行处理，又想保留原有数据进行接下来操作，Java中克隆针对的是类的实例。 如何实现对象克隆？ 两种方式： 实现Cloneable接口并重写Obj]]></description>
+</item><item>
+    <title>面试题-反射</title>
+    <link>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%8F%8D%E5%B0%84/</link>
+    <pubDate>Fri, 20 Nov 2020 09:28:28 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%8F%8D%E5%B0%84/</guid>
+    <description><![CDATA[反射 什么是反射？ 反射主要是指程序可以访问、检测和修改它本身状态或行为的一种能力 Java反射： 在Java运行时环境中，对于任意一个类，能否知道这个类有哪些属性和方法？对于任意一个对象，能否调用它的任意一]]></description>
+</item><item>
+    <title>面试题-JVM</title>
+    <link>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-jvm/</link>
+    <pubDate>Wed, 18 Nov 2020 15:42:09 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-jvm/</guid>
+    <description><![CDATA[JVM 说一下JVM的主要组成部分？及其作用？ 类加载器（ClassLoader） 运行时数据区（Runtime Data Area） 执行引擎（Execution Engine） 本地库接口（Native Interface）]]></description>
+</item><item>
+    <title>面试题-多线程</title>
+    <link>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%A4%9A%E7%BA%BF%E7%A8%8B/</link>
+    <pubDate>Wed, 18 Nov 2020 15:36:44 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%A4%9A%E7%BA%BF%E7%A8%8B/</guid>
+    <description><![CDATA[三、多线程 并行和并发有什么区别？ 并行是指两个或者多个事件在同一时刻发生；并发是指两个或多个事件在同一时刻间隔发生 并行是在不同的实体上的多个事件，而并发是同一实体上的多个事件 并发是在一台处理器上“同时”]]></description>
+</item><item>
+    <title>面试题-容器</title>
+    <link>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%AE%B9%E5%99%A8/</link>
+    <pubDate>Wed, 18 Nov 2020 15:36:03 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%AE%B9%E5%99%A8/</guid>
+    <description><![CDATA[二、容器 Java的容器都有哪些？ Map：HashMap-&gt;LinkHashSet、ConcurrentMap-&gt;ConcurrentHashMap、TreeMap Set：HashSet-&]]></description>
+</item><item>
+    <title>面试题-Java基础</title>
+    <link>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-java%E5%9F%BA%E7%A1%80/</link>
+    <pubDate>Wed, 18 Nov 2020 15:34:14 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-java%E5%9F%BA%E7%A1%80/</guid>
+    <description><![CDATA[一、Java基础 JDK和JRE有什么区别？ JDK是Java Development Kit，包含了Java的运行环境还有运行java程序的指令等例如javac，javadoc等，是可以进行运行和开发的。提供了开发和运行环境。]]></description>
+</item></channel>
+</rss>

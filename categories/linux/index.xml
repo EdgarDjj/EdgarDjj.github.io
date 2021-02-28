@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Linux - 分类 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/categories/linux/</link>
+        <description>Linux - 分类 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Thu, 26 Nov 2020 18:22:27 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/categories/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>Linux基本指令</title>
+    <link>https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/</link>
+    <pubDate>Thu, 26 Nov 2020 18:22:27 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/</guid>
+    <description><![CDATA[Linux基本指令 yum yum repolist all 列出所有仓库 yum list all 列出仓库所有软件包 yum clean all 清除所有仓库缓存 yum gourplist systemctl初始化进程 管理服务的启动、重启、停止、重载、查看状态 start\ restart\ stop\ reload status 设置服务的开机启动、不启动、查看]]></description>
+</item><item>
+    <title>Linux常用指令</title>
+    <link>https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</link>
+    <pubDate>Thu, 29 Oct 2020 22:46:20 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</guid>
+    <description><![CDATA[Linux常用命令 查看目录以及权限 在Linux中，通常 ls -l列出，其中可以查看文件属性，所属用户组等较为详细的信息。 [edgarding@localhost ~]$ ls -l 总用量 0 drwxrwxr-x. 2 edgarding edgarding 6 10月 29 22:52 perl5 drwxrwxr-x. 2 edgarding edgarding 92 10月 25 14:25 unix_exp drwxr-xr-x. 2 edgarding edgarding 6 7月 28 12:45 公共 drwxr-xr-x.]]></description>
+</item></channel>
+</rss>

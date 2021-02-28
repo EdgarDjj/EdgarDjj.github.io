@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Swagger - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/swagger/</link>
+        <description>Swagger - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Wed, 14 Oct 2020 15:44:55 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/swagger/" rel="self" type="application/rss+xml" /><item>
+    <title>Swagger</title>
+    <link>https://EdgarDjj.github.io/2020/10/swagger/</link>
+    <pubDate>Wed, 14 Oct 2020 15:44:55 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/swagger/</guid>
+    <description><![CDATA[Swagger 介绍 （html/javascript/css的一个集合，可以根据注解生成在线API文档） Swagger UI:提供了一个可视化的UI页面展示描述文件。接口的调用方、测试、项目经理等都可以在该页面中对相关接口进行查]]></description>
+</item></channel>
+</rss>

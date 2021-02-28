@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>SpringIOC和AOP - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="SpringIOC和AOP" />
+<meta property="og:description" content="Spring IoC AOP IoC IoC（Inverse of Control：控制反转）是一种设计思想，**就是将原本在程序中手动创建对象的控制权，交给由Spring框架管理。**IoC容器是Spring用来实现IoC的载体，Io" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-27T17:11:51&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-27T17:11:51&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="SpringIOC和AOP"/>
+<meta name="twitter:description" content="Spring IoC AOP IoC IoC（Inverse of Control：控制反转）是一种设计思想，**就是将原本在程序中手动创建对象的控制权，交给由Spring框架管理。**IoC容器是Spring用来实现IoC的载体，Io"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/%E7%BD%91%E7%AB%99%E6%9E%B6%E6%9E%84/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/springmvc%E5%8E%9F%E7%90%86/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "SpringIOC和AOP",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/springioc%E5%92%8Caop\/"
+        },"genre": "posts","keywords": "Spring","wordcount":  2095 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/springioc%E5%92%8Caop\/","datePublished": "2020-10-27T17:11:51+00:00","dateModified": "2020-10-27T17:11:51+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">SpringIOC和AOP</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/spring/"><i class="far fa-folder fa-fw"></i>Spring</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-27 17:11:51">2020-10-27 17:11:51</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2095 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#ioc">IoC</a>
+      <ol>
+        <li><a href="#依赖倒置原理">依赖倒置原理：</a></li>
+        <li><a href="#核心思想">核心思想</a></li>
+        <li><a href="#带来的好处">带来的好处</a></li>
+      </ol>
+    </li>
+    <li><a href="#aop">AOP</a>
+      <ol>
+        <li><a href="#aop相关术语">AOP相关术语</a></li>
+        <li><a href="#一些思考">一些思考</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="spring-ioc-aop">Spring IoC AOP</h1>
+<h2 id="ioc">IoC</h2>
+<p>IoC（Inverse of Control：控制反转）是一种设计思想，**就是将原本在程序中手动创建对象的控制权，交给由Spring框架管理。**IoC容器是Spring用来实现IoC的载体，IoC容器实际上就是个Map，Map中存放的是各种对象。</p>
+<p>将对象之间的相互依赖关系交给IoC容器管理，并由IoC容器完成对象的注入。即很大程度的简化了应用的开发，把应用从复杂的依赖关系中解放出来。<strong>IoC容器就像一个工厂，当我们需要创建一个对象的时候，只需要配置好配置文件/注解，完全不用考虑对象如何被创建。</strong></p>
+<blockquote>
+<p>在实际项目中一个 Service 类可能有几百甚至上千个类作为它的底层，假如我们需要实例化这个 Service，你可能要每次都要搞清这个 Service 所有底层类的构造函数，这可能会把人逼疯。如果利用 IoC 的话，你只需要配置好，然后在需要的地方引用就行了，这大大增加了项目的可维护性且降低了开发难度。</p>
+<p>Spring 时代我们一般通过 XML 文件来配置 Bean，后来开发人员觉得 XML 文件来配置不太好，于是 SpringBoot 注解配置就慢慢开始流行起来。</p>
+</blockquote>
+<h3 id="依赖倒置原理">依赖倒置原理：</h3>
+<p>把原本的高层建筑依赖底层建筑“倒置”过来，变成底层建筑依赖高层建筑。高层建筑决定需要什么，底层去实现这样的需求，但是高层并不用管底层是怎么实现的。这样就不会出现前面的“牵一发动全身”的情况。</p>
+<p><strong>控制反转（Inversion of Control）</strong> 就是<strong>依赖倒置</strong>原则的一种代码设计的思路。具体采用的方法就是所谓的<strong>依赖注入（Dependency Injection）</strong></p>
+<h3 id="核心思想">核心思想</h3>
+<p><strong>Inverseion of Control的最核心的思想就是，资源不由使用资源的双方管理，而由不使用资源的第三方管理。</strong></p>
+<p>例子：</p>
+<p>就是甲方要达成某种目的不需要直接依赖乙方，只需要将目的告诉给第三个。例如甲方需要一台电脑，乙方卖一台电脑，乙方要将电脑卖出去也不需要找到甲方，也只需要将电脑寄托到淘宝（电商平台）去告诉我要卖一台电脑。这样甲乙双方进行交易活动，都不需要自己去找互相，相当于程序内部开放接口，而卖家由第三方作为参数传入。甲乙不相互依赖，只有在交易的时候产生联系，反之亦然，解决了甲乙直接进行交易之间的不信任，因为交易由第三方负责联系。</p>
+<p>这就是ioc的核心思想。生活中这种例子比比皆是，支付宝在整个淘宝体系里就是庞大的ioc容器，交易双方之外的第三方，提供可靠性可依赖可灵活变更交易方的资源管理中心。另外人事代理也是，雇佣机构和个人之外的第三方。</p>
+<p>而所谓的依赖注入，就是甲方开发接口，在需要的时候，将乙方注入进来。</p>
+<p>而所谓的控制反转，就是甲乙双方不互相依赖，交易活动的进行不依赖于互相，整个活动的进行全部由第三方负责管理。</p>
+<h3 id="带来的好处">带来的好处</h3>
+<ol>
+<li>拿来就用</li>
+<li>享受单例的好处，效率高，不浪费空间</li>
+<li>便于AOP操作，对于使用者是透明的</li>
+<li>统一配置，方便修改</li>
+</ol>
+<h2 id="aop">AOP</h2>
+<p>AOP(Aspect-Oriented Programming：面向切面编程)，通过<strong>预编译方式和运行期动态代理</strong>实现程序功能的统一维护的一种技术。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。</p>
+<p><strong>主要功能：让关注点代码与业务代码分离</strong></p>
+<p><strong>面向切面编程：对很多功能具有重复代码抽取，再在运行的时候往业务方法上动态注入“切面类代码”</strong></p>
+<h3 id="aop相关术语">AOP相关术语</h3>
+<h4 id="通知advice">通知（Advice）</h4>
+<p>通知描述了切面要完成的工作以及何时执行。比如我们的日志切面需要记录每个接口调用时长，就需要在接口调用前后分别记录当前时间，再取差值。</p>
+<ul>
+<li>前置通知（Before）：在目标方法调用前调用通知功能；</li>
+<li>后置通知（After）：在目标方法调用之后调用通知功能，不关心方法的返回结果；</li>
+<li>返回通知（AfterReturning）：在目标方法成功执行之后调用通知功能；</li>
+<li>异常通知（AfterThrowing）：在目标方法抛出异常后调用通知功能；</li>
+<li>环绕通知（Around）：通知包裹了目标方法，在目标方法调用之前和之后执行自定义的行为。</li>
+</ul>
+<h4 id="连接点joinpoint">连接点（JoinPoint）</h4>
+<p>通知功能被应用的时机。比如接口方法被调用的时候就是日志切面的连接点。</p>
+<h4 id="切点pointcut">切点（Pointcut）</h4>
+<p>切点定义了通知功能被应用的范围。比如日志切面的应用范围就是所有接口，即所有controller层的接口方法。</p>
+<h4 id="切面aspect">切面（Aspect）</h4>
+<p>切面是通知和切点的结合，定义了何时、何地应用通知功能。</p>
+<h4 id="引入introduction">引入（Introduction）</h4>
+<p>在无需修改现有类的情况下，向现有的类添加新方法或属性。</p>
+<h4 id="织入weaving">织入（Weaving）</h4>
+<p>把切面应用到目标对象并创建新的代理对象的过程。</p>
+<h3 id="一些思考">一些思考</h3>
+<p>AOP（Aspect oriented Programming）主要是为了将在业务代码中无关且大量存在的代码（日志，权限验证、性能检测、事务控制等）从业务代码中剥离。</p>
+<p>OOP中，如果我们要实现一个日志记录，则需要定义一个接口，或者父类实现去减少一些代码的重复，但不可避免的在业务层的代码中留下，使得业务代码掺杂了无关业务以外的，且重复。而AOP就是将这些重复的代码进行剥离出来（切入点）。</p>
+<p>而将代码剥离出来后，对其进行预编译，当目标方法执行的时候，再往业务方法上动态织入weaving函数方法。</p>
+<p>利用AOP将各个业务层面逻辑进行了切分，减少了业务逻辑和各个部分的耦合性，提高了程序的可重用性，提高了开发效率。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-27 17:11:51</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/springioc%E5%92%8Caop/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/" data-title="SpringIOC和AOP" data-hashtags="Spring"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/" data-hashtag="Spring"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/" data-title="SpringIOC和AOP" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/" data-title="SpringIOC和AOP"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/" data-title="SpringIOC和AOP" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/" data-title="SpringIOC和AOP" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/" data-title="SpringIOC和AOP" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/" data-title="SpringIOC和AOP"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/spring/">Spring</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/%E7%BD%91%E7%AB%99%E6%9E%B6%E6%9E%84/" class="prev" rel="prev" title="网站架构"><i class="fas fa-angle-left fa-fw"></i>网站架构</a>
+            <a href="/2020/10/springmvc%E5%8E%9F%E7%90%86/" class="next" rel="next" title="SpringMVC原理">SpringMVC原理<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

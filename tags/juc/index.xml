@@ -1,0 +1,29 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>JUC - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/juc/</link>
+        <description>JUC - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Wed, 18 Nov 2020 13:58:14 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/juc/" rel="self" type="application/rss+xml" /><item>
+    <title>Java并发编程三</title>
+    <link>https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%89/</link>
+    <pubDate>Wed, 18 Nov 2020 13:58:14 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%89/</guid>
+    <description><![CDATA[Java并发编程三 线程池的创建 一、newFixedThreadPool 创建定长线程池，每当提交一个任务就创建一个线程，直到达到线程池的最大数量，这时线程数量不再变化，当线程发生错误结束时，线程池会补充]]></description>
+</item><item>
+    <title>Java并发容器和框架</title>
+    <link>https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/</link>
+    <pubDate>Mon, 16 Nov 2020 21:09:45 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E5%92%8C%E6%A1%86%E6%9E%B6/</guid>
+    <description><![CDATA[Java并发容器和框架 ConcurrentHashMap 的实现原理与使用 ConcurrentHashMap是线程安全且高效的HashMap。 在并发编程中使用HashMap可能操作程序死循环，而使用线程安全的HashTable效率又十]]></description>
+</item><item>
+    <title>Java并发编程二</title>
+    <link>https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BA%8C/</link>
+    <pubDate>Mon, 16 Nov 2020 11:52:52 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BA%8C/</guid>
+    <description><![CDATA[Java并发编程二 Java并发编程的艺术 上下文切换 CPU通过给每个线程分配CPU时间片来实现在单核CPU中执行多线程。时间片是CPU分配给各个线程的时间，因为时间片非常短，所以CPU通过不停切换线程执]]></description>
+</item></channel>
+</rss>

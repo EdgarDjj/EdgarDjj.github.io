@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Spring Data Redis - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="Spring Data Redis" />
+<meta property="og:description" content="Spring Data Redis Spring Data Redis 是Spring框架提供的用来操作Redis的方式。 Spring Cache 操作 Redis 常用注解 @EnableCaching 开启缓存功能 @Cacheable 使用该注解的方法当缓存存在时，会从缓存中获取数据而不执行方法，当缓存不存在时，会执行方法并把返回结果存入" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/spring-data-redis/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-22T14:27:33&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-22T14:27:33&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Spring Data Redis"/>
+<meta name="twitter:description" content="Spring Data Redis Spring Data Redis 是Spring框架提供的用来操作Redis的方式。 Spring Cache 操作 Redis 常用注解 @EnableCaching 开启缓存功能 @Cacheable 使用该注解的方法当缓存存在时，会从缓存中获取数据而不执行方法，当缓存不存在时，会执行方法并把返回结果存入"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/spring-data-redis/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/java-gc%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring Data Redis",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/spring-data-redis\/"
+        },"genre": "posts","keywords": "Redis","wordcount":  2944 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/spring-data-redis\/","datePublished": "2020-10-22T14:27:33+00:00","dateModified": "2020-10-22T14:27:33+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Spring Data Redis</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/spring/"><i class="far fa-folder fa-fw"></i>Spring</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-22 14:27:33">2020-10-22 14:27:33</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2944 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#spring-cache-操作-redis">Spring Cache 操作 Redis</a>
+      <ol>
+        <li><a href="#常用注解">常用注解</a></li>
+      </ol>
+    </li>
+    <li><a href="#使用步骤">使用步骤</a>
+      <ol>
+        <li></li>
+        <li><a href="#存储json格式">存储JSON格式</a></li>
+        <li><a href="#使用redis连接池">使用Redis连接池</a></li>
+        <li><a href="#自由操作redis">自由操作Redis</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="spring-data-redis">Spring Data Redis</h1>
+<blockquote>
+<p>Spring Data Redis 是Spring框架提供的用来操作Redis的方式。</p>
+</blockquote>
+<h2 id="spring-cache-操作-redis">Spring Cache 操作 Redis</h2>
+<h3 id="常用注解">常用注解</h3>
+<h4 id="enablecaching">@EnableCaching</h4>
+<p>开启缓存功能</p>
+<h4 id="cacheable">@Cacheable</h4>
+<p>使用该注解的方法当缓存存在时，会从缓存中获取数据而不执行方法，当缓存不存在时，会执行方法并把返回结果存入缓存中。<code>一般使用在查询方法上</code>，可以设置如下属性：</p>
+<ul>
+<li>value：缓存名称（必填），指定缓存的命名空间；</li>
+<li>key：用于设置在命名空间中的缓存key值，可以使用SpEL表达式定义；</li>
+<li>unless：条件符合则不缓存；</li>
+<li>condition：条件符合则缓存；</li>
+</ul>
+<h4 id="cacheput">@CachePut</h4>
+<p>使用该注解的方法每次执行时都会把返回结果存入缓存中。<code>一般使用在新增方法上</code>，可以设置如下属性：</p>
+<ul>
+<li>value：缓存名称（必填），指定缓存的命名空间；</li>
+<li>key：用于设置在命名空间中的缓存key值，可以使用SpEL表达式定义；</li>
+<li>unless：条件符合则不缓存；</li>
+<li>condition：条件符合则缓存。</li>
+</ul>
+<h4 id="cacheevict">@CacheEvict</h4>
+<p>使用该注解的方法执行时会清空指定的缓存。<code>一般使用在更新或删除方法上</code>，可以设置如下属性：</p>
+<ul>
+<li>value：缓存名称（必填），指定缓存的命名空间；</li>
+<li>key：用于设置在命名空间中的缓存key值，可以使用SpEL表达式定义；</li>
+<li>condition：条件符合则缓存。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Service</span>
+<span style="color:#a6e22e">@Slf4j</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserServiceImpl</span> <span style="color:#66d9ef">implements</span> UserService <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 模拟数据库
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> Map<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">,</span> User<span style="color:#f92672">&gt;</span> DATABASES <span style="color:#f92672">=</span> Maps<span style="color:#f92672">.</span><span style="color:#a6e22e">newConcurrentMap</span><span style="color:#f92672">();</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 初始化数据
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#f92672">{</span>
+        DATABASES<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>1L<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> User<span style="color:#f92672">(</span>1L<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;user1&#34;</span><span style="color:#f92672">));</span>
+        DATABASES<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>2L<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> User<span style="color:#f92672">(</span>2L<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;user2&#34;</span><span style="color:#f92672">));</span>
+        DATABASES<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>3L<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> User<span style="color:#f92672">(</span>3L<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;user3&#34;</span><span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 保存或修改用户
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param user 用户对象
+</span><span style="color:#75715e">     * @return 操作结果
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@CachePut</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;user&#34;</span><span style="color:#f92672">,</span> key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#user.id&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> User <span style="color:#a6e22e">saveOrUpdate</span><span style="color:#f92672">(</span>User user<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        DATABASES<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>user<span style="color:#f92672">.</span><span style="color:#a6e22e">getId</span><span style="color:#f92672">(),</span> user<span style="color:#f92672">);</span>
+        log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;保存用户【user】= {}&#34;</span><span style="color:#f92672">,</span> user<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> user<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 获取用户
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param id key值
+</span><span style="color:#75715e">     * @return 返回结果
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Cacheable</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;user&#34;</span><span style="color:#f92672">,</span> key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#id&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> User <span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>Long id<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// 我们假设从数据库读取
+</span><span style="color:#75715e"></span>        log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;查询用户【id】= {}&#34;</span><span style="color:#f92672">,</span> id<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> DATABASES<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>id<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 删除
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param id key值
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@CacheEvict</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;user&#34;</span><span style="color:#f92672">,</span> key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#id&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">delete</span><span style="color:#f92672">(</span>Long id<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        DATABASES<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>id<span style="color:#f92672">);</span>
+        log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;删除用户【id】= {}&#34;</span><span style="color:#f92672">,</span> id<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><h2 id="使用步骤">使用步骤</h2>
+<h4 id="pomxml">pom.xml</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!--redis依赖配置--&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-data-redis<span style="color:#f92672">&lt;/artifactId&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><h4 id="配置文件applicationyml">配置文件application.yml</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">spring:
+  redis<span style="color:#f92672">:</span>
+    host<span style="color:#f92672">:</span> localhost
+    <span style="color:#960050;background-color:#1e0010">#</span> 连接超时时间<span style="color:#960050;background-color:#1e0010">（</span>记得添加单位<span style="color:#960050;background-color:#1e0010">，</span>Duration<span style="color:#960050;background-color:#1e0010">）</span>
+    timeout<span style="color:#f92672">:</span> 10000ms
+    <span style="color:#960050;background-color:#1e0010">#</span> Redis默认情况下有16个分片<span style="color:#960050;background-color:#1e0010">，</span>这里配置具体使用的分片
+    <span style="color:#960050;background-color:#1e0010">#</span> database<span style="color:#f92672">:</span> 0
+    lettuce<span style="color:#f92672">:</span>
+      pool<span style="color:#f92672">:</span>
+        <span style="color:#960050;background-color:#1e0010">#</span> 连接池最大连接数<span style="color:#960050;background-color:#1e0010">（</span>使用负值表示没有限制<span style="color:#960050;background-color:#1e0010">）</span> 默认 8
+        max<span style="color:#f92672">-</span>active<span style="color:#f92672">:</span> 8
+        <span style="color:#960050;background-color:#1e0010">#</span> 连接池最大阻塞等待时间<span style="color:#960050;background-color:#1e0010">（</span>使用负值表示没有限制<span style="color:#960050;background-color:#1e0010">）</span> 默认 <span style="color:#f92672">-</span>1
+        max<span style="color:#f92672">-</span>wait<span style="color:#f92672">:</span> <span style="color:#f92672">-</span>1ms
+        <span style="color:#960050;background-color:#1e0010">#</span> 连接池中的最大空闲连接 默认 8
+        max<span style="color:#f92672">-</span>idle<span style="color:#f92672">:</span> 8
+        <span style="color:#960050;background-color:#1e0010">#</span> 连接池中的最小空闲连接 默认 0
+        min<span style="color:#f92672">-</span>idle<span style="color:#f92672">:</span> 0
+  cache<span style="color:#f92672">:</span>
+    <span style="color:#960050;background-color:#1e0010">#</span> 一般来说是不用配置的<span style="color:#960050;background-color:#1e0010">，</span>Spring Cache 会根据依赖的包自行装配
+    type<span style="color:#f92672">:</span> redis
+</code></pre></div><h3 id="存储json格式">存储JSON格式</h3>
+<blockquote>
+<p>此时我们就会想到有没有什么办法让Redis中存储的数据变成标准的JSON格式，然后可以设置一定的过期时间，不设置过期时间容易产生很多不必要的缓存数据。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Configuration</span>
+<span style="color:#a6e22e">@AutoConfigureAfter</span><span style="color:#f92672">(</span>RedisAutoConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@EnableCaching</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RedisConfig</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 默认情况下的模板只能支持RedisTemplate&lt;String, String&gt;，也就是只能存入字符串，因此支持序列化
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#66d9ef">public</span> RedisTemplate<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Serializable<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">redisCacheTemplate</span><span style="color:#f92672">(</span>LettuceConnectionFactory redisConnectionFactory<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        RedisTemplate<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Serializable<span style="color:#f92672">&gt;</span> template <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RedisTemplate<span style="color:#f92672">&lt;&gt;();</span>
+        template<span style="color:#f92672">.</span><span style="color:#a6e22e">setKeySerializer</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> StringRedisSerializer<span style="color:#f92672">());</span>
+        template<span style="color:#f92672">.</span><span style="color:#a6e22e">setValueSerializer</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> GenericJackson2JsonRedisSerializer<span style="color:#f92672">());</span>
+        template<span style="color:#f92672">.</span><span style="color:#a6e22e">setConnectionFactory</span><span style="color:#f92672">(</span>redisConnectionFactory<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> template<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 配置使用注解的时候缓存配置，默认是序列化反序列化的形式，加上此配置则为 json 形式
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#66d9ef">public</span> CacheManager <span style="color:#a6e22e">cacheManager</span><span style="color:#f92672">(</span>RedisConnectionFactory factory<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// 配置序列化
+</span><span style="color:#75715e"></span>        RedisCacheConfiguration config <span style="color:#f92672">=</span> RedisCacheConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">defaultCacheConfig</span><span style="color:#f92672">();</span>
+        RedisCacheConfiguration redisCacheConfiguration <span style="color:#f92672">=</span> config<span style="color:#f92672">.</span><span style="color:#a6e22e">serializeKeysWith</span><span style="color:#f92672">(</span>RedisSerializationContext<span style="color:#f92672">.</span><span style="color:#a6e22e">SerializationPair</span><span style="color:#f92672">.</span><span style="color:#a6e22e">fromSerializer</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> StringRedisSerializer<span style="color:#f92672">())).</span><span style="color:#a6e22e">serializeValuesWith</span><span style="color:#f92672">(</span>RedisSerializationContext<span style="color:#f92672">.</span><span style="color:#a6e22e">SerializationPair</span><span style="color:#f92672">.</span><span style="color:#a6e22e">fromSerializer</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> GenericJackson2JsonRedisSerializer<span style="color:#f92672">()));</span>
+
+        <span style="color:#66d9ef">return</span> RedisCacheManager<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">(</span>factory<span style="color:#f92672">).</span><span style="color:#a6e22e">cacheDefaults</span><span style="color:#f92672">(</span>redisCacheConfiguration<span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><h3 id="使用redis连接池">使用Redis连接池</h3>
+<blockquote>
+<p>SpringBoot 1.5.x版本Redis客户端默认是Jedis实现的，SpringBoot 2.x版本中默认客户端是用Lettuce实现</p>
+</blockquote>
+<h4 id="jedis-vs-lettuce">Jedis vs Lettuce</h4>
+<p>Jedis 在实现上是直连Redis服务，多线程环境下非线程安全，除非使用连接池，为每个RedisConnection 实例增加物理连接。</p>
+<p>Lettuce 是一种可伸缩，线程安全，完全非阻塞的Redis客户端，多个线程可以共享一个RedisConnection，它利用Netty NIO架构来高效管理多个连接，从而提供了异步和同步数据访问方式，用于构建非阻塞的反应性应用程序</p>
+<h4 id="使用步骤-1">使用步骤</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">redis</span>:
+    <span style="color:#f92672">lettuce</span>:
+      <span style="color:#f92672">pool</span>:
+        <span style="color:#ae81ff">max-active:8# 连接池最大连接数</span>
+        <span style="color:#ae81ff">max-idle:8# 连接池最大空闲连接数</span>
+        <span style="color:#ae81ff">min-idle:0# 连接池最小空闲连接数</span>
+        <span style="color:#ae81ff">max-wait:-1ms# 连接池最大阻塞等待时间，负值表示没有限制</span>
+</code></pre></div><p>由于SpringBoot 2.x中默认没有使用Redis连接池，所以需要在pom.xml中添加commons-pool2的依赖</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.apache.commons<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>commons-pool2<span style="color:#f92672">&lt;/artifactId&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><h3 id="自由操作redis">自由操作Redis</h3>
+<blockquote>
+<p>Spring Cache 给我们提供了操作Redis缓存的便捷方法，但是也有很多局限性。比如说我们想单独设置一个缓存值的有效期怎么办？我们并不想缓存方法的返回值，我们想缓存方法中产生的中间值怎么办？此时我们就需要用到RedisTemplate这个类了，接下来我们来讲下如何通过RedisTemplate来自由操作Redis中的缓存。</p>
+</blockquote>
+<h4 id="redisservice">RedisService</h4>
+<blockquote>
+<p>定义Redis操作业务类，在Redis中有几种数据结构，比如普通结构（对象），Hash结构、Set结构、List结构，该接口中定义了大多数常用操作方法。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">publicinterface RedisService <span style="color:#f92672">{</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 保存属性
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object value<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 保存属性
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object value<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 获取属性
+</span><span style="color:#75715e">     */</span>
+    Object <span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 删除属性
+</span><span style="color:#75715e">     */</span>
+    Boolean <span style="color:#a6e22e">del</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 批量删除属性
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">del</span><span style="color:#f92672">(</span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> keys<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 设置过期时间
+</span><span style="color:#75715e">     */</span>
+    Boolean <span style="color:#a6e22e">expire</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 获取过期时间
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">getExpire</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 判断是否有该属性
+</span><span style="color:#75715e">     */</span>
+    Boolean <span style="color:#a6e22e">hasKey</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 按delta递增
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">incr</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> delta<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 按delta递减
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">decr</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> delta<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 获取Hash结构中的属性
+</span><span style="color:#75715e">     */</span>
+    Object <span style="color:#a6e22e">hGet</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 向Hash结构中放入一个属性
+</span><span style="color:#75715e">     */</span>
+    Boolean <span style="color:#a6e22e">hSet</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">,</span> Object value<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 向Hash结构中放入一个属性
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hSet</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">,</span> Object value<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 直接获取整个Hash结构
+</span><span style="color:#75715e">     */</span>
+    Map<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">hGetAll</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 直接设置整个Hash结构
+</span><span style="color:#75715e">     */</span>
+    Boolean <span style="color:#a6e22e">hSetAll</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> map<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 直接设置整个Hash结构
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hSetAll</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> map<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 删除Hash结构中的属性
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hDel</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> hashKey<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 判断Hash结构中是否有该属性
+</span><span style="color:#75715e">     */</span>
+    Boolean <span style="color:#a6e22e">hHasKey</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Hash结构中属性递增
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">hIncr</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">,</span> Long delta<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Hash结构中属性递减
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">hDecr</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">,</span> Long delta<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 获取Set结构
+</span><span style="color:#75715e">     */</span>
+    Set<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">sMembers</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 向Set结构中添加属性
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">sAdd</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> values<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 向Set结构中添加属性
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">sAdd</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> values<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 是否为Set中的属性
+</span><span style="color:#75715e">     */</span>
+    Boolean <span style="color:#a6e22e">sIsMember</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object value<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 获取Set结构的长度
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">sSize</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 删除Set结构中的属性
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">sRemove</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> values<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 获取List结构中的属性
+</span><span style="color:#75715e">     */</span>
+    List<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">lRange</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> start<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> end<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 获取List结构的长度
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">lSize</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 根据索引获取List中的属性
+</span><span style="color:#75715e">     */</span>
+    Object <span style="color:#a6e22e">lIndex</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> index<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 向List结构中添加属性
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">lPush</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object value<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 向List结构中添加属性
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">lPush</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object value<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 向List结构中批量添加属性
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">lPushAll</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> values<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 向List结构中批量添加属性
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">lPushAll</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Long time<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> values<span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 从List结构中移除属性
+</span><span style="color:#75715e">     */</span>
+    Long <span style="color:#a6e22e">lRemove</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> count<span style="color:#f92672">,</span> Object value<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h4 id="redisserviceimpl">RedisServiceImpl</h4>
+<blockquote>
+<p>RedisService的实现类，使用RedisTemplate来自由操作Redis中的缓存数据。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Service</span>
+publicclass RedisServiceImpl <span style="color:#66d9ef">implements</span> RedisService <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Autowired</span>
+    <span style="color:#66d9ef">private</span> RedisTemplate<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> redisTemplate<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object value<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> value<span style="color:#f92672">,</span> time<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">SECONDS</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Boolean <span style="color:#a6e22e">del</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">delete</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">del</span><span style="color:#f92672">(</span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> keys<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">delete</span><span style="color:#f92672">(</span>keys<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Boolean <span style="color:#a6e22e">expire</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">expire</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> time<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">SECONDS</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">getExpire</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">getExpire</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">SECONDS</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Boolean <span style="color:#a6e22e">hasKey</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">hasKey</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">incr</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> delta<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">increment</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> delta<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">decr</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> delta<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">increment</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> <span style="color:#f92672">-</span>delta<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">hGet</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> hashKey<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Boolean <span style="color:#a6e22e">hSet</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">,</span> Object value<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> hashKey<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> expire<span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> time<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hSet</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">,</span> Object value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> hashKey<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Map<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">hGetAll</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">entries</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Boolean <span style="color:#a6e22e">hSetAll</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> map<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">putAll</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> map<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> expire<span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> time<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hSetAll</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> map<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">putAll</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> map<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hDel</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> hashKey<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">delete</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> hashKey<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Boolean <span style="color:#a6e22e">hHasKey</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">hasKey</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> hashKey<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">hIncr</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">,</span> Long delta<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">increment</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> hashKey<span style="color:#f92672">,</span> delta<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">hDecr</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> String hashKey<span style="color:#f92672">,</span> Long delta<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">increment</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> hashKey<span style="color:#f92672">,</span> <span style="color:#f92672">-</span>delta<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Set<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">sMembers</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForSet</span><span style="color:#f92672">().</span><span style="color:#a6e22e">members</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">sAdd</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> values<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForSet</span><span style="color:#f92672">().</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> values<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">sAdd</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> values<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Long count <span style="color:#f92672">=</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForSet</span><span style="color:#f92672">().</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> values<span style="color:#f92672">);</span>
+        expire<span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> time<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> count<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Boolean <span style="color:#a6e22e">sIsMember</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForSet</span><span style="color:#f92672">().</span><span style="color:#a6e22e">isMember</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">sSize</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForSet</span><span style="color:#f92672">().</span><span style="color:#a6e22e">size</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">sRemove</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> values<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForSet</span><span style="color:#f92672">().</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> values<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> List<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">lRange</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> start<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> end<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">range</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> start<span style="color:#f92672">,</span> end<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">lSize</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">size</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">lIndex</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> index<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">index</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> index<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">lPush</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">rightPush</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">lPush</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object value<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> time<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Long index <span style="color:#f92672">=</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">rightPush</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+        expire<span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> time<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> index<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">lPushAll</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> values<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">rightPushAll</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> values<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">lPushAll</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Long time<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> values<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Long count <span style="color:#f92672">=</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">rightPushAll</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> values<span style="color:#f92672">);</span>
+        expire<span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> time<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> count<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">lRemove</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> count<span style="color:#f92672">,</span> Object value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> count<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-22 14:27:33</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/spring-data-redis/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/spring-data-redis/" data-title="Spring Data Redis" data-hashtags="Redis"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/spring-data-redis/" data-hashtag="Redis"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/spring-data-redis/" data-title="Spring Data Redis" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/spring-data-redis/" data-title="Spring Data Redis"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/spring-data-redis/" data-title="Spring Data Redis" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/spring-data-redis/" data-title="Spring Data Redis" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/spring-data-redis/" data-title="Spring Data Redis" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/spring-data-redis/" data-title="Spring Data Redis"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/redis/">Redis</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%80/" class="prev" rel="prev" title="Java并发编程一"><i class="fas fa-angle-left fa-fw"></i>Java并发编程一</a>
+            <a href="/2020/10/java-gc%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/" class="next" rel="next" title="Java GC垃圾收集器">Java GC垃圾收集器<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>集合框架-Set - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="集合框架-Set" />
+<meta property="og:description" content="Collection-Set Comparable 和 Compator comparable 接口实际上是出自 java.lang 包 它有一个 compareTo(Object obj)方法用来排序。 comparator 接口实际是出自 java.util 包它有一个 compare(Object obj1, Object obj2)方法用来排序 一般对一个集合使用自定义排序时，就要重写 compareTo() 方法或 compare() 方法。 当需要对某一个集合实现两种" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-15T19:49:15&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-15T19:49:15&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="集合框架-Set"/>
+<meta name="twitter:description" content="Collection-Set Comparable 和 Compator comparable 接口实际上是出自 java.lang 包 它有一个 compareTo(Object obj)方法用来排序。 comparator 接口实际是出自 java.util 包它有一个 compare(Object obj1, Object obj2)方法用来排序 一般对一个集合使用自定义排序时，就要重写 compareTo() 方法或 compare() 方法。 当需要对某一个集合实现两种"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/bfs/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/intellij-idea%E7%9A%84mac%E5%BF%AB%E6%8D%B7%E9%94%AE/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "集合框架-Set",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set\/"
+        },"genre": "posts","keywords": "集合框架","wordcount":  1465 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set\/","datePublished": "2020-10-15T19:49:15+00:00","dateModified": "2020-10-15T19:49:15+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">集合框架-Set</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/java%E5%9F%BA%E7%A1%80/"><i class="far fa-folder fa-fw"></i>Java基础</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-15 19:49:15">2020-10-15 19:49:15</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1465 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#comparable-和-compator">Comparable 和 Compator</a>
+      <ol>
+        <li><a href="#comparator定制排序">Comparator定制排序</a></li>
+      </ol>
+    </li>
+    <li><a href="#无序性和不可重复性">无序性和不可重复性</a></li>
+    <li><a href="#hashsetlinkedhashset-和-treeset">HashSet、LinkedHashSet 和 TreeSet</a></li>
+    <li><a href="#hashset-如何检查重复">HashSet 如何检查重复</a></li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="collection-set">Collection-Set</h1>
+<h2 id="comparable-和-compator">Comparable 和 Compator</h2>
+<p>comparable 接口实际上是出自 java.lang 包 它有一个 <code>compareTo(Object obj)</code>方法用来排序。</p>
+<p>comparator 接口实际是出自 java.util 包它有一个 <code>compare(Object obj1, Object obj2)</code>方法用来排序</p>
+<p>一般对一个集合使用自定义排序时，就要重写 <code>compareTo()</code> 方法或 <code>compare()</code> 方法。</p>
+<p>当需要对某一个集合实现两种排序方法的时候可以重写 <code>compreTo()</code> 或  <code>Comparator()</code> 方法或者两个Comparator来实现歌名排序和歌星名排序，第二种代表我们只能使用两个参数版的 <code>Collections.sort()</code>.</p>
+<h3 id="comparator定制排序">Comparator定制排序</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">        <span style="color:#75715e">// 定制排序的用法 从大到小的排序
+</span><span style="color:#75715e"></span>        Collections<span style="color:#f92672">.</span><span style="color:#a6e22e">sort</span><span style="color:#f92672">(</span>arrayList<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Comparator<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
+
+            <span style="color:#a6e22e">@Override</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">compare</span><span style="color:#f92672">(</span>Integer o1<span style="color:#f92672">,</span> Integer o2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">return</span> o2<span style="color:#f92672">.</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>o1<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">});</span>
+</code></pre></div><h4 id="重写-compareto-方法实现年龄排序">重写 compareTo 方法实现年龄排序</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// person对象没有实现Comparable接口，所以必须实现，这样才不会出错，才可以使treemap中的数据按顺序排列
+</span><span style="color:#75715e">// 前面一个例子的String类已经默认实现了Comparable接口，详细可以查看String类的API文档，另外其他
+</span><span style="color:#75715e">// 像Integer类等都已经实现了Comparable接口，所以不需要另外实现了
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">implements</span> Comparable<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String name<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> age<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Person</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> age<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">super</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">age</span> <span style="color:#f92672">=</span> age<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getAge</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> age<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setAge</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> age<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">age</span> <span style="color:#f92672">=</span> age<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * T重写compareTo方法实现按年龄来排序
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>Person o<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">age</span> <span style="color:#f92672">&gt;</span> o<span style="color:#f92672">.</span><span style="color:#a6e22e">getAge</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> 1<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">age</span> <span style="color:#f92672">&lt;</span> o<span style="color:#f92672">.</span><span style="color:#a6e22e">getAge</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        TreeMap<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;</span> pdata <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeMap<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;();</span>
+        pdata<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Person<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;张三&#34;</span><span style="color:#f92672">,</span> 30<span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;zhangsan&#34;</span><span style="color:#f92672">);</span>
+        pdata<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Person<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;李四&#34;</span><span style="color:#f92672">,</span> 20<span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;lisi&#34;</span><span style="color:#f92672">);</span>
+        pdata<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Person<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;王五&#34;</span><span style="color:#f92672">,</span> 10<span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;wangwu&#34;</span><span style="color:#f92672">);</span>
+        pdata<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Person<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;小红&#34;</span><span style="color:#f92672">,</span> 5<span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;xiaohong&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#75715e">// 得到key的值的同时得到key所对应的值
+</span><span style="color:#75715e"></span>        Set<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> keys <span style="color:#f92672">=</span> pdata<span style="color:#f92672">.</span><span style="color:#a6e22e">keySet</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Person key <span style="color:#f92672">:</span> keys<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>key<span style="color:#f92672">.</span><span style="color:#a6e22e">getAge</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#f92672">+</span> key<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">5<span style="color:#f92672">-</span>小红
+10<span style="color:#f92672">-</span>王五
+20<span style="color:#f92672">-</span>李四
+30<span style="color:#f92672">-</span>张三
+</code></pre></div><h2 id="无序性和不可重复性">无序性和不可重复性</h2>
+<ol>
+<li>无序性指的不是顺序的无序，而是指存储的数据在底层数组中并非按照数组索引的顺序添加，而是根据数据的哈希值决定的。</li>
+<li>不可重复性，指添加的元素按照equals()判断时，返回false，需要同时重写equals（）方法和 HashCode（）方法。</li>
+</ol>
+<h2 id="hashsetlinkedhashset-和-treeset">HashSet、LinkedHashSet 和 TreeSet</h2>
+<ul>
+<li>HashSet 是 Set 接口的主要实现类，HashSet 的底层是 HashMap，线程不安全，可以存储null值。</li>
+<li>LinkedHashSet 是 HashSet 子类，可按照添加的顺序遍历。</li>
+<li>TreeSet 底层使用红黑树，能够按照添加元素的顺序进行遍历，排序的方式有自然排序和定制排序。</li>
+</ul>
+<h2 id="hashset-如何检查重复">HashSet 如何检查重复</h2>
+<p>当你把对象加入<code>HashSet</code>时，HashSet 会先计算对象的<code>hashcode</code>值来判断对象加入的位置，同时也会与其他加入的对象的 hashcode 值作比较，如果没有相符的 hashcode，HashSet 会假设对象没有重复出现。但是如果发现有相同 hashcode 值的对象，这时会调用<code>equals()</code>方法来检查 hashcode 相等的对象是否真的相同。如果两者相同，HashSet 就不会让加入操作成功。（摘自我的 Java 启蒙书《Head fist java》第二版）</p>
+<p><strong>hashCode()与 equals()的相关规定：</strong></p>
+<ol>
+<li>如果两个对象相等，则 hashcode 一定也是相同的</li>
+<li>两个对象相等,对两个 equals 方法返回 true</li>
+<li>两个对象有相同的 hashcode 值，它们也不一定是相等的</li>
+<li>综上，equals 方法被覆盖过，则 hashCode 方法也必须被覆盖</li>
+<li>hashCode()的默认行为是对堆上的对象产生独特值。如果没有重写 hashCode()，则该 class 的两个对象无论如何都不会相等（即使这两个对象指向相同的数据）。</li>
+</ol>
+<p><strong>==与 equals 的区别</strong></p>
+<p>对于基本类型来说，== 比较的是值是否相等；</p>
+<p>对于引用类型来说，== 比较的是两个引用是否指向同一个对象地址（两者在内存中存放的地址（堆内存地址）是否指向同一个地方）；</p>
+<p>对于引用类型（包括包装类型）来说，equals 如果没有被重写，对比它们的地址是否相等；如果 equals()方法被重写（例如 String），则比较的是地址里的内容。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-15 19:49:15</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/" data-title="集合框架-Set" data-hashtags="集合框架"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/" data-hashtag="集合框架"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/" data-title="集合框架-Set" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/" data-title="集合框架-Set"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/" data-title="集合框架-Set" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/" data-title="集合框架-Set" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/" data-title="集合框架-Set" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-set/" data-title="集合框架-Set"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">集合框架</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/bfs/" class="prev" rel="prev" title="BFS"><i class="fas fa-angle-left fa-fw"></i>BFS</a>
+            <a href="/2020/10/intellij-idea%E7%9A%84mac%E5%BF%AB%E6%8D%B7%E9%94%AE/" class="next" rel="next" title="Intellij-IDEA的MAC快捷键">Intellij-IDEA的MAC快捷键<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

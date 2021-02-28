@@ -1,0 +1,78 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Spring - 分类 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/categories/spring/</link>
+        <description>Spring - 分类 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Tue, 17 Nov 2020 19:46:44 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/categories/spring/" rel="self" type="application/rss+xml" /><item>
+    <title>SpringCloud</title>
+    <link>https://EdgarDjj.github.io/2020/11/springcloud/</link>
+    <pubDate>Tue, 17 Nov 2020 19:46:44 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/springcloud/</guid>
+    <description><![CDATA[SpringCloud 简述 Spring Cloud 是一系列框架的有序集合。它利用Spring Boot的开发便利性巧妙地简化了分布式系统的基础设施开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用Spring Bo]]></description>
+</item><item>
+    <title>Spring</title>
+    <link>https://EdgarDjj.github.io/2020/11/spring/</link>
+    <pubDate>Thu, 12 Nov 2020 14:36:45 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/spring/</guid>
+    <description><![CDATA[Spring 关于《Spring实战》的一些学习 前言 任何实际的应用程序都是很多组件组成的，每个组件负责整个应用功能的一部分，这些组件需要与其他的应用元素进行协调以完成自己的任务。当程序需要运行的时候，需要以某种方]]></description>
+</item><item>
+    <title>SpringSecurity和JWT实现认证和授权</title>
+    <link>https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</link>
+    <pubDate>Wed, 04 Nov 2020 19:08:32 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</guid>
+    <description><![CDATA[SpringSecurity 和 JWT 实现认证和授权 SpringSecurity SpringSecurity 是一个强大可高度定制的认证和授权框架，对于Spring应用来说它是一套Web安全标准。SpringSecurity注重于为Java应用提供认证和授权功能，像所有Spring项目]]></description>
+</item><item>
+    <title>SpringMVC原理</title>
+    <link>https://EdgarDjj.github.io/2020/10/springmvc%E5%8E%9F%E7%90%86/</link>
+    <pubDate>Tue, 27 Oct 2020 17:13:01 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/springmvc%E5%8E%9F%E7%90%86/</guid>
+    <description><![CDATA[SpringMVC原理 M 代表 Model model 就是数据，dao、bean V 代表 View 网页、JSP，用来展示模型中的数据 C 代表 Controller 把不同的数据（Model），显示在不同的视图（View）上 MVC模式主要解决了页面代码和后台]]></description>
+</item><item>
+    <title>SpringIOC和AOP</title>
+    <link>https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/</link>
+    <pubDate>Tue, 27 Oct 2020 17:11:51 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/springioc%E5%92%8Caop/</guid>
+    <description><![CDATA[Spring IoC AOP IoC IoC（Inverse of Control：控制反转）是一种设计思想，**就是将原本在程序中手动创建对象的控制权，交给由Spring框架管理。**IoC容器是Spring用来实现IoC的载体，Io]]></description>
+</item><item>
+    <title>Spring Data Redis</title>
+    <link>https://EdgarDjj.github.io/2020/10/spring-data-redis/</link>
+    <pubDate>Thu, 22 Oct 2020 14:27:33 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/spring-data-redis/</guid>
+    <description><![CDATA[Spring Data Redis Spring Data Redis 是Spring框架提供的用来操作Redis的方式。 Spring Cache 操作 Redis 常用注解 @EnableCaching 开启缓存功能 @Cacheable 使用该注解的方法当缓存存在时，会从缓存中获取数据而不执行方法，当缓存不存在时，会执行方法并把返回结果存入]]></description>
+</item><item>
+    <title>SpringBoot核心源码分析</title>
+    <link>https://EdgarDjj.github.io/2020/10/springboot%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</link>
+    <pubDate>Sat, 17 Oct 2020 14:55:50 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/springboot%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</guid>
+    <description><![CDATA[SpringBoot 核心源码分析 convention over configuration 约定优于配置 SprinBoot 核心特性：约定优于配置 举一个具体一点的例子，这个理念我们其实一直都在遵循并使用，比如我们在 MVC 项目的开发中会把实体类放到 entity 目录下、数据接口层会定义在 dao 目录下、控制器会定]]></description>
+</item><item>
+    <title>Web功能开发（一）</title>
+    <link>https://EdgarDjj.github.io/2020/10/web%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%911/</link>
+    <pubDate>Sat, 17 Oct 2020 11:03:10 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/web%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%911/</guid>
+    <description><![CDATA[Web 功能开发（一） DispatchServlet 简介 自动配置 Web开发必不可缺的两个类： DispatcherServletAutoConfiguration（ DispatchServlet 生效） WebMvcAutoConfiguration （视图解析器、静态资源处理等） SpringBoot 为 SpringMVC 提供自动配置： 自动配置在S]]></description>
+</item><item>
+    <title>SpringSecurity</title>
+    <link>https://EdgarDjj.github.io/2020/10/springsecurity/</link>
+    <pubDate>Wed, 14 Oct 2020 20:38:55 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/springsecurity/</guid>
+    <description><![CDATA[SpringSecurity 简介 SpringSecurity是一个强大的可高度定制的认证和授权框架，对于Spring应用来说它是一套Web安全标准。SpringSecurity注重于为Java应用提供认证和授权功能，像所有的S]]></description>
+</item><item>
+    <title>Swagger</title>
+    <link>https://EdgarDjj.github.io/2020/10/swagger/</link>
+    <pubDate>Wed, 14 Oct 2020 15:44:55 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/swagger/</guid>
+    <description><![CDATA[Swagger 介绍 （html/javascript/css的一个集合，可以根据注解生成在线API文档） Swagger UI:提供了一个可视化的UI页面展示描述文件。接口的调用方、测试、项目经理等都可以在该页面中对相关接口进行查]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>SpringMVC - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/springmvc/</link>
+        <description>SpringMVC - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Tue, 27 Oct 2020 17:13:01 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/springmvc/" rel="self" type="application/rss+xml" /><item>
+    <title>SpringMVC原理</title>
+    <link>https://EdgarDjj.github.io/2020/10/springmvc%E5%8E%9F%E7%90%86/</link>
+    <pubDate>Tue, 27 Oct 2020 17:13:01 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/springmvc%E5%8E%9F%E7%90%86/</guid>
+    <description><![CDATA[SpringMVC原理 M 代表 Model model 就是数据，dao、bean V 代表 View 网页、JSP，用来展示模型中的数据 C 代表 Controller 把不同的数据（Model），显示在不同的视图（View）上 MVC模式主要解决了页面代码和后台]]></description>
+</item></channel>
+</rss>

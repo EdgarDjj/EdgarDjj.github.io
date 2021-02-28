@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Linux基本指令 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="Linux基本指令" />
+<meta property="og:description" content="Linux基本指令 yum yum repolist all 列出所有仓库 yum list all 列出仓库所有软件包 yum clean all 清除所有仓库缓存 yum gourplist systemctl初始化进程 管理服务的启动、重启、停止、重载、查看状态 start\ restart\ stop\ reload status 设置服务的开机启动、不启动、查看" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-26T18:22:27&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-26T18:22:27&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Linux基本指令"/>
+<meta name="twitter:description" content="Linux基本指令 yum yum repolist all 列出所有仓库 yum list all 列出仓库所有软件包 yum clean all 清除所有仓库缓存 yum gourplist systemctl初始化进程 管理服务的启动、重启、停止、重载、查看状态 start\ restart\ stop\ reload status 设置服务的开机启动、不启动、查看"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-javaweb%E5%92%8C%E7%BD%91%E7%BB%9C/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux基本指令",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/11\/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4\/"
+        },"genre": "posts","keywords": "Linux","wordcount":  2416 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/11\/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4\/","datePublished": "2020-11-26T18:22:27+00:00","dateModified": "2020-11-26T18:22:27+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Linux基本指令</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/linux/"><i class="far fa-folder fa-fw"></i>Linux</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-26 18:22:27">2020-11-26 18:22:27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2416 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><h1 id="linux基本指令">Linux基本指令</h1>
+<p><strong>yum</strong></p>
+<p>yum repolist all 列出所有仓库</p>
+<p>yum list all 列出仓库所有软件包</p>
+<p>yum clean all 清除所有仓库缓存</p>
+<p>yum gourplist</p>
+<p><strong>systemctl</strong>初始化进程</p>
+<p>管理服务的启动、重启、停止、重载、查看状态</p>
+<p>start\ restart\ stop\ reload status</p>
+<p>设置服务的开机启动、不启动、查看各级别下服务启动状态等</p>
+<p>enable\ disable\ is-enable\ list-unitfiles &ndash;type=service</p>
+<p><strong>shell</strong></p>
+<p>LVM (Logical Volume Manager)逻辑卷管理工具 图形化</p>
+<p>shell充当人与内核之间的翻译</p>
+<p>许多主流Linux系统默认的终端是Bash（Bourne-Again Shell）解释器</p>
+<p>查看帮助man</p>
+<p>常用指令</p>
+<p><strong>echo</strong></p>
+<p>终端上输入字符串或变量提取后的值</p>
+<p><strong>date</strong></p>
+<p>显示系统时间</p>
+<p>按照”年-月-日 时：分：秒“的格式查看</p>
+<p>[root@VM-0-15-centos ~]# date &ldquo;+%Y-%m-%d %H:%M:%S&rdquo;</p>
+<p>2020-11-23 19:02:48</p>
+<p>date “+%j” 查看今天是当年的第几天</p>
+<p><strong>reboot</strong>用于重启系统</p>
+<p><strong>poweroff</strong>用于关机</p>
+<p><strong>wget</strong></p>
+<p>用于终端中下载网络文件</p>
+<p>-r 递归下载</p>
+<p>-p 指定目录</p>
+<p><strong>ps</strong></p>
+<p>查看系统中进程状态</p>
+<p>ps -aux</p>
+<p>-a 显示所有进程</p>
+<p>-u 用户及其他详细信息</p>
+<p>-x 显示没有控制的终端进程</p>
+<table>
+<thead>
+<tr>
+<th>USER</th>
+<th>PID</th>
+<th>%CPU</th>
+<th>%MEM</th>
+<th>VSZ</th>
+<th>RSS</th>
+<th>TTY</th>
+<th>STAT</th>
+<th>START</th>
+<th>TIME</th>
+<th>COMMAND</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>进程所有者</td>
+<td>进程id号</td>
+<td></td>
+<td></td>
+<td>虚拟内存占用（KB）</td>
+<td>占用的固定内存量（KB）</td>
+<td>所在终端</td>
+<td>进程状态</td>
+<td>被启动的时间</td>
+<td>实际使用CPU的时间</td>
+<td>命令名称与参数</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Linux</strong>的五种常见进程状态</p>
+<p>R（运行）</p>
+<p>S（中断）进程处于休眠中，若某个条件形成后或者接收到信号时，则脱离该状态</p>
+<p>D（不可中断）进程不响应系统异步信号，即便使用kill命令也无法将其中断</p>
+<p>Z（僵死）进程已经终止，但进程描述符依然存在，直到父进程调用wait4（）系统函数将进程释放</p>
+<p>T（停止）进程收到停止信号后停止运行</p>
+<p><strong>top</strong></p>
+<p>用于动态监视进程活动与系统负载信息等</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="blob:file:///bb30a756-8006-450c-ad30-3e4b518418c1"
+        data-srcset="blob:file:///bb30a756-8006-450c-ad30-3e4b518418c1, blob:file:///bb30a756-8006-450c-ad30-3e4b518418c1 1.5x, blob:file:///bb30a756-8006-450c-ad30-3e4b518418c1 2x"
+        data-sizes="auto"
+        alt="blob:file:///bb30a756-8006-450c-ad30-3e4b518418c1"
+        title="截屏2020-11-23 下午7.13.10.png" /></p>
+<p>第一行：系统时间、运行时间、登录终端数、系统负载（1分钟、5分钟、15分钟的平均值，越小说明负载越低）</p>
+<p>第二行：进程总数、。。。</p>
+<p>第三行：用户占用资源百分比、系统内核占用资源百分比、改变过优先级的进程资源百分比、空闲的资源白百分比等</p>
+<p>第四行：物理内存总量、空闲内存量、内存使用量、作为内核缓存的内存量</p>
+<p>第五行：虚拟内存总量、虚拟内存空闲量、虚拟内存使用量、已被提前加载的内存量</p>
+<p><strong>pidof</strong></p>
+<p>用于查询某个指定服务进程的PID值，pidof [参数] [服务名称]</p>
+<p><strong>kill</strong></p>
+<p>终止指定PID服务 kill [参数] [服务名称]</p>
+<p><strong>killall</strong></p>
+<p>终止某个指定名称的服务对应的全部进程 killall [参数] [服务名称]</p>
+<p>系统状态检测</p>
+<p><strong>ifconfig</strong></p>
+<p>获取网卡配置与网络状态信息</p>
+<p><strong>uname</strong></p>
+<p>用于查看系统内核与系统版本信息 uname [-a]</p>
+<p>系统的内核名称、主机名、内核发行版本、节点名、系统时间、硬件名称、硬件平台、处理器类型、以及操作系统名称等信息</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="blob:file:///785cfdf0-090c-4e0f-939e-d7d6d8c5c492"
+        data-srcset="blob:file:///785cfdf0-090c-4e0f-939e-d7d6d8c5c492, blob:file:///785cfdf0-090c-4e0f-939e-d7d6d8c5c492 1.5x, blob:file:///785cfdf0-090c-4e0f-939e-d7d6d8c5c492 2x"
+        data-sizes="auto"
+        alt="blob:file:///785cfdf0-090c-4e0f-939e-d7d6d8c5c492"
+        title="截屏2020-11-23 下午7.22.00.png" /></p>
+<p><strong>uptime</strong></p>
+<p>查看系统的负载信息，uptime</p>
+<p>它可以显示当前系统时间、系统已运行时间、启用终端数量以及平均负载值等信息</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="blob:file:///6d35943d-7a54-4707-ba81-7b595e24f5c8"
+        data-srcset="blob:file:///6d35943d-7a54-4707-ba81-7b595e24f5c8, blob:file:///6d35943d-7a54-4707-ba81-7b595e24f5c8 1.5x, blob:file:///6d35943d-7a54-4707-ba81-7b595e24f5c8 2x"
+        data-sizes="auto"
+        alt="blob:file:///6d35943d-7a54-4707-ba81-7b595e24f5c8"
+        title="截屏2020-11-23 下午7.24.24.png" /></p>
+<p><strong>free</strong></p>
+<p>查看系统当前内存的使用信息</p>
+<p>free -h 更人性化显示（显示单位）</p>
+<p><strong>who</strong></p>
+<p>查看当前登入主机的用户终端信息</p>
+<p><strong>last</strong></p>
+<p>查看系统所有的登录信息，以日志文件保存（无法判断黑客是否进入）</p>
+<p>查看本机的登录记录。</p>
+<p><strong>history</strong></p>
+<p>用于显示历史执行过的命令（可以显示1000条，可在/etc/profile文件HISTSIZE变量中修改）</p>
+<p>-c 清空所有命令历史记录</p>
+<p>历史命令会保存在.bash_history文件中</p>
+<p><strong>sosreport</strong></p>
+<p>用于收集系统配置及架构信息并输出诊断文档，格式为sosreport</p>
+<p>系统出现故障的时候一般第一时间进行诊断收集的命令</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="blob:file:///a628a211-1547-41c5-9512-cbbc0964f41c"
+        data-srcset="blob:file:///a628a211-1547-41c5-9512-cbbc0964f41c, blob:file:///a628a211-1547-41c5-9512-cbbc0964f41c 1.5x, blob:file:///a628a211-1547-41c5-9512-cbbc0964f41c 2x"
+        data-sizes="auto"
+        alt="blob:file:///a628a211-1547-41c5-9512-cbbc0964f41c"
+        title="截屏2020-11-23 下午7.33.09.png" /></p>
+<p>红线部分为收集好的资料压缩以及校验码</p>
+<p>工作目录切换命令</p>
+<p><strong>pwd</strong></p>
+<p>用于显示用户当前所处的工作目录</p>
+<p><strong>cd</strong></p>
+<p>切换工作路径</p>
+<p><strong>ls</strong></p>
+<p>显示目录中的文件信息</p>
+<p>-a 显示全部（包括隐藏）</p>
+<p>-l 查看文件属性、大小等详细信息</p>
+<p>文本文件编辑命令</p>
+<p><strong>cat</strong></p>
+<p>查看纯文本内容（内容少）</p>
+<p>-h 查看文本顺便显示行号</p>
+<p><strong>more</strong></p>
+<p>查看纯文本文件（内容多）</p>
+<p>空格/回车向下翻页</p>
+<p><strong>head</strong></p>
+<p>查看纯文本的前N行</p>
+<p>前20行</p>
+<p><strong>tail</strong></p>
+<p>与head相反从后往前，后N行(最厉害的地方在于可持续刷新一个文件的内容，可以实时查看最新的日志文件）</p>
+<p>若想看到最新的日志文件，tail -f</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="blob:file:///78993397-0786-4546-9232-2e72f0d8c34d"
+        data-srcset="blob:file:///78993397-0786-4546-9232-2e72f0d8c34d, blob:file:///78993397-0786-4546-9232-2e72f0d8c34d 1.5x, blob:file:///78993397-0786-4546-9232-2e72f0d8c34d 2x"
+        data-sizes="auto"
+        alt="blob:file:///78993397-0786-4546-9232-2e72f0d8c34d"
+        title="截屏2020-11-23 下午7.40.04.png" /></p>
+<p><strong>tr</strong></p>
+<p>替换文本中的字符 tr [原始字符] [目标字符]</p>
+<p>进行文本的大量替换可以进行使用</p>
+<p>使用cat 读取待处理的文本，通过管道符把这些文本内容传递给tr命令进行替换</p>
+<p>例如替换某个文件的大小写</p>
+<p>cat xxx.txt | tr [a-z] [A-Z]</p>
+<p><strong>wc</strong></p>
+<p>用于统计文本的行数、字数、字节数</p>
+<p>-l 只显示行数</p>
+<p>-w 只显示单词数</p>
+<p>-c 只显示字节数</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="blob:file:///eef6c48c-29c6-456e-98ad-8de91e097377"
+        data-srcset="blob:file:///eef6c48c-29c6-456e-98ad-8de91e097377, blob:file:///eef6c48c-29c6-456e-98ad-8de91e097377 1.5x, blob:file:///eef6c48c-29c6-456e-98ad-8de91e097377 2x"
+        data-sizes="auto"
+        alt="blob:file:///eef6c48c-29c6-456e-98ad-8de91e097377"
+        title="截屏2020-11-23 下午7.44.26.png" /></p>
+<p><strong>stat</strong></p>
+<p>用于查看文件的具体存储信息和时间等信息</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="blob:file:///f15d5ff0-0e65-4f97-8c0f-538c17a982f1"
+        data-srcset="blob:file:///f15d5ff0-0e65-4f97-8c0f-538c17a982f1, blob:file:///f15d5ff0-0e65-4f97-8c0f-538c17a982f1 1.5x, blob:file:///f15d5ff0-0e65-4f97-8c0f-538c17a982f1 2x"
+        data-sizes="auto"
+        alt="blob:file:///f15d5ff0-0e65-4f97-8c0f-538c17a982f1"
+        title="截屏2020-11-23 下午7.45.14.png" /></p>
+<p><strong>cut</strong></p>
+<p>用于按”列“提取文本字符</p>
+<p>例如尝试提取出passwd文件中用户名信息</p>
+<p>-f 设置需要看的列数</p>
+<p>-d 设置间隔符号</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="blob:file:///df3e94be-a090-470b-9c5c-df1f72ac5033"
+        data-srcset="blob:file:///df3e94be-a090-470b-9c5c-df1f72ac5033, blob:file:///df3e94be-a090-470b-9c5c-df1f72ac5033 1.5x, blob:file:///df3e94be-a090-470b-9c5c-df1f72ac5033 2x"
+        data-sizes="auto"
+        alt="blob:file:///df3e94be-a090-470b-9c5c-df1f72ac5033"
+        title="截屏2020-11-23 下午7.47.58.png" /></p>
+<p><strong>diff</strong></p>
+<p>用于比较多个文本之间的差异</p>
+<p>—breif 用于确认两个文件是否不同</p>
+<p>-c 描述文件具体的不同</p>
+<p>文件目录管理命令</p>
+<p><strong>touch</strong></p>
+<p>用于创建空白文件或设置文件的时间</p>
+<p>-a 仅修改“读取时间”（atime）</p>
+<p>-m 仅修改“修改时间”（mtime）</p>
+<p>-d 同时进行修改</p>
+<p>黑客可用来将修改过的时间修改回去</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="blob:file:///a8fe65b3-031f-4f22-807c-ce3d9021dcd5"
+        data-srcset="blob:file:///a8fe65b3-031f-4f22-807c-ce3d9021dcd5, blob:file:///a8fe65b3-031f-4f22-807c-ce3d9021dcd5 1.5x, blob:file:///a8fe65b3-031f-4f22-807c-ce3d9021dcd5 2x"
+        data-sizes="auto"
+        alt="blob:file:///a8fe65b3-031f-4f22-807c-ce3d9021dcd5"
+        title="截屏2020-11-23 下午7.54.20.png" /></p>
+<p><strong>mkdir</strong></p>
+<p>创建一个空白目录</p>
+<p>-p 创建一个层次目录</p>
+<p>mkdir -p a/b/c</p>
+<p><strong>cp</strong></p>
+<p>复制文件或目录</p>
+<p>-p 保留原始文件属性</p>
+<p>-d 若对象为“链接文件”，则保留该文件属性</p>
+<p>-r 递归复制（用于目录）</p>
+<p>-i 若目标文件存在询问是否覆盖</p>
+<p>-a 相当于-pdr结合</p>
+<p><strong>mv</strong></p>
+<p>用于剪贴文件或文件重命名</p>
+<p>若同一目录中对一文件进行mv操作，其实也就是进行重命名</p>
+<p><strong>rm</strong></p>
+<p>删除文件或目录</p>
+<p>rm -rf</p>
+<p>-r 递归</p>
+<p>-f 强制</p>
+<p><strong>dd</strong></p>
+<p>按照指定的大小和个数的数据块来复制文件或转换文件</p>
+<p>if 输入的文件名称</p>
+<p>of 输出的文件名称</p>
+<p>bs 设置每个“块”的大小</p>
+<p>count 设置要复制的“块”的个数</p>
+<p>dd可以压制出光盘文件，将它变成一个可立即使用的iso镜像</p>
+<p><strong>file</strong></p>
+<p>查看文件类型，因为目录、文本、设备等等统称文件，但无法凭后缀就知道其文件类型</p>
+<p>打包压缩与搜索</p>
+<p><strong>tar</strong></p>
+<ul>
+<li>c创建压缩文件</li>
+<li>x解开压缩文件</li>
+<li>t查看压缩包有哪些文件</li>
+<li>z使用Gzip格式压缩或解压</li>
+<li>j使用bzip2格式压缩或解压</li>
+<li>v显示压缩或解压过程</li>
+<li>f目标文件名</li>
+<li>p保留原始文件的权限与属性</li>
+<li>P使用绝对路径</li>
+<li>C指定解压到的目录</li>
+</ul>
+<p>常用</p>
+<p>-czvf打包压缩（f很重要尽量放在最后一位，代表要压缩或解压的软件包名称）</p>
+<p>-xzvf解压(.tar.gz文件）</p>
+<p><strong>grep</strong></p>
+<p>用于文本中执行关键词搜索</p>
+<p>-b 将可执行文件（binary）当做文本文件（text）来搜索</p>
+<p>-c 仅显示要找的行数</p>
+<p>-i 忽略大小写</p>
+<p><strong>-n</strong> 显示行号</p>
+<p><strong>-v</strong> 反选</p>
+<p>/etc/passwd文件保存着所有用户的信息，而一旦用户的登录终端被设置成/sbin/nologin则不再被允许的登录</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="blob:file:///6cd6f18b-4fa1-4800-80b9-89c49abef537"
+        data-srcset="blob:file:///6cd6f18b-4fa1-4800-80b9-89c49abef537, blob:file:///6cd6f18b-4fa1-4800-80b9-89c49abef537 1.5x, blob:file:///6cd6f18b-4fa1-4800-80b9-89c49abef537 2x"
+        data-sizes="auto"
+        alt="blob:file:///6cd6f18b-4fa1-4800-80b9-89c49abef537"
+        title="截屏2020-11-23 下午8.10.01.png" /></p>
+<p><strong>find</strong></p>
+<p>按照指定条件查找文件</p>
+<p>-exec 这个参数把find搜索到结果紧随其后的命令做进一步处理</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="blob:file:///a4e2de71-ec3c-4e53-8dc2-500ad73fda51"
+        data-srcset="blob:file:///a4e2de71-ec3c-4e53-8dc2-500ad73fda51, blob:file:///a4e2de71-ec3c-4e53-8dc2-500ad73fda51 1.5x, blob:file:///a4e2de71-ec3c-4e53-8dc2-500ad73fda51 2x"
+        data-sizes="auto"
+        alt="blob:file:///a4e2de71-ec3c-4e53-8dc2-500ad73fda51"
+        title="截屏2020-11-23 下午8.13.24.png" /></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-11-26 18:22:27</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/" data-title="Linux基本指令" data-hashtags="Linux"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/" data-hashtag="Linux"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/" data-title="Linux基本指令" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/" data-title="Linux基本指令"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/" data-title="Linux基本指令" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/" data-title="Linux基本指令" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/" data-title="Linux基本指令" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/11/linux%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/" data-title="Linux基本指令"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/11/%E9%9D%A2%E8%AF%95%E9%A2%98-javaweb%E5%92%8C%E7%BD%91%E7%BB%9C/" class="prev" rel="prev" title="面试题-JavaWeb和网络"><i class="fas fa-angle-left fa-fw"></i>面试题-JavaWeb和网络</a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

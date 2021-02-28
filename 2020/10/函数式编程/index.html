@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>函数式编程 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="函数式编程" />
+<meta property="og:description" content="函数式编程 函数式编程语言操纵代码片段就像操作数据一样容易。 虽然 Java 不是函数式语言，但 Java 8 Lambda 表达式和方法引用 (Method References) 允许你以函数式编程。 函数编程（FP）：通过合并现有代码来生成新功能而不是从头开始编写所有内容" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-03T18:56:54&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-03T18:56:54&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="函数式编程"/>
+<meta name="twitter:description" content="函数式编程 函数式编程语言操纵代码片段就像操作数据一样容易。 虽然 Java 不是函数式语言，但 Java 8 Lambda 表达式和方法引用 (Method References) 允许你以函数式编程。 函数编程（FP）：通过合并现有代码来生成新功能而不是从头开始编写所有内容"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "函数式编程",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B\/"
+        },"genre": "posts","keywords": "Java基础","wordcount":  4726 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B\/","datePublished": "2020-10-03T18:56:54+00:00","dateModified": "2020-10-03T18:56:54+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">函数式编程</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/java%E5%9F%BA%E7%A1%80/"><i class="far fa-folder fa-fw"></i>Java基础</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-03 18:56:54">2020-10-03 18:56:54</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4726 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 10 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#lambda表达式">Lambda表达式</a>
+      <ol>
+        <li><a href="#比较器">比较器</a></li>
+      </ol>
+    </li>
+    <li><a href="#streams-api">Streams API()</a>
+      <ol>
+        <li></li>
+        <li><a href="#递归">递归</a></li>
+        <li><a href="#方法引用">方法引用</a></li>
+        <li><a href="#runnable接口">Runnable接口</a></li>
+        <li><a href="#函数式接口">函数式接口</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="函数式编程">函数式编程</h1>
+<blockquote>
+<p>函数式编程语言操纵代码片段就像操作数据一样容易。 虽然 Java 不是函数式语言，但 Java 8 Lambda 表达式和方法引用 (Method References) 允许你以函数式编程。</p>
+</blockquote>
+<p><strong>函数编程（FP）</strong>：通过合并现有代码来生成新功能而不是从头开始编写所有内容，我们可以更快地获得更可靠的代码。至少在某些情况下，这套理论似乎很有用。在这一过程中，函数式语言已经产生了优雅的语法，这些语法对于非函数式语言也适用。</p>
+<ul>
+<li>OO（Object Oriented，面向对象）是抽象数据</li>
+<li>FP（Functional Programming，函数式编程）是抽象方法</li>
+</ul>
+<p>纯粹的函数式语言在安全性方面更进一步。它强加了额外的约束，即所有数据必须是不可变的：设置一次，永不改变。将值传递给函数，该函数然后生成新值但从不修改自身外部的任何东西（包括其参数或该函数范围之外的元素）。当强制执行此操作时，你知道任何错误都不是由所谓的副作用引起的，因为该函数仅创建并返回结果，而不是其他任何错误。</p>
+<h2 id="lambda表达式">Lambda表达式</h2>
+<ul>
+<li>Java 8 的 Lambda 表达式，其参数和函数体被箭头 <code>-&gt;</code> 分隔开。箭头右侧是从 Lambda 返回的表达式。它与单独定义类和采用匿名内部类是等价的，但代码少得多。</li>
+<li>Java 8 的<strong>方法引用</strong>，它以 <code>::</code> 为特征。 <code>::</code> 的左边是类或对象的名称， <code>::</code> 的右边是方法的名称，但是没有参数列表。</li>
+</ul>
+<p>Lambda 表达式是使用<strong>最小可能</strong>语法编写的函数定义：</p>
+<ol>
+<li>Lambda 表达式产生函数，而不是类。 在 JVM（Java Virtual Machine，Java 虚拟机）上，一切都是一个类，因此在幕后执行各种操作使 Lambda 看起来像函数 —— 但作为程序员，你可以高兴地假装它们“只是函数”。</li>
+<li>Lambda 语法尽可能少，这正是为了使 Lambda 易于编写和使用。</li>
+</ol>
+<p>任何 Lambda 表达式的基本语法是：</p>
+<ol>
+<li>参数。</li>
+<li>接着 <code>-&gt;</code>，可视为“产出”。</li>
+<li><code>-&gt;</code> 之后的内容都是方法体。
+<ul>
+<li><strong>[1]</strong> 当只用一个参数，可以不需要括号 <code>()</code>。 然而，这是一个特例。</li>
+<li><strong>[2]</strong> 正常情况使用括号 <code>()</code> 包裹参数。 为了保持一致性，也可以使用括号 <code>()</code> 包裹单个参数，虽然这种情况并不常见。</li>
+<li><strong>[3]</strong> 如果没有参数，则必须使用括号 <code>()</code> 表示空参数列表。</li>
+<li><strong>[4]</strong> 对于多个参数，将参数列表放在括号 <code>()</code> 中。</li>
+</ul>
+</li>
+</ol>
+<p>到目前为止，所有 Lambda 表达式方法体都是单行。 该表达式的结果自动成为 Lambda 表达式的返回值，在此处使用 <strong>return</strong> 关键字是非法的。 这是 Lambda 表达式简化相应语法的另一种方式。</p>
+<p><strong>[5]</strong> 如果在 Lambda 表达式中确实需要多行，则必须将这些行放在花括号中。 在这种情况下，就需要使用 <strong>return</strong>。</p>
+<blockquote>
+<p>Lambda表达式并不能取代所有的匿名内部类，只能用来取代**函数接口（Functional Interface）**的简写</p>
+</blockquote>
+<p>例子1：无参函数的简写</p>
+<p>如果需要新建一个线程，一种常见的写法是这样：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// JDK7 匿名内部类写法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">(){</span><span style="color:#75715e">// 接口名
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">@Override</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">(){</span><span style="color:#75715e">// 方法名
+</span><span style="color:#75715e"></span>		System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Thread run()&#34;</span><span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</code></pre></div><p>上述代码给<code>Tread</code>类传递了一个匿名的<code>Runnable</code>对象，重载<code>Runnable</code>接口的<code>run()</code>方法来实现相应逻辑。这是JDK7以及之前的常见写法。匿名内部类省去了为类起名字的烦恼，但还是不够简化，在Java 8中可以简化为如下形式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// JDK8 Lambda表达式写法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>
+		<span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Thread run()&#34;</span><span style="color:#f92672">)</span><span style="color:#75715e">// 省略接口名和方法名
+</span><span style="color:#75715e"></span><span style="color:#f92672">).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</code></pre></div><p>上述代码跟匿名内部类的作用是一样的，但比匿名内部类更进一步。这里连<strong>接口名和函数名都一同省掉</strong>了，写起来更加神清气爽。如果函数体有多行，可以用大括号括起来，就像这样：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// JDK8 Lambda表达式代码块写法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>
+        <span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">);</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34; Hoolee&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+<span style="color:#f92672">).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</code></pre></div><p>例子2：带参函数的简写</p>
+<p>如果要给一个字符串列表通过自定义比较器，按照字符串长度进行排序，Java 7的书写形式如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// JDK7 匿名内部类写法
+</span><span style="color:#75715e"></span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;love&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;you&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;too&#34;</span><span style="color:#f92672">);</span>
+Collections<span style="color:#f92672">.</span><span style="color:#a6e22e">sort</span><span style="color:#f92672">(</span>list<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Comparator<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;(){</span><span style="color:#75715e">// 接口名
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">compare</span><span style="color:#f92672">(</span>String s1<span style="color:#f92672">,</span> String s2<span style="color:#f92672">){</span><span style="color:#75715e">// 方法名
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s1 <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s2 <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+            <span style="color:#66d9ef">return</span> 1<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">return</span> s1<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()-</span>s2<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">});</span>
+</code></pre></div><p>上述代码通过内部类重载了<code>Comparator</code>接口的<code>compare()</code>方法，实现比较逻辑。采用Lambda表达式可简写如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// JDK8 Lambda表达式写法
+</span><span style="color:#75715e"></span>List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;love&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;you&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;too&#34;</span><span style="color:#f92672">);</span>
+Collections<span style="color:#f92672">.</span><span style="color:#a6e22e">sort</span><span style="color:#f92672">(</span>list<span style="color:#f92672">,</span> <span style="color:#f92672">(</span>s1<span style="color:#f92672">,</span> s2<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;{</span><span style="color:#75715e">// 省略参数表的类型
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s1 <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s2 <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">return</span> 1<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">return</span> s1<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()-</span>s2<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">});</span>
+</code></pre></div><p>上述代码跟匿名内部类的作用是一样的。除了省略了接口名和方法名，代码中把参数表的类型也省略了。这得益于<code>javac</code>的<strong>类型推断</strong>机制，编译器能够根据上下文信息推断出参数的类型，当然也有推断失败的时候，这时就需要手动指明参数类型了。注意，Java是强类型语言，每个变量和对象都必需有明确的类型。</p>
+<p><strong>匿名内部类会产生额外的class文件，而使用Lambda表达式则不会</strong></p>
+<h3 id="比较器">比较器</h3>
+<blockquote>
+<p>确定两个对象之间的大小关系及排列顺序称为比较，能实现这个比较功能的类或方法称之为比较器</p>
+</blockquote>
+<ul>
+<li>内部比较器是comparable接口</li>
+<li>外部比较器是comparator接口</li>
+</ul>
+<p>一位数组的降序排序：</p>
+<h4 id="foreach">forEach()</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 使用曾强for循环迭代
+</span><span style="color:#75715e"></span>ArrayList<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;love&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;you&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;too&#34;</span><span style="color:#f92672">));</span>
+<span style="color:#66d9ef">for</span><span style="color:#f92672">(</span>String str <span style="color:#f92672">:</span> list<span style="color:#f92672">){</span>
+    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>str<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()&gt;</span>3<span style="color:#f92672">)</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 使用forEach()结合Lambda表达式迭代
+</span><span style="color:#75715e"></span>ArrayList<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;love&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;you&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;too&#34;</span><span style="color:#f92672">));</span>
+list<span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span> str <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>str<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()&gt;</span>3<span style="color:#f92672">)</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">);</span>
+    <span style="color:#f92672">});</span>
+</code></pre></div><h4 id="removeif">removeIf()</h4>
+<p>该方法签名为<code>boolean removeIf(Predicate&lt;? super E&gt; filter)</code>，作用是<strong>删除容器中所有满足<code>filter</code>指定条件的元素</strong>，其中<code>Predicate</code>是一个函数接口，里面只有一个待实现方法<code>boolean test(T t)</code>，同样的这个方法的名字根本不重要，因为用的时候不需要书写这个名字。</p>
+<p>需求：<em>假设有一个字符串列表，需要删除其中所有长度大于3的字符串。</em></p>
+<p>我们知道如果需要在迭代过程冲对容器进行删除操作必须使用迭代器，否则会抛出<code>ConcurrentModificationException</code>，所以上述任务传统的写法是：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 使用迭代器删除列表元素
+</span><span style="color:#75715e"></span>ArrayList<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;love&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;you&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;too&#34;</span><span style="color:#f92672">));</span>
+Iterator<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> it <span style="color:#f92672">=</span> list<span style="color:#f92672">.</span><span style="color:#a6e22e">iterator</span><span style="color:#f92672">();</span>
+<span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>it<span style="color:#f92672">.</span><span style="color:#a6e22e">hasNext</span><span style="color:#f92672">()){</span>
+    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>it<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">().</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()&gt;</span>3<span style="color:#f92672">)</span> <span style="color:#75715e">// 删除长度大于3的元素
+</span><span style="color:#75715e"></span>        it<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>现在使用<code>removeIf()</code>方法结合匿名内部类，我们可是这样实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 使用removeIf()结合匿名名内部类实现
+</span><span style="color:#75715e"></span>ArrayList<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;love&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;you&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;too&#34;</span><span style="color:#f92672">));</span>
+list<span style="color:#f92672">.</span><span style="color:#a6e22e">removeIf</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Predicate<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;(){</span> <span style="color:#75715e">// 删除长度大于3的元素
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">test</span><span style="color:#f92672">(</span>String str<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">return</span> str<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()&gt;</span>3<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">});</span>
+</code></pre></div><p>上述代码使用<code>removeIf()</code>方法，并使用匿名内部类实现<code>Precicate</code>接口。相信你已经想到用Lambda表达式该怎么写了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 使用removeIf()结合Lambda表达式实现
+</span><span style="color:#75715e"></span>ArrayList<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;love&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;you&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;too&#34;</span><span style="color:#f92672">));</span>
+list<span style="color:#f92672">.</span><span style="color:#a6e22e">removeIf</span><span style="color:#f92672">(</span>str <span style="color:#f92672">-&gt;</span> str<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()&gt;</span>3<span style="color:#f92672">);</span> <span style="color:#75715e">// 删除长度大于3的元素
+</span></code></pre></div><p>使用Lambda表达式不需要记忆<code>Predicate</code>接口名，也不需要记忆<code>test()</code>方法名，只需要知道此处需要一个返回布尔类型的Lambda表达式就行了</p>
+<h4 id="replaceall">replaceAll()</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 使用Lambda表达式实现
+</span><span style="color:#75715e"></span>ArrayList<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;love&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;you&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;too&#34;</span><span style="color:#f92672">));</span>
+list<span style="color:#f92672">.</span><span style="color:#a6e22e">replaceAll</span><span style="color:#f92672">(</span>str <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>str<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()&gt;</span>3<span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">return</span> str<span style="color:#f92672">.</span><span style="color:#a6e22e">toUpperCase</span><span style="color:#f92672">();</span>
+    <span style="color:#66d9ef">return</span> str<span style="color:#f92672">;</span>
+<span style="color:#f92672">});</span>
+</code></pre></div><h4 id="sort">sort</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// List.sort()方法结合Lambda表达式
+</span><span style="color:#75715e"></span>ArrayList<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;love&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;you&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;too&#34;</span><span style="color:#f92672">));</span>
+list<span style="color:#f92672">.</span><span style="color:#a6e22e">sort</span><span style="color:#f92672">((</span>str1<span style="color:#f92672">,</span> str2<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> str1<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()-</span>str2<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">());</span>
+</code></pre></div><p>&hellip;</p>
+<h2 id="streams-api">Streams API()</h2>
+<blockquote>
+<p>函数接口是指内部只有一个抽象方法的接口</p>
+</blockquote>
+<h4 id="foreach-1">forEach()</h4>
+<p>我们对<code>forEach()</code>方法并不陌生，在<code>Collection</code>中我们已经见过。方法签名为<code>void forEach(Consumer&lt;? super E&gt; action)</code>，作用是对容器中的每个元素执行<code>action</code>指定的动作，也就是对元素进行遍历。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 使用Stream.forEach()迭代
+</span><span style="color:#75715e"></span>Stream<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> stream <span style="color:#f92672">=</span> Stream<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;love&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;you&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;too&#34;</span><span style="color:#f92672">);</span>
+stream<span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>str <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">));</span>
+</code></pre></div><p>由于<code>forEach()</code>是结束方法，上述代码会立即执行，输出所有字符串。</p>
+<h4 id="filter">Filter()</h4>
+<p>数原型为<code>Stream&lt;T&gt; filter(Predicate&lt;? super T&gt; predicate)</code>，作用是返回一个只包含满足<code>predicate</code>条件元素的<code>Stream</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 保留长度等于3的字符串
+</span><span style="color:#75715e"></span>Stream<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> stream<span style="color:#f92672">=</span> Stream<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;love&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;you&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;too&#34;</span><span style="color:#f92672">);</span>
+stream<span style="color:#f92672">.</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span>str <span style="color:#f92672">-&gt;</span> str<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()==</span>3<span style="color:#f92672">)</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>str <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">));</span>
+</code></pre></div><p>上述代码将输出为长度等于3的字符串<code>you</code>和<code>too</code>。注意，由于<code>filter()</code>是个中间操作，如果只调用<code>filter()</code>不会有实际计算，因此也不会输出任何信息。</p>
+<h3 id="递归">递归</h3>
+<p>整数n的阶乘：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IntCall</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">call</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> n<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RecursionExample</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> IntCall intCall<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        intCall <span style="color:#f92672">=</span> n <span style="color:#f92672">-&gt;</span> n <span style="color:#f92672">==</span> 0 <span style="color:#f92672">?</span> 1 <span style="color:#f92672">:</span> n <span style="color:#f92672">*</span> intCall<span style="color:#f92672">.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">(</span>n<span style="color:#f92672">-</span>1<span style="color:#f92672">);</span>
+        Stream<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>intCall<span style="color:#f92672">.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">(</span>10<span style="color:#f92672">)).</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>输出结果：</p>
+<p><code>3628800</code></p>
+<p>实现Fibonacci数列：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RecursiveFibonacci</span> <span style="color:#f92672">{</span>
+    IntCall fib<span style="color:#f92672">;</span>
+
+    RecursiveFibonacci<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        fib <span style="color:#f92672">=</span> n <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>n <span style="color:#f92672">==</span> 0 <span style="color:#f92672">||</span> n <span style="color:#f92672">==</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">return</span> n<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">return</span> fib<span style="color:#f92672">.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">(</span>n <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> fib<span style="color:#f92672">.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">(</span>n <span style="color:#f92672">-</span> 2<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">};</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">calFib</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> n<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> fib<span style="color:#f92672">.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">(</span>n<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        RecursiveFibonacci rec <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RecursiveFibonacci<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> 10<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>rec<span style="color:#f92672">.</span><span style="color:#a6e22e">calFib</span><span style="color:#f92672">(</span>i<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>输出结果：</p>
+<p><code>0 1 1 2 3 5 8 13 21 34</code></p>
+<h3 id="方法引用">方法引用</h3>
+<p>Java8方法引用没有历史包袱。方法引用组成：类名或对象名，后面跟：：然后跟方法名称。</p>
+<h3 id="runnable接口">Runnable接口</h3>
+<p><strong>Runnable</strong> 接口自 1.0 版以来一直在 Java 中，因此不需要导入。它也符合特殊的单方法接口格式：它的方法 <code>run()</code> 不带参数，也没有返回值。因此，我们可以使用 Lambda 表达式和方法引用作为 <strong>Runnable</strong>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// functional/RunnableMethodReference.java
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// 方法引用与 Runnable 接口的结合使用
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Go</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">go</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Go::go()&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RunnableMethodReference</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Runnable<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Anonymous&#34;</span><span style="color:#f92672">);</span>
+      <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+
+    <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>
+      <span style="color:#f92672">()</span> <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;lambda&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+
+    <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>Go<span style="color:#f92672">::</span>go<span style="color:#f92672">).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>复制ErrorOK<span style="color:#f92672">!</span>
+</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Anonymous
+lambda
+Go:<span style="color:#f92672">:</span>go<span style="color:#f92672">()</span>
+</code></pre></div><p><strong>Thread</strong> 对象将 <strong>Runnable</strong> 作为其构造函数参数，并具有会调用 <code>run()</code> 的方法 <code>start()</code>。 <strong>注意</strong>，只有<strong>匿名内部类</strong>才需要具有名为 <code>run()</code> 的方法。</p>
+<h3 id="函数式接口">函数式接口</h3>
+<p>方法引用和Lambda表达式都必须被赋值，同时复制需要类型信息才能使编译器保证类型的正确性尤其是Lambda 表达式，它引入了新的要求。 代码示例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">x <span style="color:#f92672">-&gt;</span> x<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">()</span>复制ErrorOK<span style="color:#f92672">!</span>
+</code></pre></div><p>我们清楚这里返回类型必须是 <strong>String</strong>，但 <code>x</code> 是什么类型呢？</p>
+<p>Lambda 表达式包含类型推导（编译器会自动推导出类型信息，避免了程序员显式地声明）。编译器必须能够以某种方式推导出 <code>x</code> 的类型。</p>
+<p>下面是第二个代码示例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> y<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> x <span style="color:#f92672">+</span> y 复制ErrorOK<span style="color:#f92672">!</span>
+</code></pre></div><p>现在 <code>x</code> 和 <code>y</code> 可以是任何支持 <code>+</code> 运算符连接的数据类型，可以是两个不同的数值类型或者是 一个 <strong>String</strong> 加任意一种可自动转换为 <strong>String</strong> 的数据类型（这包括了大多数类型）。 但是，当 Lambda 表达式被赋值时，编译器必须确定 <code>x</code> 和 <code>y</code> 的确切类型以生成正确的代码。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> y<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> x <span style="color:#f92672">+</span> y 复制ErrorOK<span style="color:#f92672">!</span>
+</code></pre></div><p>现在 <code>x</code> 和 <code>y</code> 可以是任何支持 <code>+</code> 运算符连接的数据类型，可以是两个不同的数值类型或者是 一个 <strong>String</strong> 加任意一种可自动转换为 <strong>String</strong> 的数据类型（这包括了大多数类型）。 但是，当 Lambda 表达式被赋值时，编译器必须确定 <code>x</code> 和 <code>y</code> 的确切类型以生成正确的代码。</p>
+<p>该问题也适用于方法引用。 假设你要传递 <code>System.out :: println</code> 到你正在编写的方法 ，你怎么知道传递给方法的参数的类型？</p>
+<p>为了解决这个问题，Java 8 引入了 <code>java.util.function</code> 包。它包含一组接口，这些接口是 Lambda 表达式和方法引用的目标类型。 每个接口只包含一个抽象方法，称为函数式方法。</p>
+<p>在编写接口时，可以使用 <code>@FunctionalInterface</code> 注解强制执行此“函数式方法”模式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// functional/FunctionalAnnotation.java
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">@FunctionalInterface</span>
+<span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Functional</span> <span style="color:#f92672">{</span>
+  String <span style="color:#a6e22e">goodbye</span><span style="color:#f92672">(</span>String arg<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">FunctionalNoAnn</span> <span style="color:#f92672">{</span>
+  String <span style="color:#a6e22e">goodbye</span><span style="color:#f92672">(</span>String arg<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">/*
+</span><span style="color:#75715e">@FunctionalInterface
+</span><span style="color:#75715e">interface NotFunctional {
+</span><span style="color:#75715e">  String goodbye(String arg);
+</span><span style="color:#75715e">  String hello(String arg);
+</span><span style="color:#75715e">}
+</span><span style="color:#75715e">产生错误信息:
+</span><span style="color:#75715e">NotFunctional is not a functional interface
+</span><span style="color:#75715e">multiple non-overriding abstract methods
+</span><span style="color:#75715e">found in interface NotFunctional
+</span><span style="color:#75715e">*/</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FunctionalAnnotation</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">goodbye</span><span style="color:#f92672">(</span>String arg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Goodbye, &#34;</span> <span style="color:#f92672">+</span> arg<span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    FunctionalAnnotation fa <span style="color:#f92672">=</span>
+      <span style="color:#66d9ef">new</span> FunctionalAnnotation<span style="color:#f92672">();</span>
+    Functional f <span style="color:#f92672">=</span> fa<span style="color:#f92672">::</span>goodbye<span style="color:#f92672">;</span>
+    FunctionalNoAnn fna <span style="color:#f92672">=</span> fa<span style="color:#f92672">::</span>goodbye<span style="color:#f92672">;</span>
+    <span style="color:#75715e">// Functional fac = fa; // Incompatible
+</span><span style="color:#75715e"></span>    Functional fl <span style="color:#f92672">=</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;Goodbye, &#34;</span> <span style="color:#f92672">+</span> a<span style="color:#f92672">;</span>
+    FunctionalNoAnn fnal <span style="color:#f92672">=</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;Goodbye, &#34;</span> <span style="color:#f92672">+</span> a<span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><code>@FunctionalInterface</code> 注解是可选的; Java 在 <code>main()</code> 中把 <strong>Functional</strong> 和 <strong>FunctionalNoAnn</strong> 都当作函数式接口。 在 <code>NotFunctional</code> 的定义中可看到<code>@FunctionalInterface</code> 的作用：接口中如果有多个抽象方法则会产生编译期错误。</p>
+<p>仔细观察在定义 <code>f</code> 和 <code>fna</code> 时发生了什么。 <code>Functional</code> 和 <code>FunctionalNoAnn</code> 定义接口，然而被赋值的只是方法 <code>goodbye()</code>。首先，这只是一个方法而不是类；其次，它甚至都不是实现了该接口的类中的方法。这是添加到Java 8中的一点小魔法：如果将方法引用或 Lambda 表达式赋值给函数式接口（类型需要匹配），Java 会适配你的赋值到目标接口。 编译器会在后台把方法引用或 Lambda 表达式包装进实现目标接口的类的实例中。</p>
+<p>尽管 <code>FunctionalAnnotation</code> 确实适合 <code>Functional</code> 模型，但 Java不允许我们像<code>fac</code>定义中的那样，将 <code>FunctionalAnnotation</code> 直接赋值给 <code>Functional</code>，因为 <code>FunctionalAnnotation</code> 并没有显式地去实现 <code>Functional</code> 接口。唯一的惊喜是，Java 8 允许我们将函数赋值给接口，这样的语法更加简单漂亮。</p>
+<p><code>java.util.function</code> 包旨在创建一组完整的目标接口，使得我们一般情况下不需再定义自己的接口。主要因为基本类型的存在，导致预定义的接口数量有少许增加。 如果你了解命名模式，顾名思义就能知道特定接口的作用。</p>
+<p>以下是基本命名准则：</p>
+<ol>
+<li>如果只处理对象而非基本类型，名称则为 <code>Function</code>，<code>Consumer</code>，<code>Predicate</code> 等。参数类型通过泛型添加。</li>
+<li>如果接收的参数是基本类型，则由名称的第一部分表示，如 <code>LongConsumer</code>，<code>DoubleFunction</code>，<code>IntPredicate</code> 等，但返回基本类型的 <code>Supplier</code> 接口例外。</li>
+<li>如果返回值为基本类型，则用 <code>To</code> 表示，如 <code>ToLongFunction &lt;T&gt;</code> 和 <code>IntToLongFunction</code>。</li>
+<li>如果返回值类型与参数类型一致，则是一个运算符：单个参数使用 <code>UnaryOperator</code>，两个参数使用 <code>BinaryOperator</code>。</li>
+<li>如果接收两个参数且返回值为布尔值，则是一个谓词（Predicate）。</li>
+<li>如果接收的两个参数类型不同，则名称中有一个 <code>Bi</code>。</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-03 18:56:54</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="函数式编程" data-hashtags="Java基础"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-hashtag="Java基础"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="函数式编程" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="函数式编程"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="函数式编程" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="函数式编程" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="函数式编程" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="函数式编程"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/java%E5%9F%BA%E7%A1%80/">Java基础</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/09/%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" class="prev" rel="prev" title="基本语法"><i class="fas fa-angle-left fa-fw"></i>基本语法</a>
+            <a href="/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" class="next" rel="next" title="流式编程">流式编程<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

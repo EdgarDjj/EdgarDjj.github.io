@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Elasticsearch - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/elasticsearch/</link>
+        <description>Elasticsearch - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Fri, 30 Oct 2020 00:07:26 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/elasticsearch/" rel="self" type="application/rss+xml" /><item>
+    <title>Elasticsearch</title>
+    <link>https://EdgarDjj.github.io/2020/10/elasticsearch/</link>
+    <pubDate>Fri, 30 Oct 2020 00:07:26 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/10/elasticsearch/</guid>
+    <description><![CDATA[Elasticsearch Elasticsearch是一个基于Lucene库的搜索引擎。提供了一个分布式，支持多租户的全文搜索引擎，具有HTTP Web接口和无模式JSON文档。 Lucene库是一套用于全文检索和搜索的开放源码]]></description>
+</item></channel>
+</rss>

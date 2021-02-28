@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>流式编程 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="流式编程" />
+<meta property="og:description" content="流式编程 集合优化了对象的存储，而流和对象的处理有关 流是一系列与特定存储机制无关的元素——实际上，流并没有“存储”之说。 使用流，无需迭代集合中的元素，就可以从管道提取和操作元素。这些管道通常被组合在一起" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-03T18:57:06&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-03T18:57:06&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="流式编程"/>
+<meta name="twitter:description" content="流式编程 集合优化了对象的存储，而流和对象的处理有关 流是一系列与特定存储机制无关的元素——实际上，流并没有“存储”之说。 使用流，无需迭代集合中的元素，就可以从管道提取和操作元素。这些管道通常被组合在一起"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/springboot%E5%BC%80%E7%AB%AF/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "流式编程",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B\/"
+        },"genre": "posts","keywords": "Java基础","wordcount":  1770 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B\/","datePublished": "2020-10-03T18:57:06+00:00","dateModified": "2020-10-03T18:57:06+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">流式编程</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/java%E5%9F%BA%E7%A1%80/"><i class="far fa-folder fa-fw"></i>Java基础</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-03 18:57:06">2020-10-03 18:57:06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1770 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#流支持">流支持</a></li>
+        <li><a href="#流创建">流创建</a></li>
+        <li><a href="#随机数流">随机数流</a></li>
+        <li><a href="#intstreamrange">IntStream.range()</a></li>
+        <li><a href="#流的建造者模式">流的建造者模式</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="流式编程">流式编程</h1>
+<blockquote>
+<p>集合优化了对象的存储，而流和对象的处理有关</p>
+</blockquote>
+<p>流是一系列与特定存储机制无关的元素——实际上，流并没有“存储”之说。</p>
+<p>使用流，无需迭代集合中的元素，就可以从管道提取和操作元素。这些管道通常被组合在一起，形成一系列对流进行操作的管道。</p>
+<p>在大多数情况下，将对象存储在集合中是为了处理他们，因此你将会发现你将把编程的主要焦点从集合转移到了流上。流的一个核心好处是，它使得程序更加短小并且更易理解。当 Lambda 表达式和方法引用（method references）和流一起使用的时候会让人感觉自成一体。流使得 Java 8 更具吸引力。</p>
+<p>例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StreamExample</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">new</span> Random<span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">ints</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 100<span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>7<span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">distinct</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">sorted</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><strong>流可以在不使用赋值或可变数据的情况下对有状态的系统建模</strong></p>
+<p>ints（）方法产生一个流并且ints（）方法多种方式重载——两个参数限定了产生的数值的边界，这将随机生成一个1～100的随机整数流。用中间流操作（intermediate stream operation）distinct（）使流中的整数不重复，然后使用limit（）方法获取前7个元素，用sorted（）方法排序，最后使用forEach（）方法遍历输出，在这传递一个可以在控制台显示每个元素的方法引用：<code>System.out::println</code></p>
+<p>注意 <code>Randoms.java</code> 中没有声明任何变量。流可以在不使用赋值或可变数据的情况下对有状态的系统建模，这非常有用。</p>
+<ul>
+<li>内部迭代产生的代码可读性更强，而且能更简单的使用多核处理器。通过放弃对迭代过程的控制，可以把控制权交给并行化机制。</li>
+<li>流是懒加载的。这代表着它只在绝对必要时才计算。你可以将流看作“延迟列表”。由于计算延迟，流使我们能够表示非常大（甚至无限）的序列，而不需要考虑内存问题。</li>
+</ul>
+<h3 id="流支持">流支持</h3>
+<p>Java 设计者面临着这样一个难题：现存的大量类库不仅为 Java 所用，同时也被应用在整个 Java 生态圈数百万行的代码中。如何将一个全新的流的概念融入到现有类库中呢？</p>
+<p>比如在 <strong>Random</strong> 中添加更多的方法。只要不改变原有的方法，现有代码就不会受到干扰。</p>
+<p>一个大的挑战来自于使用接口的库。集合类是其中关键的一部分，因为你想把集合转为流。但是如果你将一个新方法添加到接口，那就破坏了每一个实现接口的类，因为这些类都没有实现你添加的新方法。</p>
+<p>Java 8 采用的解决方案是：在接口中添加被 <code>default</code>（<code>默认</code>）修饰的方法。通过这种方案，设计者们可以将流式（<em>stream</em>）方法平滑地嵌入到现有类中。流方法预置的操作几乎已满足了我们平常所有的需求。流操作的类型有三种：创建流，修改流元素（中间操作， Intermediate Operations），消费流元素（终端操作， Terminal Operations）。最后一种类型通常意味着收集流元素（通常是到集合中）。</p>
+<h3 id="流创建">流创建</h3>
+<p>可以通过Stream.of()将一组元素转化为流</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">showStreamOf</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    Stream<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;this is &#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34; a  &#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;word&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>print<span style="color:#f92672">);</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">();</span>
+    Stream<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 32<span style="color:#f92672">,</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">,</span> 32<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">,</span>34<span style="color:#f92672">,</span> 43<span style="color:#f92672">).</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>print<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>输出结果：</p>
+<p><code>this is  a  word 132 32 3443</code></p>
+<p>除此之外，每个集合都可以通过调用stream（）方法来产生一个流</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">showStream</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Integer<span style="color:#f92672">&gt;</span> m <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
+    m<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;a&#34;</span><span style="color:#f92672">,</span> 1<span style="color:#f92672">);</span>
+    m<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;b&#34;</span><span style="color:#f92672">,</span> 2<span style="color:#f92672">);</span>
+    m<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;c&#34;</span><span style="color:#f92672">,</span> 3<span style="color:#f92672">);</span>
+    m<span style="color:#f92672">.</span><span style="color:#a6e22e">entrySet</span><span style="color:#f92672">().</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">().</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>e <span style="color:#f92672">-&gt;</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">getKey</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>输出结果</p>
+<p><code>a:1 b:2 c:3</code></p>
+<p>为了从 <strong>Map</strong> 集合中产生流数据，我们首先调用 <code>entrySet()</code> 产生一个对象流，每个对象都包含一个 <code>key</code> 键以及与其相关联的 <code>value</code> 值。然后分别调用 <code>getKey()</code> 和 <code>getValue()</code> 获取值。</p>
+<h3 id="随机数流">随机数流</h3>
+<p><code>Random</code> 类被一组生成流的方法增强了。代码示例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// streams/RandomGenerators.java
+</span><span style="color:#75715e"></span><span style="color:#f92672">import</span> java.util.*<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.util.stream.*<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RandomGenerators</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">show</span><span style="color:#f92672">(</span>Stream<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> stream<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        stream
+        <span style="color:#f92672">.</span><span style="color:#a6e22e">limit</span><span style="color:#f92672">(</span>4<span style="color:#f92672">)</span>
+        <span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;++++++++&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Random rand <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Random<span style="color:#f92672">(</span>47<span style="color:#f92672">);</span>
+        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">ints</span><span style="color:#f92672">().</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">longs</span><span style="color:#f92672">().</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">doubles</span><span style="color:#f92672">().</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+        <span style="color:#75715e">// 控制上限和下限：
+</span><span style="color:#75715e"></span>        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">ints</span><span style="color:#f92672">(</span>10<span style="color:#f92672">,</span> 20<span style="color:#f92672">).</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">longs</span><span style="color:#f92672">(</span>50<span style="color:#f92672">,</span> 100<span style="color:#f92672">).</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">doubles</span><span style="color:#f92672">(</span>20<span style="color:#f92672">,</span> 30<span style="color:#f92672">).</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+        <span style="color:#75715e">// 控制流大小：
+</span><span style="color:#75715e"></span>        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">ints</span><span style="color:#f92672">(</span>2<span style="color:#f92672">).</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">longs</span><span style="color:#f92672">(</span>2<span style="color:#f92672">).</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">doubles</span><span style="color:#f92672">(</span>2<span style="color:#f92672">).</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+        <span style="color:#75715e">// 控制流的大小和界限
+</span><span style="color:#75715e"></span>        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">ints</span><span style="color:#f92672">(</span>3<span style="color:#f92672">,</span> 3<span style="color:#f92672">,</span> 9<span style="color:#f92672">).</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">longs</span><span style="color:#f92672">(</span>3<span style="color:#f92672">,</span> 12<span style="color:#f92672">,</span> 22<span style="color:#f92672">).</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+        show<span style="color:#f92672">(</span>rand<span style="color:#f92672">.</span><span style="color:#a6e22e">doubles</span><span style="color:#f92672">(</span>3<span style="color:#f92672">,</span> 11<span style="color:#f92672">.</span><span style="color:#a6e22e">5</span><span style="color:#f92672">,</span> 12<span style="color:#f92672">.</span><span style="color:#a6e22e">3</span><span style="color:#f92672">).</span><span style="color:#a6e22e">boxed</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>复制ErrorOK<span style="color:#f92672">!</span>
+</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">-</span>1172028779
+1717241110
+<span style="color:#f92672">-</span>2014573909
+229403722
+<span style="color:#f92672">++++++++</span>
+2955289354441303771
+3476817843704654257
+<span style="color:#f92672">-</span>8917117694134521474
+4941259272818818752
+<span style="color:#f92672">++++++++</span>
+0<span style="color:#f92672">.</span><span style="color:#a6e22e">2613610344283964</span>
+0<span style="color:#f92672">.</span><span style="color:#a6e22e">0508673570556899</span>
+0<span style="color:#f92672">.</span><span style="color:#a6e22e">8037155449603999</span>
+0<span style="color:#f92672">.</span><span style="color:#a6e22e">7620665811558285</span>
+<span style="color:#f92672">++++++++</span>
+16
+10
+11
+12
+<span style="color:#f92672">++++++++</span>
+65
+99
+54
+58
+<span style="color:#f92672">++++++++</span>
+29<span style="color:#f92672">.</span><span style="color:#a6e22e">86777681078574</span>
+24<span style="color:#f92672">.</span><span style="color:#a6e22e">83968447804611</span>
+20<span style="color:#f92672">.</span><span style="color:#a6e22e">09247112332014</span>
+24<span style="color:#f92672">.</span><span style="color:#a6e22e">046793846338723</span>
+<span style="color:#f92672">++++++++</span>
+1169976606
+1947946283
+<span style="color:#f92672">++++++++</span>
+2970202997824602425
+<span style="color:#f92672">-</span>2325326920272830366
+<span style="color:#f92672">++++++++</span>
+0<span style="color:#f92672">.</span><span style="color:#a6e22e">7024254510631527</span>
+0<span style="color:#f92672">.</span><span style="color:#a6e22e">6648552384607359</span>
+<span style="color:#f92672">++++++++</span>
+6
+7
+7
+<span style="color:#f92672">++++++++</span>
+17
+12
+20
+<span style="color:#f92672">++++++++</span>
+12<span style="color:#f92672">.</span><span style="color:#a6e22e">27872414236691</span>
+11<span style="color:#f92672">.</span><span style="color:#a6e22e">732085449736195</span>
+12<span style="color:#f92672">.</span><span style="color:#a6e22e">196509449817267</span>
+<span style="color:#f92672">++++++++</span>
+</code></pre></div><p>为了消除冗余代码，我创建了一个泛型方法 <code>show(Stream&lt;T&gt; stream)</code> （在讲解泛型之前就使用这个特性，确实有点作弊，但是回报是值得的）。类型参数 <code>T</code> 可以是任何类型，所以这个方法对 <strong>Integer</strong>、<strong>Long</strong> 和 <strong>Double</strong> 类型都生效。但是 <strong>Random</strong> 类只能生成基本类型 <strong>int</strong>， <strong>long</strong>， <strong>double</strong> 的流。幸运的是， <code>boxed()</code> 流操作将会自动地把基本类型包装成为对应的装箱类型，从而使得 <code>show()</code> 能够接受流。</p>
+<h3 id="intstreamrange">IntStream.range()</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RangeOfInt</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// 传统方法
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;=</span> 100<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+            res <span style="color:#f92672">+=</span> i<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>res<span style="color:#f92672">);</span>
+        <span style="color:#75715e">// for-in循环
+</span><span style="color:#75715e"></span>        res <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">:</span> range<span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 101<span style="color:#f92672">).</span><span style="color:#a6e22e">toArray</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            res <span style="color:#f92672">+=</span> i<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>res<span style="color:#f92672">);</span>
+        <span style="color:#75715e">// 流
+</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>range<span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 101<span style="color:#f92672">).</span><span style="color:#a6e22e">sum</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="流的建造者模式">流的建造者模式</h3>
+<p>在建造者模式（Builder design pattern）中，首先创建一个 <code>builder</code> 对象，然后将创建流所需的多个信息传递给它，最后<code>builder</code> 对象执行”创建“流的操作。<strong>Stream</strong> 库提供了这样的 <code>Builder</code>。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-03 18:57:06</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="流式编程" data-hashtags="Java基础"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-hashtag="Java基础"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="流式编程" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="流式编程"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="流式编程" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="流式编程" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="流式编程" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/%E6%B5%81%E5%BC%8F%E7%BC%96%E7%A8%8B/" data-title="流式编程"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/java%E5%9F%BA%E7%A1%80/">Java基础</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" class="prev" rel="prev" title="函数式编程"><i class="fas fa-angle-left fa-fw"></i>函数式编程</a>
+            <a href="/2020/10/springboot%E5%BC%80%E7%AB%AF/" class="next" rel="next" title="SpringBoot开端">SpringBoot开端<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

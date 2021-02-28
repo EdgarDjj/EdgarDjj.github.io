@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>什么是JWT - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="什么是JWT" />
+<meta property="og:description" content="什么是JWT 本质上它是一段签名的 JSON 格式的数据。由于它是带有签名的，因此接收者便可以验证它的真实性。同时由于它是 JSON 格式的因此它的体积也很小。如果你想了解有关它的正式定义，可以在 RFC 7519 中找到。 Session" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-10T16:52:25&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-10T16:52:25&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="什么是JWT"/>
+<meta name="twitter:description" content="什么是JWT 本质上它是一段签名的 JSON 格式的数据。由于它是带有签名的，因此接收者便可以验证它的真实性。同时由于它是 JSON 格式的因此它的体积也很小。如果你想了解有关它的正式定义，可以在 RFC 7519 中找到。 Session"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" /><link rel="next" href="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "什么是JWT",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/11\/%E4%BB%80%E4%B9%88%E6%98%AFjwt\/"
+        },"genre": "posts","keywords": "JWT","wordcount":  2060 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/11\/%E4%BB%80%E4%B9%88%E6%98%AFjwt\/","datePublished": "2020-11-10T16:52:25+00:00","dateModified": "2020-11-10T16:52:25+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">什么是JWT</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/web/"><i class="far fa-folder fa-fw"></i>web</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-10 16:52:25">2020-11-10 16:52:25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2060 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#sessioncookietoken">Session、Cookie、Token</a>
+      <ol>
+        <li><a href="#session-和-cookie-的使用过程">Session 和 Cookie 的使用过程</a></li>
+        <li><a href="#token">Token</a></li>
+      </ol>
+    </li>
+    <li><a href="#jwt">JWT</a>
+      <ol>
+        <li><a href="#实现思路">实现思路</a></li>
+        <li><a href="#jwt数据结构">JWT数据结构</a></li>
+        <li><a href="#jwt实现认证和授权的原理">JWT实现认证和授权的原理</a></li>
+        <li><a href="#实现">实现</a></li>
+        <li><a href="#jwt的几个特点">JWT的几个特点</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="什么是jwt">什么是JWT</h1>
+<blockquote>
+<p>本质上它是一段签名的 JSON 格式的数据。由于它是带有签名的，因此接收者便可以验证它的真实性。同时由于它是 JSON 格式的因此它的体积也很小。如果你想了解有关它的正式定义，可以在 <a href="https://tools.ietf.org/html/rfc7519" target="_blank" rel="noopener noreffer">RFC 7519</a> 中找到。</p>
+</blockquote>
+<h2 id="sessioncookietoken">Session、Cookie、Token</h2>
+<p>Cookie和Session的一个本质的区别就是，Session存在于服务端，而Cookie存在于客户端。Session的主要作用就是通过服务端记录用户的状态，Cookie数据保存在客户端（浏览器端）。</p>
+<blockquote>
+<p>cookie是一个非常具体的东西，指的就是浏览器中能永久存储的一种数据，仅仅是浏览器实现的一种数据存储功能。</p>
+<p>cookie由服务器生成，发送给浏览器，浏览器吧cookie以key-value形式保留。</p>
+</blockquote>
+<h3 id="session-和-cookie-的使用过程">Session 和 Cookie 的使用过程</h3>
+<p>每当用户登陆的时候，服务器验证通过后，会创建一个Session并将Session信息存储起来，同时服务器会向用户返回一个SessionId并写入用户Cookie，当用户登陆的时候，Cookie将与每个后续请求一起被发送出去，服务端可以将存储在Cookie上的SessionId与存储在内存或者数据库中的Session信息进行校对，以验证用户身份，返回给用户客户端响应信息的时候回附带用户当前对的状态。</p>
+<p>但由于Cookie无法防止CSRF（Cross Site Request Forgery）攻击，因为访问的信息存储在Cookie中，可以被窃取，被窃取的SessionId可以被用来登录，因此产生危险。</p>
+<h3 id="token">Token</h3>
+<p>同时为了避免用户数极大的情况下，数据库需要存储大量的SessionId进行校对，效率低下同时影响性能。Token诞生，所有数据都存在于客户端，每次用户请求服务的时候都带上JWT到服务端，服务端用同样的算法进行解密与请求的Token中的签名进行比较来进行认证。用token替换sessionid用CPU计算时间来换取存取sessionid的代价。</p>
+<h2 id="jwt">JWT</h2>
+<h3 id="实现思路">实现思路</h3>
+<ul>
+<li>用户登录校验，校验成功返回token</li>
+<li>客户端接收数据保存到客户端</li>
+<li>客户端每次访问API是携带Token到服务端的</li>
+<li>服务端采用filter过滤器校验，校验成功返回请求数据，校验失败返回错误码</li>
+</ul>
+<h3 id="jwt数据结构">JWT数据结构</h3>
+<ul>
+<li>JWT token 的格式：xxxx.yyyy.zzzz
+<ul>
+<li>头信息（header）</li>
+<li>负载（payload）</li>
+<li>签名（signature）</li>
+</ul>
+</li>
+<li>header中用于存放签名的生成算法</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;alg&#34;</span>: <span style="color:#e6db74">&#34;HS512&#34;</span>,
+  <span style="color:#f92672">&#34;typ&#34;</span>: <span style="color:#e6db74">&#34;JWT&#34;</span>
+}
+</code></pre></div><p>上面代码中，<code>alg</code>属性表示签名的算法（algorithm））；<code>typ</code>属性表示这个令牌（token）的类型（type），JWT 令牌统一写为<code>JWT</code>。</p>
+<ul>
+<li>
+<p>payload中用于存放用户名、token的生成时间和过期时间</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;sub&#34;</span>:<span style="color:#e6db74">&#34;admin&#34;</span>,
+  <span style="color:#f92672">&#34;created&#34;</span>:<span style="color:#ae81ff">1489079981393</span>,
+  <span style="color:#f92672">&#34;exp&#34;</span>:<span style="color:#ae81ff">1489684781</span>
+}
+</code></pre></div><ul>
+<li>Registered claims
+<ul>
+<li>iss（Issuer）：JWT签发者</li>
+<li>created：（Create Time）：JWT创建时间</li>
+<li>exp（Expiration Time）：JWT的过期时间（必须大于签发时间）</li>
+<li>sub（Subject）：JWT所面向的用户</li>
+<li>aud（Audience）：接收JWT的一方</li>
+<li>jti（JWT id）：JWT的身份标识，每个JWT的id都应该是不重复的，避免重复发放</li>
+</ul>
+</li>
+<li>Public claims</li>
+<li>Private claims</li>
+</ul>
+</li>
+<li>
+<p>signature为以header和payload生成的签名，一旦header和payload被篡改，验证将失败。三部分组成</p>
+<ul>
+<li>base64UrlEncode（header）</li>
+<li>base64UrlEncode（payload）</li>
+<li>secret（服务器秘密字串）</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//secret为加密算法的密钥
+</span><span style="color:#75715e"></span>String signature <span style="color:#f92672">=</span> HMACSHA512<span style="color:#f92672">(</span>base64UrlEncode<span style="color:#f92672">(</span>header<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.&#34;</span> <span style="color:#f92672">+</span>base64UrlEncode<span style="color:#f92672">(</span>payload<span style="color:#f92672">),</span>secret<span style="color:#f92672">)</span>
+
+</code></pre></div><h3 id="jwt实现认证和授权的原理">JWT实现认证和授权的原理</h3>
+<p>基于Token的身份验证是无状态的，不将用户信息存储在服务器中或者Session中。</p>
+<ul>
+<li>用户调用登录接口，登录成功后获取到token</li>
+<li>之后用户每次调用接口都在http的header中添加一个叫Authorization的头，值为JWT的token</li>
+<li>后台程序通过对Authorization头中信息的解码及数字签名校验来获取其中用户信息，从而实现认证和授权</li>
+</ul>
+<h3 id="实现">实现</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lua" data-lang="lua">mall<span style="color:#f92672">-</span>security
+<span style="color:#960050;background-color:#1e0010">├──</span> component
+<span style="color:#f92672">|</span>    <span style="color:#960050;background-color:#1e0010">├──</span> JwtAuthenticationTokenFilter <span style="color:#75715e">-- JWT登录授权过滤器</span>
+<span style="color:#f92672">|</span>    <span style="color:#960050;background-color:#1e0010">├──</span> RestAuthenticationEntryPoint <span style="color:#75715e">-- 自定义返回结果：未登录或登录过期</span>
+<span style="color:#f92672">|</span>    <span style="color:#960050;background-color:#1e0010">└──</span> RestfulAccessDeniedHandler <span style="color:#75715e">-- 自定义返回结果：没有权限访问时</span>
+<span style="color:#960050;background-color:#1e0010">├──</span> config
+<span style="color:#f92672">|</span>    <span style="color:#960050;background-color:#1e0010">├──</span> IgnoreUrlsConfig <span style="color:#75715e">-- 用于配置不需要安全保护的资源路径</span>
+<span style="color:#f92672">|</span>    <span style="color:#960050;background-color:#1e0010">└──</span> SecurityConfig <span style="color:#75715e">-- SpringSecurity通用配置</span>
+<span style="color:#960050;background-color:#1e0010">└──</span> util
+     <span style="color:#960050;background-color:#1e0010">└──</span> JwtTokenUtil <span style="color:#75715e">-- JWT的token处理工具类</span>
+</code></pre></div><h3 id="jwt的几个特点">JWT的几个特点</h3>
+<p>（1）JWT 默认是不加密，但也是可以加密的。生成原始 Token 以后，可以用密钥再加密一次。</p>
+<p>（2）JWT 不加密的情况下，不能将秘密数据写入 JWT。</p>
+<p>（3）JWT 不仅可以用于认证，也可以用于交换信息。有效使用 JWT，可以降低服务器查询数据库的次数。</p>
+<p>（4）JWT 的最大缺点是，由于服务器不保存 session 状态，因此无法在使用过程中废止某个 token，或者更改 token 的权限。也就是说，一旦 JWT 签发了，在到期之前就会始终有效，除非服务器部署额外的逻辑。</p>
+<p>（5）JWT 本身包含了认证信息，一旦泄露，任何人都可以获得该令牌的所有权限。为了减少盗用，JWT 的有效期应该设置得比较短。对于一些比较重要的权限，使用时应该再次对用户进行认证。</p>
+<p>（6）为了减少盗用，JWT 不应该使用 HTTP 协议明码传输，要使用 HTTPS 协议传输。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-11-10 16:52:25</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" data-title="什么是JWT" data-hashtags="JWT"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" data-hashtag="JWT"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" data-title="什么是JWT" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" data-title="什么是JWT"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" data-title="什么是JWT" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" data-title="什么是JWT" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" data-title="什么是JWT" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/" data-title="什么是JWT"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/jwt/">JWT</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/11/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" class="prev" rel="prev" title="虚拟机字节码执行引擎"><i class="fas fa-angle-left fa-fw"></i>虚拟机字节码执行引擎</a>
+            <a href="/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" class="next" rel="next" title="PageHelper的使用">PageHelper的使用<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

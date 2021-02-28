@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>MyBatis - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="MyBatis" />
+<meta property="og:description" content="Mybatis Mybatis中#{}和${}的区别 其最大的差别就是 #{} 可以防止sql注入，后 ${} 不可以。 SQL注入 一般前台有两个输入框，一个用户名一个密码，传入到后台后会拼接两个参数 select USER from table where username=userinput and password=userinput 来查询用户和校对，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/11/mybatis/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-11T17:41:51&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-11T17:41:51&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="MyBatis"/>
+<meta name="twitter:description" content="Mybatis Mybatis中#{}和${}的区别 其最大的差别就是 #{} 可以防止sql注入，后 ${} 不可以。 SQL注入 一般前台有两个输入框，一个用户名一个密码，传入到后台后会拼接两个参数 select USER from table where username=userinput and password=userinput 来查询用户和校对，"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/11/mybatis/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" /><link rel="next" href="https://EdgarDjj.github.io/2020/11/alfred%E7%9A%84%E4%BD%BF%E7%94%A8/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "MyBatis",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/11\/mybatis\/"
+        },"genre": "posts","keywords": "MyBatis","wordcount":  2689 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/11\/mybatis\/","datePublished": "2020-11-11T17:41:51+00:00","dateModified": "2020-11-11T17:41:51+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">MyBatis</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%A1%86%E6%9E%B6/"><i class="far fa-folder fa-fw"></i>框架</a>&nbsp;<a href="/categories/mybatis/"><i class="far fa-folder fa-fw"></i>MyBatis</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-11 17:41:51">2020-11-11 17:41:51</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2689 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#mybatis中和的区别">Mybatis中#{}和${}的区别</a></li>
+      </ol>
+    </li>
+    <li><a href="#mybatis-generator-配置">MyBatis Generator 配置</a>
+      <ol>
+        <li><a href="#引入插件">引入插件</a></li>
+        <li><a href="#通过编码和配置文件运行">通过编码和配置文件运行</a></li>
+        <li><a href="#配置文件">配置文件</a></li>
+      </ol>
+    </li>
+    <li><a href="#mybatis-generator-使用">MyBatis Generator 使用</a>
+      <ol>
+        <li><a href="#什么是example类">什么是example类</a></li>
+        <li><a href="#了解example成员变量">了解example成员变量</a></li>
+        <li><a href="#mapper接口中的方法解析">Mapper接口中的方法解析</a></li>
+        <li><a href="#example实例解析">example实例解析</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="mybatis">Mybatis</h1>
+<h3 id="mybatis中和的区别">Mybatis中#{}和${}的区别</h3>
+<p>其最大的差别就是 <code>#{}</code> 可以防止sql注入，后 <code>${}</code> 不可以。</p>
+<h4 id="sql注入">SQL注入</h4>
+<p>一般前台有两个输入框，一个用户名一个密码，传入到后台后会拼接两个参数</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#66d9ef">USER</span> <span style="color:#66d9ef">from</span> <span style="color:#66d9ef">table</span> <span style="color:#66d9ef">where</span> username<span style="color:#f92672">=</span>userinput <span style="color:#66d9ef">and</span> password<span style="color:#f92672">=</span>userinput
+</code></pre></div><p>来查询用户和校对，但是用户可以故意输入一个让后台解析失败的字符串，这就是SQL注入</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#66d9ef">USER</span> <span style="color:#66d9ef">from</span> <span style="color:#66d9ef">table</span> <span style="color:#66d9ef">where</span> username<span style="color:#f92672">=</span>userinput <span style="color:#66d9ef">and</span> password<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span> <span style="color:#66d9ef">or</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</code></pre></div><p>就无需使用密码了，为了防止SQL注入的问题，首先要对单引号进行过滤，在添加逻辑</p>
+<h4 id="关于">关于#</h4>
+<ol>
+<li>#{} 表示一个占位符号，相当于JDBC中的 <code>？</code> #{} 实现的是向prepareStatement中预处理语句中设置参数值，sql语句中#{}表示一个占位符即?</li>
+<li>#{}将传入的数据都当成一个字符串，会自动传入的数据加一个双引号。</li>
+<li>如果sql语句中只有一个参数时，参数名可以随意定义，若是一个实体或者map集合等，则需写『实体属性名』或者『map集合关键字』</li>
+</ol>
+<h4 id="关于-1">关于$</h4>
+<ol>
+<li>将传入的数据直接显示</li>
+<li>${}中参数名称不能随意更改</li>
+<li>简单来说JDBC不支持使用占位符的地方可以使用${}</li>
+</ol>
+<h4 id="mybatis中的和的区别">Mybatis中的#{}和${}的区别</h4>
+<blockquote>
+<p>#{}能防止sql注入</p>
+</blockquote>
+<blockquote>
+<p>在JDBC能使用占位符的地方最好优先使用#{}</p>
+</blockquote>
+<blockquote>
+<p>在JDBC不支持使用占位符的地方就只能使用${}动态参数</p>
+</blockquote>
+<p>例如使用 order by、like动态参数的时候。</p>
+<p>例如模糊查询</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> <span style="color:#66d9ef">user</span> <span style="color:#66d9ef">where</span> user_name link <span style="color:#e6db74">&#39;%${param}%&#39;</span>
+</code></pre></div><h2 id="mybatis-generator-配置">MyBatis Generator 配置</h2>
+<h3 id="引入插件">引入插件</h3>
+<p><code>Mybatis-Generator</code>的运行方式有很多种：</p>
+<ul>
+<li>基于<code>mybatis-generator-core-x.x.x.jar</code>和其<code>XML</code>配置文件，通过命令行运行。</li>
+<li>通过<code>Ant</code>的<code>Task</code>结合其<code>XML</code>配置文件运行。</li>
+<li>通过<code>Maven</code>插件运行。</li>
+<li>通过<code>Java</code>代码和其<code>XML</code>配置文件运行。</li>
+<li>通过<code>Java</code>代码和编程式配置运行。</li>
+<li>通过<code>Eclipse Feature</code>运行。</li>
+</ul>
+<h3 id="通过编码和配置文件运行">通过编码和配置文件运行</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.mybatis.generator<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>mybatis-generator-core<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>1.4.0<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><h3 id="配置文件">配置文件</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34; ?&gt;</span>
+<span style="color:#75715e">&lt;!--mybatis的代码生成器相关配置--&gt;</span>
+<span style="color:#75715e">&lt;!DOCTYPE generatorConfiguration
+</span><span style="color:#75715e">        PUBLIC &#34;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&#34;
+</span><span style="color:#75715e">        &#34;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&#34;&gt;</span>
+
+<span style="color:#f92672">&lt;generatorConfiguration&gt;</span>
+    <span style="color:#75715e">&lt;!-- 引入配置文件 --&gt;</span>
+    <span style="color:#f92672">&lt;properties</span> <span style="color:#a6e22e">resource=</span><span style="color:#e6db74">&#34;application-dev.properties&#34;</span><span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#75715e">&lt;!-- 一个数据库一个context,context的子元素必须按照它给出的顺序
+</span><span style="color:#75715e">        property*,plugin*,commentGenerator?,jdbcConnection,javaTypeResolver?,
+</span><span style="color:#75715e">        javaModelGenerator,sqlMapGenerator?,javaClientGenerator?,table+
+</span><span style="color:#75715e">    --&gt;</span>
+    <span style="color:#f92672">&lt;context</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;myContext&#34;</span> <span style="color:#a6e22e">targetRuntime=</span><span style="color:#e6db74">&#34;MyBatis3&#34;</span> <span style="color:#a6e22e">defaultModelType=</span><span style="color:#e6db74">&#34;flat&#34;</span><span style="color:#f92672">&gt;</span>
+
+        <span style="color:#75715e">&lt;!-- 这个插件给生成的Java模型对象增加了equals和hashCode方法 --&gt;</span>
+        <span style="color:#75715e">&lt;!--&lt;plugin type=&#34;org.mybatis.generator.plugins.EqualsHashCodePlugin&#34;/&gt;--&gt;</span>
+
+        <span style="color:#75715e">&lt;!-- 注释 --&gt;</span>
+        <span style="color:#f92672">&lt;commentGenerator&gt;</span>
+            <span style="color:#75715e">&lt;!-- 是否不生成注释 --&gt;</span>
+            <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;suppressAllComments&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+            <span style="color:#75715e">&lt;!-- 不希望生成的注释中包含时间戳 --&gt;</span>
+            <span style="color:#75715e">&lt;!--&lt;property name=&#34;suppressDate&#34; value=&#34;true&#34;/&gt;--&gt;</span>
+            <span style="color:#75715e">&lt;!-- 添加 db 表中字段的注释，只有suppressAllComments为false时才生效--&gt;</span>
+            <span style="color:#75715e">&lt;!--&lt;property name=&#34;addRemarkComments&#34; value=&#34;true&#34;/&gt;--&gt;</span>
+        <span style="color:#f92672">&lt;/commentGenerator&gt;</span>
+
+
+        <span style="color:#75715e">&lt;!-- jdbc连接 --&gt;</span>
+        <span style="color:#f92672">&lt;jdbcConnection</span> <span style="color:#a6e22e">driverClass=</span><span style="color:#e6db74">&#34;${spring.datasource.driverClassName}&#34;</span>
+                        <span style="color:#a6e22e">connectionURL=</span><span style="color:#e6db74">&#34;${spring.datasource.url}&#34;</span>
+                        <span style="color:#a6e22e">userId=</span><span style="color:#e6db74">&#34;${spring.datasource.username}&#34;</span>
+                        <span style="color:#a6e22e">password=</span><span style="color:#e6db74">&#34;${spring.datasource.password}&#34;</span><span style="color:#f92672">&gt;</span>
+            <span style="color:#75715e">&lt;!--高版本的 mysql-connector-java 需要设置 nullCatalogMeansCurrent=true--&gt;</span>
+            <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;nullCatalogMeansCurrent&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;/jdbcConnection&gt;</span>
+
+        <span style="color:#75715e">&lt;!-- 类型转换 --&gt;</span>
+        <span style="color:#f92672">&lt;javaTypeResolver&gt;</span>
+            <span style="color:#75715e">&lt;!--是否使用bigDecimal，默认false。
+</span><span style="color:#75715e">                false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer
+</span><span style="color:#75715e">                true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal--&gt;</span>
+            <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;forceBigDecimals&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+            <span style="color:#75715e">&lt;!--默认false
+</span><span style="color:#75715e">                false，将所有 JDBC 的时间类型解析为 java.util.Date
+</span><span style="color:#75715e">                true，将 JDBC 的时间类型按如下规则解析
+</span><span style="color:#75715e">                    DATE	                -&gt; java.time.LocalDate
+</span><span style="color:#75715e">                    TIME	                -&gt; java.time.LocalTime
+</span><span style="color:#75715e">                    TIMESTAMP               -&gt; java.time.LocalDateTime
+</span><span style="color:#75715e">                    TIME_WITH_TIMEZONE  	-&gt; java.time.OffsetTime
+</span><span style="color:#75715e">                    TIMESTAMP_WITH_TIMEZONE	-&gt; java.time.OffsetDateTime
+</span><span style="color:#75715e">                --&gt;</span>
+            <span style="color:#75715e">&lt;!--&lt;property name=&#34;useJSR310Types&#34; value=&#34;false&#34;/&gt;--&gt;</span>
+        <span style="color:#f92672">&lt;/javaTypeResolver&gt;</span>
+
+        <span style="color:#75715e">&lt;!-- 生成实体类地址 --&gt;</span>
+        <span style="color:#f92672">&lt;javaModelGenerator</span> <span style="color:#a6e22e">targetPackage=</span><span style="color:#e6db74">&#34;com.wqlm.boot.user.po&#34;</span> <span style="color:#a6e22e">targetProject=</span><span style="color:#e6db74">&#34;src/main/java&#34;</span><span style="color:#f92672">&gt;</span>
+            <span style="color:#75715e">&lt;!-- 是否让 schema 作为包的后缀，默认为false --&gt;</span>
+            <span style="color:#75715e">&lt;!--&lt;property name=&#34;enableSubPackages&#34; value=&#34;false&#34;/&gt;--&gt;</span>
+            <span style="color:#75715e">&lt;!-- 是否针对string类型的字段在set方法中进行修剪，默认false --&gt;</span>
+            <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;trimStrings&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;/javaModelGenerator&gt;</span>
+
+
+        <span style="color:#75715e">&lt;!-- 生成Mapper.xml文件 --&gt;</span>
+        <span style="color:#f92672">&lt;sqlMapGenerator</span> <span style="color:#a6e22e">targetPackage=</span><span style="color:#e6db74">&#34;mapper&#34;</span> <span style="color:#a6e22e">targetProject=</span><span style="color:#e6db74">&#34;src/main/resources&#34;</span><span style="color:#f92672">&gt;</span>
+            <span style="color:#75715e">&lt;!--&lt;property name=&#34;enableSubPackages&#34; value=&#34;false&#34;/&gt;--&gt;</span>
+        <span style="color:#f92672">&lt;/sqlMapGenerator&gt;</span>
+
+        <span style="color:#75715e">&lt;!-- 生成 XxxMapper.java 接口--&gt;</span>
+        <span style="color:#f92672">&lt;javaClientGenerator</span> <span style="color:#a6e22e">targetPackage=</span><span style="color:#e6db74">&#34;com.wqlm.boot.user.dao&#34;</span> <span style="color:#a6e22e">targetProject=</span><span style="color:#e6db74">&#34;src/main/java&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;XMLMAPPER&#34;</span><span style="color:#f92672">&gt;</span>
+            <span style="color:#75715e">&lt;!--&lt;property name=&#34;enableSubPackages&#34; value=&#34;false&#34;/&gt;--&gt;</span>
+        <span style="color:#f92672">&lt;/javaClientGenerator&gt;</span>
+
+
+        <span style="color:#75715e">&lt;!-- schema为数据库名，oracle需要配置，mysql不需要配置。
+</span><span style="color:#75715e">             tableName为对应的数据库表名
+</span><span style="color:#75715e">             domainObjectName 是要生成的实体类名(可以不指定，默认按帕斯卡命名法将表名转换成类名)
+</span><span style="color:#75715e">             enableXXXByExample 默认为 true， 为 true 会生成一个对应Example帮助类，帮助你进行条件查询，不想要可以设为false
+</span><span style="color:#75715e">             --&gt;</span>
+        <span style="color:#f92672">&lt;table</span> <span style="color:#a6e22e">schema=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#a6e22e">tableName=</span><span style="color:#e6db74">&#34;user&#34;</span> <span style="color:#a6e22e">domainObjectName=</span><span style="color:#e6db74">&#34;User&#34;</span>
+               <span style="color:#a6e22e">enableCountByExample=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">enableDeleteByExample=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">enableSelectByExample=</span><span style="color:#e6db74">&#34;false&#34;</span>
+               <span style="color:#a6e22e">enableUpdateByExample=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#a6e22e">selectByExampleQueryId=</span><span style="color:#e6db74">&#34;false&#34;</span><span style="color:#f92672">&gt;</span>
+            <span style="color:#75715e">&lt;!--是否使用实际列名,默认为false--&gt;</span>
+            <span style="color:#75715e">&lt;!--&lt;property name=&#34;useActualColumnNames&#34; value=&#34;false&#34; /&gt;--&gt;</span>
+        <span style="color:#f92672">&lt;/table&gt;</span>
+    <span style="color:#f92672">&lt;/context&gt;</span>
+<span style="color:#f92672">&lt;/generatorConfiguration&gt;</span>
+</code></pre></div><h2 id="mybatis-generator-使用">MyBatis Generator 使用</h2>
+<h3 id="什么是example类">什么是example类</h3>
+<p>Mybatis-Generator会为每个字段产生Criterion，为底层mapper.xml创建动态sql。如果表的字段比较多，产生的example类会非常庞大。理论上通过example类可以构造你想到的任何筛选条件。在Mybatis-Generator中加以配置，配置数据表的生成操作就可以自动生成example。</p>
+<h3 id="了解example成员变量">了解example成员变量</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> <span style="color:#75715e">//作用：升序还是降序
+</span><span style="color:#75715e"></span> <span style="color:#75715e">//参数格式：字段+空格+asc(desc)
+</span><span style="color:#75715e"></span> <span style="color:#66d9ef">protected</span> String orderByClause<span style="color:#f92672">;</span>  
+ <span style="color:#75715e">//作用：去除重复
+</span><span style="color:#75715e"></span> <span style="color:#75715e">//true是选择不重复记录，false，反之
+</span><span style="color:#75715e"></span> <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">boolean</span> distinct<span style="color:#f92672">;</span>
+ <span style="color:#75715e">//自定义查询条件
+</span><span style="color:#75715e"></span> <span style="color:#75715e">//Criteria的集合，集合中对象是由or连接
+</span><span style="color:#75715e"></span> <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>Criteria<span style="color:#f92672">&gt;</span> oredCriteria<span style="color:#f92672">;</span>
+ <span style="color:#75715e">//内部类Criteria包含一个Cretiron的集合，
+</span><span style="color:#75715e"></span> <span style="color:#75715e">//每一个Criteria对象内包含的Cretiron之间是由  AND连接的
+</span><span style="color:#75715e"></span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Criteria</span> <span style="color:#66d9ef">extends</span> GeneratedCriteria <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">protected</span> <span style="color:#a6e22e">Criteria</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span><span style="color:#66d9ef">super</span><span style="color:#f92672">();}</span>
+ <span style="color:#f92672">}</span>
+ <span style="color:#75715e">//是mybatis中逆向工程中的代码模型
+</span><span style="color:#75715e"></span> <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GeneratedCriteria</span> <span style="color:#f92672">{......}</span>
+ <span style="color:#75715e">//是最基本,最底层的Where条件，用于字段级的筛选
+</span><span style="color:#75715e"></span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Criterion</span> <span style="color:#f92672">{......}</span>
+</code></pre></div><h3 id="mapper接口中的方法解析">Mapper接口中的方法解析</h3>
+<p>mapper接口中的函数及方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int countByExample(UserExample example) thorws SQLException</td>
+<td>按条件计数</td>
+</tr>
+<tr>
+<td>int deleteByPrimaryKey(Integer id) thorws SQLException</td>
+<td>按主键删除</td>
+</tr>
+<tr>
+<td>int deleteByExample(UserExample example) thorws SQLException</td>
+<td>按条件查询</td>
+</tr>
+<tr>
+<td>String/Integer insert(User record) thorws SQLException</td>
+<td>插入数据（返回值为ID）</td>
+</tr>
+<tr>
+<td>User selectByPrimaryKey(Integer id) thorws SQLException</td>
+<td>按主键查询</td>
+</tr>
+<tr>
+<td>ListselectByExample(UserExample example) thorws SQLException</td>
+<td>按条件查询</td>
+</tr>
+<tr>
+<td>ListselectByExampleWithBLOGs(UserExample example) thorws SQLException</td>
+<td>按条件查询（包括BLOB字段）。只有当数据表中的字段类型有为二进制的才会产生。</td>
+</tr>
+<tr>
+<td>int updateByPrimaryKey(User record) thorws SQLException</td>
+<td>按主键更新</td>
+</tr>
+<tr>
+<td>int updateByPrimaryKeySelective(User record) thorws SQLException</td>
+<td>按主键更新值不为null的字段</td>
+</tr>
+<tr>
+<td>int updateByExample(User record, UserExample example) thorws SQLException</td>
+<td>按条件更新</td>
+</tr>
+<tr>
+<td>int updateByExampleSelective(User record, UserExample example) thorws SQLException</td>
+<td>按条件更新值不为null的字段</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example实例解析">example实例解析</h3>
+<p>mybatis的逆向工程中会生成实例及实例对应的example，example用于添加条件，相当where后面的部分
+xxxExample example = new xxxExample();
+Criteria criteria = new Example().createCriteria();</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>example.setOrderByClause(“字段名 ASC”);</td>
+<td>添加升序排列条件，DESC为降序</td>
+</tr>
+<tr>
+<td>example.setDistinct(false)</td>
+<td>去除重复，boolean型，true为选择不重复的记录。</td>
+</tr>
+<tr>
+<td>criteria.andXxxIsNull</td>
+<td>添加字段xxx为null的条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxIsNotNull</td>
+<td>添加字段xxx不为null的条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxEqualTo(value)</td>
+<td>添加xxx字段等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxNotEqualTo(value)</td>
+<td>添加xxx字段不等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxGreaterThan(value)</td>
+<td>添加xxx字段大于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxGreaterThanOrEqualTo(value)</td>
+<td>添加xxx字段大于等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxLessThan(value)</td>
+<td>添加xxx字段小于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxLessThanOrEqualTo(value)</td>
+<td>添加xxx字段小于等于value条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxIn(List&lt;？&gt;)</td>
+<td>添加xxx字段值在List&lt;？&gt;条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxNotIn(List&lt;？&gt;)</td>
+<td>添加xxx字段值不在List&lt;？&gt;条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxLike(“%”+value+”%”)</td>
+<td>添加xxx字段值为value的模糊查询条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxNotLike(“%”+value+”%”)</td>
+<td>添加xxx字段值不为value的模糊查询条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxBetween(value1,value2)</td>
+<td>添加xxx字段值在value1和value2之间条件</td>
+</tr>
+<tr>
+<td>criteria.andXxxNotBetween(value1,value2)</td>
+<td>添加xxx字段值不在value1和value2之间条件</td>
+</tr>
+</tbody>
+</table>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-11-11 17:41:51</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/11/mybatis/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/11/mybatis/" data-title="MyBatis" data-hashtags="MyBatis"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/11/mybatis/" data-hashtag="MyBatis"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/11/mybatis/" data-title="MyBatis" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/11/mybatis/" data-title="MyBatis"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/11/mybatis/" data-title="MyBatis" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/11/mybatis/" data-title="MyBatis" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/11/mybatis/" data-title="MyBatis" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/11/mybatis/" data-title="MyBatis"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mybatis/">MyBatis</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/11/pagehelper%E7%9A%84%E4%BD%BF%E7%94%A8/" class="prev" rel="prev" title="PageHelper的使用"><i class="fas fa-angle-left fa-fw"></i>PageHelper的使用</a>
+            <a href="/2020/11/alfred%E7%9A%84%E4%BD%BF%E7%94%A8/" class="next" rel="next" title="Alfred的使用">Alfred的使用<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

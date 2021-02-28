@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Chrome - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/chrome/</link>
+        <description>Chrome - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Sun, 01 Nov 2020 10:53:05 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/chrome/" rel="self" type="application/rss+xml" /><item>
+    <title>Chrome DevTools</title>
+    <link>https://EdgarDjj.github.io/2020/11/chrome-devtools/</link>
+    <pubDate>Sun, 01 Nov 2020 10:53:05 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/chrome-devtools/</guid>
+    <description><![CDATA[Chrome DevTools 网络面板 控件。控制功能 过滤器。可以控制在请求表中显示的内容。 概述。显示了何时检索资源的时间表。 请求表。列出检索的到的资源列表，默认按时间顺序排序。 摘要。告诉请求总数，传输数据量和加载时间等。 默认情]]></description>
+</item></channel>
+</rss>

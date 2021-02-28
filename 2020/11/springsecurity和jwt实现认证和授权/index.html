@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>SpringSecurity和JWT实现认证和授权 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="SpringSecurity和JWT实现认证和授权" />
+<meta property="og:description" content="SpringSecurity 和 JWT 实现认证和授权 SpringSecurity SpringSecurity 是一个强大可高度定制的认证和授权框架，对于Spring应用来说它是一套Web安全标准。SpringSecurity注重于为Java应用提供认证和授权功能，像所有Spring项目" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-04T19:08:32&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-04T19:08:32&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="SpringSecurity和JWT实现认证和授权"/>
+<meta name="twitter:description" content="SpringSecurity 和 JWT 实现认证和授权 SpringSecurity SpringSecurity 是一个强大可高度定制的认证和授权框架，对于Spring应用来说它是一套Web安全标准。SpringSecurity注重于为Java应用提供认证和授权功能，像所有Spring项目"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/11/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" /><link rel="next" href="https://EdgarDjj.github.io/2020/11/%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "SpringSecurity和JWT实现认证和授权",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/11\/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83\/"
+        },"genre": "posts","keywords": "SpringSecurity","wordcount":  2904 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/11\/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83\/","datePublished": "2020-11-04T19:08:32+00:00","dateModified": "2020-11-04T19:08:32+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">SpringSecurity和JWT实现认证和授权</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/spring/"><i class="far fa-folder fa-fw"></i>Spring</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-04 19:08:32">2020-11-04 19:08:32</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2904 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#springsecurity">SpringSecurity</a></li>
+    <li><a href="#jwt">JWT</a>
+      <ol>
+        <li><a href="#hutool">Hutool</a></li>
+        <li><a href="#添加jwt-token的工具类">添加JWT token的工具类</a></li>
+        <li><a href="#添加springsecurity的配置类">添加SpringSecurity的配置类</a></li>
+      </ol>
+    </li>
+    <li><a href="#补充">补充</a>
+      <ol>
+        <li><a href="#如何获取当前登录的用户名">如何获取当前登录的用户名</a></li>
+        <li><a href="#spring-security-什么是-principal">Spring Security 什么是 Principal</a></li>
+        <li><a href="#spring-security-注解-enableglobalmethodsecurity">Spring security 注解 @EnableGlobalMethodSecurity</a></li>
+        <li><a href="#bcryptpasswordencoder">BCryptPasswordEncoder</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="springsecurity-和-jwt-实现认证和授权">SpringSecurity 和 JWT 实现认证和授权</h1>
+<h2 id="springsecurity">SpringSecurity</h2>
+<blockquote>
+<p>SpringSecurity 是一个强大可高度定制的认证和授权框架，对于Spring应用来说它是一套Web安全标准。SpringSecurity注重于为Java应用提供认证和授权功能，像所有Spring项目一样，它对自定义需求具有强大的拓展性。</p>
+</blockquote>
+<h2 id="jwt">JWT</h2>
+<blockquote>
+<p>JWT是JSON WEB TOKEN 的缩写，基于RFC7519标准定义的一种可安全传输的JSON对象，由于使用了数字签名，所以是可信任和安全的</p>
+</blockquote>
+<h3 id="hutool">Hutool</h3>
+<blockquote>
+<p>Hutool是一个丰富的Java开源工具包</p>
+</blockquote>
+<h3 id="添加jwt-token的工具类">添加JWT token的工具类</h3>
+<blockquote>
+<p>用于生成和解析JWT token的工具类</p>
+</blockquote>
+<p>相关方法：</p>
+<ul>
+<li>generateToken(UserDetails userDetails) :用于根据登录用户信息生成token</li>
+<li>getUserNameFromToken(String token)：从token中获取登录用户的信息</li>
+<li>validateToken(String token, UserDetails userDetails)：判断token是否还有效</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> common.utils<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> cn.hutool.core.date.DateUtil<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> cn.hutool.core.util.StrUtil<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> io.jsonwebtoken.Claims<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> io.jsonwebtoken.Jwts<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> io.jsonwebtoken.SignatureAlgorithm<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.slf4j.Logger<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.slf4j.LoggerFactory<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.beans.factory.annotation.Value<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.core.userdetails.UserDetails<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.util.Date<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.util.HashMap<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.util.Map<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * JwtToken生成的工具类
+</span><span style="color:#75715e"> * JWT token的格式：header.payload.signature
+</span><span style="color:#75715e"> * header的格式（算法、token的类型）：
+</span><span style="color:#75715e"> * {&#34;alg&#34;: &#34;HS512&#34;,&#34;typ&#34;: &#34;JWT&#34;}
+</span><span style="color:#75715e"> * payload的格式（用户名、创建时间、生成时间）：
+</span><span style="color:#75715e"> * {&#34;sub&#34;:&#34;wang&#34;,&#34;created&#34;:1489079981393,&#34;exp&#34;:1489684781}
+</span><span style="color:#75715e"> * signature的生成算法：
+</span><span style="color:#75715e"> * HMACSHA512(base64UrlEncode(header) + &#34;.&#34; +base64UrlEncode(payload),secret)
+</span><span style="color:#75715e"> * @author edgarding
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JwtTokenUtil</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> Logger LOGGER <span style="color:#f92672">=</span> LoggerFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getLogger</span><span style="color:#f92672">(</span>JwtTokenUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String CLAIM_KEY_USERNAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sub&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String CLAIM_KEY_CREATED <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;created&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#a6e22e">@Value</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${jwt.secret}&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">private</span> String secret<span style="color:#f92672">;</span>
+    <span style="color:#a6e22e">@Value</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${jwt.expiration}&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">private</span> Long expiration<span style="color:#f92672">;</span>
+    <span style="color:#a6e22e">@Value</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${jwt.tokenHead}&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">private</span> String tokenHead<span style="color:#f92672">;</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 根据负责生成JWT的token
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> String <span style="color:#a6e22e">generateToken</span><span style="color:#f92672">(</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> claims<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> Jwts<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">setClaims</span><span style="color:#f92672">(</span>claims<span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">setExpiration</span><span style="color:#f92672">(</span>generateExpirationDate<span style="color:#f92672">())</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">signWith</span><span style="color:#f92672">(</span>SignatureAlgorithm<span style="color:#f92672">.</span><span style="color:#a6e22e">HS512</span><span style="color:#f92672">,</span> secret<span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">compact</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 从token中获取JWT中的负载
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> Claims <span style="color:#a6e22e">getClaimsFromToken</span><span style="color:#f92672">(</span>String token<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Claims claims <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            claims <span style="color:#f92672">=</span> Jwts<span style="color:#f92672">.</span><span style="color:#a6e22e">parser</span><span style="color:#f92672">()</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">setSigningKey</span><span style="color:#f92672">(</span>secret<span style="color:#f92672">)</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">parseClaimsJws</span><span style="color:#f92672">(</span>token<span style="color:#f92672">)</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">getBody</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            LOGGER<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JWT格式验证失败:{}&#34;</span><span style="color:#f92672">,</span> token<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> claims<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 生成token的过期时间
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> Date <span style="color:#a6e22e">generateExpirationDate</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Date<span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> expiration <span style="color:#f92672">*</span> 1000<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 从token中获取登录用户名
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getUserNameFromToken</span><span style="color:#f92672">(</span>String token<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        String username<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            Claims claims <span style="color:#f92672">=</span> getClaimsFromToken<span style="color:#f92672">(</span>token<span style="color:#f92672">);</span>
+            username <span style="color:#f92672">=</span> claims<span style="color:#f92672">.</span><span style="color:#a6e22e">getSubject</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            username <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> username<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 验证token是否还有效
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param token       客户端传入的token
+</span><span style="color:#75715e">     * @param userDetails 从数据库中查询出来的用户信息
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">validateToken</span><span style="color:#f92672">(</span>String token<span style="color:#f92672">,</span> UserDetails userDetails<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        String username <span style="color:#f92672">=</span> getUserNameFromToken<span style="color:#f92672">(</span>token<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> username<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>userDetails<span style="color:#f92672">.</span><span style="color:#a6e22e">getUsername</span><span style="color:#f92672">())</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>isTokenExpired<span style="color:#f92672">(</span>token<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 判断token是否已经失效
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isTokenExpired</span><span style="color:#f92672">(</span>String token<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Date expiredDate <span style="color:#f92672">=</span> getExpiredDateFromToken<span style="color:#f92672">(</span>token<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> expiredDate<span style="color:#f92672">.</span><span style="color:#a6e22e">before</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Date<span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 从token中获取过期时间
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> Date <span style="color:#a6e22e">getExpiredDateFromToken</span><span style="color:#f92672">(</span>String token<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Claims claims <span style="color:#f92672">=</span> getClaimsFromToken<span style="color:#f92672">(</span>token<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> claims<span style="color:#f92672">.</span><span style="color:#a6e22e">getExpiration</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 根据用户信息生成token
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">generateToken</span><span style="color:#f92672">(</span>UserDetails userDetails<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> claims <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
+        claims<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>CLAIM_KEY_USERNAME<span style="color:#f92672">,</span> userDetails<span style="color:#f92672">.</span><span style="color:#a6e22e">getUsername</span><span style="color:#f92672">());</span>
+        claims<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>CLAIM_KEY_CREATED<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Date<span style="color:#f92672">());</span>
+        <span style="color:#66d9ef">return</span> generateToken<span style="color:#f92672">(</span>claims<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 当原来的token没过期时是可以刷新的
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param oldToken 带tokenHead的token
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">refreshHeadToken</span><span style="color:#f92672">(</span>String oldToken<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>StrUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span>oldToken<span style="color:#f92672">)){</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        String token <span style="color:#f92672">=</span> oldToken<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>tokenHead<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">());</span>
+        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>StrUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span>token<span style="color:#f92672">)){</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//token校验不通过
+</span><span style="color:#75715e"></span>        Claims claims <span style="color:#f92672">=</span> getClaimsFromToken<span style="color:#f92672">(</span>token<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>claims<span style="color:#f92672">==</span><span style="color:#66d9ef">null</span><span style="color:#f92672">){</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//如果token已经过期，不支持刷新
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>isTokenExpired<span style="color:#f92672">(</span>token<span style="color:#f92672">)){</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//如果token在30分钟之内刚刷新过，返回原token
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>tokenRefreshJustBefore<span style="color:#f92672">(</span>token<span style="color:#f92672">,</span>30<span style="color:#f92672">*</span>60<span style="color:#f92672">)){</span>
+            <span style="color:#66d9ef">return</span> token<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span><span style="color:#f92672">{</span>
+            claims<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>CLAIM_KEY_CREATED<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Date<span style="color:#f92672">());</span>
+            <span style="color:#66d9ef">return</span> generateToken<span style="color:#f92672">(</span>claims<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 判断token在指定时间内是否刚刚刷新过
+</span><span style="color:#75715e">     * @param token 原token
+</span><span style="color:#75715e">     * @param time 指定时间（秒）
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">tokenRefreshJustBefore</span><span style="color:#f92672">(</span>String token<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> time<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Claims claims <span style="color:#f92672">=</span> getClaimsFromToken<span style="color:#f92672">(</span>token<span style="color:#f92672">);</span>
+        Date created <span style="color:#f92672">=</span> claims<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>CLAIM_KEY_CREATED<span style="color:#f92672">,</span> Date<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+        Date refreshDate <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Date<span style="color:#f92672">();</span>
+        <span style="color:#75715e">//刷新时间在创建时间的指定时间内
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>refreshDate<span style="color:#f92672">.</span><span style="color:#a6e22e">after</span><span style="color:#f92672">(</span>created<span style="color:#f92672">)&amp;&amp;</span>refreshDate<span style="color:#f92672">.</span><span style="color:#a6e22e">before</span><span style="color:#f92672">(</span>DateUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">offsetSecond</span><span style="color:#f92672">(</span>created<span style="color:#f92672">,</span>time<span style="color:#f92672">))){</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><h3 id="添加springsecurity的配置类">添加SpringSecurity的配置类</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> djj.fortuna.mall.config<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> djj.fortuna.mall.componet.JwtAuthenticationTokenFilter<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> djj.fortuna.mall.componet.RestAuthenticationEntryPoint<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> djj.fortuna.mall.componet.RestfulAccessDeniedHandler<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.beans.factory.annotation.Autowired<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.context.annotation.Bean<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.context.annotation.Configuration<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.http.HttpMethod<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.authentication.AuthenticationManager<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.config.annotation.web.builders.HttpSecurity<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.config.annotation.web.configuration.EnableWebSecurity<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.config.http.SessionCreationPolicy<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.crypto.password.PasswordEncoder<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Description:
+</span><span style="color:#75715e"> * SpringSecurity的配置
+</span><span style="color:#75715e"> * @author:edgarding
+</span><span style="color:#75715e"> * @date:2020/11/4
+</span><span style="color:#75715e"> **/</span>
+<span style="color:#a6e22e">@Configuration</span>
+<span style="color:#a6e22e">@EnableWebSecurity</span>
+<span style="color:#a6e22e">@EnableGlobalMethodSecurity</span><span style="color:#f92672">(</span>prePostEnabled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SpringSecurity</span> <span style="color:#66d9ef">extends</span> WebSecurityConfigurerAdapter <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Autowired</span>
+    <span style="color:#66d9ef">private</span> RestfulAccessDeniedHandler restfulAccessDeniedHandler<span style="color:#f92672">;</span>
+    <span style="color:#a6e22e">@Autowired</span>
+    <span style="color:#66d9ef">private</span> RestAuthenticationEntryPoint restAuthenticationEntryPoint<span style="color:#f92672">;</span>
+    
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>HttpSecurity http<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        http<span style="color:#f92672">.</span><span style="color:#a6e22e">csrf</span><span style="color:#f92672">().</span><span style="color:#a6e22e">disable</span><span style="color:#f92672">()</span> <span style="color:#75715e">// 由于使用JWT，因此不需要csrf
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">sessionManagement</span><span style="color:#f92672">().</span><span style="color:#a6e22e">sessionCreationPolicy</span><span style="color:#f92672">(</span>SessionCreationPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">STATELESS</span><span style="color:#f92672">)</span> <span style="color:#75715e">// 基于token，所以不需要session
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">authorizeRequests</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span>HttpMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">GET</span><span style="color:#f92672">,</span> <span style="color:#75715e">// 允许对于网站静态资源的无授权访问
+</span><span style="color:#75715e"></span>                        <span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">,</span>
+                        <span style="color:#e6db74">&#34;/*.html&#34;</span><span style="color:#f92672">,</span>
+                        <span style="color:#e6db74">&#34;/favicon.ico&#34;</span><span style="color:#f92672">,</span>
+                        <span style="color:#e6db74">&#34;/**/*.html&#34;</span><span style="color:#f92672">,</span>
+                        <span style="color:#e6db74">&#34;/**/*.css&#34;</span><span style="color:#f92672">,</span>
+                        <span style="color:#e6db74">&#34;/**/*.js&#34;</span><span style="color:#f92672">,</span>
+                        <span style="color:#e6db74">&#34;/swagger-resources/**&#34;</span><span style="color:#f92672">,</span>
+                        <span style="color:#e6db74">&#34;/v2/api-docs/**&#34;</span>
+                <span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">permitAll</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/admin/login&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;/admin/register&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">//对登陆和注册要允许匿名请求
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">permitAll</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span>HttpMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">OPTIONS</span><span style="color:#f92672">)</span> <span style="color:#75715e">// 跨域请求会先进行一次options请求
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">permitAll</span><span style="color:#f92672">()</span>
+                <span style="color:#75715e">//todo：测试时使用，记得注释掉
+</span><span style="color:#75715e"></span>                    <span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/**&#34;</span><span style="color:#f92672">)</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">permitAll</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">anyRequest</span><span style="color:#f92672">()</span> <span style="color:#75715e">// 除上面外的所有请求全部需要鉴权认证
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">.</span><span style="color:#a6e22e">authenticated</span><span style="color:#f92672">();</span>
+        <span style="color:#75715e">// 禁用缓存
+</span><span style="color:#75715e"></span>        http<span style="color:#f92672">.</span><span style="color:#a6e22e">headers</span><span style="color:#f92672">().</span><span style="color:#a6e22e">cacheControl</span><span style="color:#f92672">();</span>
+        <span style="color:#75715e">// 添加JWT filter
+</span><span style="color:#75715e"></span>        http<span style="color:#f92672">.</span><span style="color:#a6e22e">addFilterBefore</span><span style="color:#f92672">(</span>jwtAuthenticationTokenFilter<span style="color:#f92672">(),</span> UsernamePasswordAuthenticationFilter<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+        <span style="color:#75715e">// 添加自定义未授权和未登陆结果返回
+</span><span style="color:#75715e"></span>        http<span style="color:#f92672">.</span><span style="color:#a6e22e">exceptionHandling</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">accessDeniedHandler</span><span style="color:#f92672">(</span>restfulAccessDeniedHandler<span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">authenticationEntryPoint</span><span style="color:#f92672">(</span>restAuthenticationEntryPoint<span style="color:#f92672">);</span>
+                
+    <span style="color:#f92672">}</span>
+    
+    
+    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#66d9ef">public</span> PasswordEncoder <span style="color:#a6e22e">passwordEncoder</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> BCryptPasswordEncoder<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+    
+    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#66d9ef">public</span> JwtAuthenticationTokenFilter <span style="color:#a6e22e">jwtAuthenticationTokenFilter</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> JwtAuthenticationTokenFilter<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+    
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#66d9ef">public</span> AuthenticationManager <span style="color:#a6e22e">authenticationManagerBean</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">authenticationManagerBean</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h4 id="相关依赖和方法说明">相关依赖和方法说明</h4>
+<ul>
+<li>configure(HttpSecurity httpSecurity)：用于配置需要拦截的url路径、jwt过滤器及出异常后的处理器；</li>
+<li>configure(AuthenticationManagerBuilder auth)：用于配置UserDetailsService及PasswordEncoder；</li>
+<li>RestfulAccessDeniedHandler：当用户没有访问权限时的处理器，用于返回JSON格式的处理结果；</li>
+<li>RestAuthenticationEntryPoint：当未登录或token失效时，返回JSON格式的结果；</li>
+<li>UserDetailsService:SpringSecurity定义的核心接口，用于根据用户名获取用户信息，需要自行实现；</li>
+<li>UserDetails：SpringSecurity定义用于封装用户信息的类（主要是用户信息和权限），需要自行实现；</li>
+<li>PasswordEncoder：SpringSecurity定义的用于对密码进行编码及比对的接口，目前使用的是BCryptPasswordEncoder；</li>
+<li>JwtAuthenticationTokenFilter：在用户名和密码校验前添加的过滤器，如果有jwt的token，会自行根据token信息进行登录。</li>
+</ul>
+<h2 id="补充">补充</h2>
+<h3 id="如何获取当前登录的用户名">如何获取当前登录的用户名</h3>
+<h4 id="securitycontextholder--authenticationgetname">SecurityContextHolder + Authentication.getName()</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> org.springframework.security.core.Authentication<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.core.context.SecurityContextHolder<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.stereotype.Controller<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.ui.ModelMap<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.RequestMapping<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.RequestMethod<span style="color:#f92672">;</span>
+ 
+<span style="color:#a6e22e">@Controller</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LoginController</span> <span style="color:#f92672">{</span>
+ 
+  <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span>value<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/login&#34;</span><span style="color:#f92672">,</span> method <span style="color:#f92672">=</span> RequestMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">GET</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">printUser</span><span style="color:#f92672">(</span>ModelMap model<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+ 
+      Authentication auth <span style="color:#f92672">=</span> SecurityContextHolder<span style="color:#f92672">.</span><span style="color:#a6e22e">getContext</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getAuthentication</span><span style="color:#f92672">();</span>
+      String name <span style="color:#f92672">=</span> auth<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">();</span> <span style="color:#75715e">//get logged in username
+</span><span style="color:#75715e"></span>        
+      model<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">,</span> name<span style="color:#f92672">);</span>
+      <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello&#34;</span><span style="color:#f92672">;</span>
+ 
+  <span style="color:#f92672">}</span>
+  <span style="color:#75715e">//...
+</span></code></pre></div><h4 id="securitycontextholder--usergetusername">SecurityContextHolder + User.getUsername()</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> org.springframework.security.core.context.SecurityContextHolder<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.security.core.userdetails.User<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.stereotype.Controller<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.ui.ModelMap<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.RequestMapping<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.RequestMethod<span style="color:#f92672">;</span>
+ 
+<span style="color:#a6e22e">@Controller</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LoginController</span> <span style="color:#f92672">{</span>
+ 
+  <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span>value<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/login&#34;</span><span style="color:#f92672">,</span> method <span style="color:#f92672">=</span> RequestMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">GET</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">printUser</span><span style="color:#f92672">(</span>ModelMap model<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+ 
+      User user <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>User<span style="color:#f92672">)</span>SecurityContextHolder<span style="color:#f92672">.</span><span style="color:#a6e22e">getContext</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getAuthentication</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getPrincipal</span><span style="color:#f92672">();</span>
+      String name <span style="color:#f92672">=</span> user<span style="color:#f92672">.</span><span style="color:#a6e22e">getUsername</span><span style="color:#f92672">();</span> <span style="color:#75715e">//get logged in username
+</span><span style="color:#75715e"></span>        
+      model<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">,</span> name<span style="color:#f92672">);</span>
+      <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello&#34;</span><span style="color:#f92672">;</span>
+ 
+  <span style="color:#f92672">}</span>
+  <span style="color:#75715e">//...
+</span></code></pre></div><h4 id="usernamepasswordauthenticationtoken">UsernamePasswordAuthenticationToken</h4>
+<p>This is more elegant solution, in runtime, Spring will injects <code>UsernamePasswordAuthenticationToken</code> into the <code>Principal</code> interface.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.security.Principal<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.stereotype.Controller<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.ui.ModelMap<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.RequestMapping<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.RequestMethod<span style="color:#f92672">;</span>
+ 
+<span style="color:#a6e22e">@Controller</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LoginController</span> <span style="color:#f92672">{</span>
+ 
+  <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span>value<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/login&#34;</span><span style="color:#f92672">,</span> method <span style="color:#f92672">=</span> RequestMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">GET</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">printWelcome</span><span style="color:#f92672">(</span>ModelMap model<span style="color:#f92672">,</span> Principal principal <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+ 
+      String name <span style="color:#f92672">=</span> principal<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">();</span> <span style="color:#75715e">//get logged in username
+</span><span style="color:#75715e"></span>      model<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">,</span> name<span style="color:#f92672">);</span>
+      <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;hello&#34;</span><span style="color:#f92672">;</span>
+ 
+  <span style="color:#f92672">}</span>
+  <span style="color:#75715e">//...
+</span></code></pre></div><h3 id="spring-security-什么是-principal">Spring Security 什么是 Principal</h3>
+<p><strong>了解用户是谁</strong></p>
+<ul>
+<li>
+<p>注入Principal对象到controller</p>
+</li>
+<li>
+<p>注入Authentication对象到controller</p>
+</li>
+<li>
+<p>使用SecurityContextHolder来获取安全上下文</p>
+</li>
+<li>
+<p>使用@AuthenticationPrincipal注解来标注方法</p>
+<p>Principal 是指一个存储系统资源的实体（Entitiy），简单来说就是登入使用者。</p>
+</li>
+</ul>
+<p>但Principal与User的差别在于，Principal是一个可辨认的唯一身份。在安全验证的概念中，使用系统资源对象的概念可分为Subject，Principal及User。</p>
+<h3 id="spring-security-注解-enableglobalmethodsecurity">Spring security 注解 @EnableGlobalMethodSecurity</h3>
+<p>Spring Security默认是禁用注解的，要想开启注解需要在继承WebSecurityConfigurerAdapter的类上加上@EnableGlobalMethodSecurity注解，来判断某个控制层的方法是否具有访问权限</p>
+<h3 id="bcryptpasswordencoder">BCryptPasswordEncoder</h3>
+<p>浅谈使用springsecurity中的BCryptPasswordEncoder方法对密码进行加密(encode)与密码匹配(matches)</p>
+<p>spring security中的BCryptPasswordEncoder方法采用SHA-256 +随机盐+密钥对密码进行加密。SHA系列是Hash算法，不是加密算法，使用加密算法意味着可以解密（这个与编码/解码一样），但是采用Hash处理，其过程是不可逆的。</p>
+<p>（1）加密(encode)：注册用户时，使用SHA-256+随机盐+密钥把用户输入的密码进行hash处理，得到密码的hash值，然后将其存入数据库中。</p>
+<p>（2）密码匹配(matches)：用户登录时，密码匹配阶段并没有进行密码解密（因为密码经过Hash处理，是不可逆的），而是使用相同的算法把用户输入的密码进行hash处理，得到密码的hash值，然后将其与从数据库中查询到的密码hash值进行比较。如果两者相同，说明用户输入的密码正确。</p>
+<p>这正是为什么处理密码时要用hash算法，而不用加密算法。因为这样处理即使数据库泄漏，黑客也很难破解密码（破解密码只能用彩虹表）。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-11-04 19:08:32</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/" data-title="SpringSecurity和JWT实现认证和授权" data-hashtags="SpringSecurity"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/" data-hashtag="SpringSecurity"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/" data-title="SpringSecurity和JWT实现认证和授权" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/" data-title="SpringSecurity和JWT实现认证和授权"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/" data-title="SpringSecurity和JWT实现认证和授权" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/" data-title="SpringSecurity和JWT实现认证和授权" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/" data-title="SpringSecurity和JWT实现认证和授权" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/11/springsecurity%E5%92%8Cjwt%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/" data-title="SpringSecurity和JWT实现认证和授权"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/springsecurity/">SpringSecurity</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/11/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="prev" rel="prev" title="工厂模式"><i class="fas fa-angle-left fa-fw"></i>工厂模式</a>
+            <a href="/2020/11/%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="next" rel="next" title="类文件结构">类文件结构<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

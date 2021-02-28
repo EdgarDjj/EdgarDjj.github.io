@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>设计模式(re) - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="设计模式(re)" />
+<meta property="og:description" content="设计模式-re 创建者模式 该模式提供创建对象的机制，能够提升已有代码的灵活性和复用性 创建型模式包括： 工厂方法 Factory Method 抽象工厂 Abstract Factory 建造者 Builder 原型 Prototype 单例 SingleTon 工厂方法模式 工厂方法主要是在父类中提供一个创建对象的方法，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-14T13:12:33&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-14T13:12:33&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="设计模式(re)"/>
+<meta name="twitter:description" content="设计模式-re 创建者模式 该模式提供创建对象的机制，能够提升已有代码的灵活性和复用性 创建型模式包括： 工厂方法 Factory Method 抽象工厂 Abstract Factory 建造者 Builder 原型 Prototype 单例 SingleTon 工厂方法模式 工厂方法主要是在父类中提供一个创建对象的方法，"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/11/java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" /><link rel="next" href="https://EdgarDjj.github.io/2020/11/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BA%8C/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "设计模式(re)",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/11\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re\/"
+        },"genre": "posts","keywords": "设计模式","wordcount":  5083 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/11\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re\/","datePublished": "2020-11-14T13:12:33+00:00","dateModified": "2020-11-14T13:12:33+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">设计模式(re)</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><i class="far fa-folder fa-fw"></i>设计模式</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-14 13:12:33">2020-11-14 13:12:33</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5083 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 11 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#创建者模式">创建者模式</a>
+      <ol>
+        <li><a href="#工厂方法模式">工厂方法模式</a></li>
+        <li><a href="#抽象工厂模式">抽象工厂模式</a></li>
+        <li><a href="#建造者模式">建造者模式</a></li>
+        <li><a href="#原型模式">原型模式</a></li>
+        <li><a href="#单例模式">单例模式</a></li>
+      </ol>
+    </li>
+    <li><a href="#结构型模式">结构型模式</a>
+      <ol>
+        <li><a href="#适配器模式">适配器模式</a></li>
+        <li><a href="#桥接模式">桥接模式</a></li>
+        <li><a href="#组合模式">组合模式</a></li>
+        <li><a href="#装饰器模式">装饰器模式</a></li>
+        <li><a href="#外观模式">外观模式</a></li>
+        <li><a href="#享元模式">享元模式</a></li>
+        <li><a href="#代理模式">代理模式</a></li>
+      </ol>
+    </li>
+    <li><a href="#行为型模式">行为型模式</a>
+      <ol>
+        <li><a href="#责任链模式">责任链模式</a></li>
+        <li><a href="#命令模式">命令模式</a></li>
+        <li><a href="#迭代器模式">迭代器模式</a></li>
+        <li><a href="#中介者模式">中介者模式</a></li>
+        <li><a href="#备忘录模式">备忘录模式</a></li>
+        <li><a href="#观察者模式">观察者模式</a></li>
+        <li><a href="#状态模式">状态模式</a></li>
+        <li><a href="#策略模式">策略模式</a></li>
+        <li><a href="#模板模式">模板模式</a></li>
+        <li><a href="#访问者模式">访问者模式</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="设计模式-re">设计模式-re</h1>
+<h2 id="创建者模式">创建者模式</h2>
+<p><strong>该模式提供创建对象的机制，能够提升已有代码的灵活性和复用性</strong></p>
+<p>创建型模式包括：</p>
+<ol>
+<li>工厂方法 Factory Method</li>
+<li>抽象工厂 Abstract Factory</li>
+<li>建造者 Builder</li>
+<li>原型 Prototype</li>
+<li>单例 SingleTon</li>
+</ol>
+<h3 id="工厂方法模式">工厂方法模式</h3>
+<p>工厂方法主要是在父类中提供一个创建对象的方法，由子类决定实例化对象的类型。主要意图是定义一个创建对象的接口，由子类去自己决定实例化哪一个工厂类，工厂模式使其创建过程延迟到子类进行。</p>
+<h3 id="抽象工厂模式">抽象工厂模式</h3>
+<p>抽象工厂是一个中心工厂，创建其它的工厂模式。</p>
+<p>总的来说，抽象工厂模式所要解决的问题就是在一个产品族，存在多个不同类型的产品（Redis集群、操作系统）情况下，接口选择的问题。</p>
+<h3 id="建造者模式">建造者模式</h3>
+<p>建造者模式所完成的内容就是通过将多个简单对象通过一步步的组装建造出一个复杂的对象的过程。</p>
+<p>将一个复杂的构建与其相分离，使得同样的构建过程可以创建不同的表示。</p>
+<h4 id="案例">案例</h4>
+<ol>
+<li>java.lang.StringBuilder</li>
+</ol>
+<p>Appendable 接口定义了多个append方法（抽象方法），即Appendable为抽象建造者，定义了抽象方法，AbstractStringBuilder已经是建造者，只是不能实例化，StringBuilder即充当了指挥者角色，同时充当了具体点的建造者，建造方法的实现是由AbstractStringBuilder完成，而StringBuilder继承了AbstractStringBuilder</p>
+<h3 id="原型模式">原型模式</h3>
+<p>主要解决的问题就是创建重复对象，而这部分对象内容比较复杂，生成过程可能从库或者RPC接口中获取数据的耗时较长，因此采用克隆的方式节省时间。</p>
+<p>原型模式的优点在于便于通过克隆方式创建复杂对象，也可以避免重复做初始化操作，不需要与类中所属的其它类耦合等，但也有一些缺点，如果对象中包括了循环引用的克隆，以及深度使用对象的克隆，都会使此对象变的异常复杂。</p>
+<h4 id="案例-1">案例</h4>
+<p>例如考试出卷，有两种类型题：问答题和选择题</p>
+<p>想要让问题进行随机，如果不使用原型，很难完成拓展和随机的使用。</p>
+<p>而使用原型模式的最重要的手段就是克隆，在需要用到的类都需要实现 <code>implements Cloneable</code> 接口。</p>
+<p>Spring bean.xml 中的配置 scope：prototype</p>
+<p>与单例不同的是，实例出来的对象不是同一个对象了，Bean工厂默认配置是单例。、</p>
+<h4 id="深拷贝和浅拷贝">深拷贝和浅拷贝</h4>
+<p>**浅拷贝：**对于基本数据类型的成员变量，浅拷贝会直接进行值传递，即将该属性值复制一份给新的对象。对于引用数据类型，浅拷贝会进行引用传递，将该成员变量的引用值（内存地址）复制一份给新的对象。浅拷贝是使用默认的clone（）方法来实现的</p>
+<p>**深拷贝：**复制对象的所有基本数据类型的成员变量。为所有引用数据类型的成员变量申请存储空间，直到该对象可达所有对象。也就是说，对象进行深拷贝要对整个对象进行拷贝。重写clone方法来实现深拷贝，通过对象序列化实现深拷贝。</p>
+<h3 id="单例模式">单例模式</h3>
+<p>保证一个类只有一个实例哪怕再多线程访问也要提供一个全局访问此实例的点。单例模式主要解决的是，一个全局使用的类频繁的创建和消费，从而提升整体代码的性能。</p>
+<p>保证了系统中只存在一个对象，节省了系统资源。</p>
+<p>想要实例化一个单例类的时候，必须记住使用相应获取对象的方法而不是new。</p>
+<p>8个实现方法：</p>
+<p><strong>饿汉模式-2</strong></p>
+<p>懒汉模式-3</p>
+<p><strong>静态内部类</strong></p>
+<p><strong>双重锁检测</strong></p>
+<p><strong>枚举</strong></p>
+<h4 id="案例-2">案例</h4>
+<ol>
+<li>
+<p>数据库的连接池不会反复创建</p>
+</li>
+<li>
+<p>spring中一个单例模式bean的生成和使用</p>
+</li>
+<li>
+<p>在我们平常的代码中需要设置全局的一些属性保存</p>
+</li>
+<li>
+<p>Runtime源码中，使用了饿汉模式。</p>
+</li>
+<li>
+<p>工具类、Session工厂的等等</p>
+</li>
+</ol>
+<h2 id="结构型模式">结构型模式</h2>
+<p><strong>该模式介绍如何将对象和类组装成较大的结构，并同时保持结构的灵活和高效</strong></p>
+<p>结构型模式包括：</p>
+<ol>
+<li>适配器模式 Adapter</li>
+<li>桥接 Bridge</li>
+<li>组合 Composite</li>
+<li>装饰器 Decorator</li>
+<li>外观 Facade</li>
+<li>享元 Flyweight</li>
+<li>代理</li>
+</ol>
+<h3 id="适配器模式">适配器模式</h3>
+<p>一个简答的例子：3.5mm耳机接口无法在iphone8以上的手机类型上使用，因此需要3.5mm耳机口转接lighting口。而适配器模式的主要作用也是如此，把原本不兼容的接口，通过适配器修改做到统一。</p>
+<p>适配器模式解决的主要问题就是多种差异化类型的接口做统一输出。</p>
+<h3 id="桥接模式">桥接模式</h3>
+<blockquote>
+<p>为什么你的代码那么多ifelse</p>
+</blockquote>
+<p>桥接模式的主要作用就是通过抽象部分与实现部分分离，把多种可匹配的使用进行组合。<strong>说白了核心实现就是在A类中含有B类接口，通过构造函数传递B类实现，这个B类就是设计的桥</strong></p>
+<p>像JDBC多种驱动程序的实现、同品牌类型的台式机和笔记本平板、业务实现中的多类接⼝同组过滤服务等。这些场景都⽐较适合使⽤桥接模式进⾏实现，因为在⼀些组合中如果有如果每⼀个类都实现不同的 服务可能会出现笛卡尔积，⽽使⽤桥接模式就可以⾮常简单。</p>
+<p>桥接模式的关键是选择桥接拆分点，是否可以找到这样类似的相互组合。</p>
+<h4 id="案例-3">案例</h4>
+<p>例如：支付app与支付方式的桥接</p>
+<p>我们需要判断</p>
+<ul>
+<li>微信支付
+<ul>
+<li>人脸支付</li>
+<li>指纹支付</li>
+<li>密码支付</li>
+</ul>
+</li>
+<li>支付宝支付
+<ul>
+<li>人脸支付</li>
+<li>指纹支付</li>
+<li>密码支付</li>
+</ul>
+</li>
+</ul>
+<p>因此产生了重复方式的判断。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\r\n模拟测试场景；微信支付、人脸方式。&#34;</span><span style="color:#f92672">);</span>
+Pay wxPay <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> WxPay<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> PayFaceMode<span style="color:#f92672">());</span>
+wxPay<span style="color:#f92672">.</span><span style="color:#a6e22e">transfer</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;weixin_1092033111&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;100000109893&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> BigDecimal<span style="color:#f92672">(</span>100<span style="color:#f92672">));</span>
+
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\r\n模拟测试场景；支付宝支付、指纹方式。&#34;</span><span style="color:#f92672">);</span>
+Pay zfbPay <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ZfbPay<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> PayFingerprintMode<span style="color:#f92672">());</span>
+zfbPay<span style="color:#f92672">.</span><span style="color:#a6e22e">transfer</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;jlu19dlxo111&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;100000109894&#34;</span><span style="color:#f92672">,</span><span style="color:#66d9ef">new</span> BigDecimal<span style="color:#f92672">(</span>100<span style="color:#f92672">));</span>
+</code></pre></div><h3 id="组合模式">组合模式</h3>
+<p>通过吧相似的对象组合成一组可被调用的结构树对象的设计思路。</p>
+<p>这种设计⽅式可以让你的服务组节点进⾏⾃由组合对外提供服务，例如你有三个原⼦校验功能( A：身份 证 、 B：银⾏卡 、 C：⼿机号 )服务并对外提供调⽤使⽤。有些调⽤⽅需要使⽤AB组合，有些调⽤⽅需要 使⽤到CBA组合，还有⼀些可能只使⽤三者中的⼀个。那么这个时候你就可以使⽤组合模式进⾏构建服 务，对于不同类型的调⽤⽅配置不同的组织关系树，⽽这个树结构你可以配置到数据库中也可以不断的 通过图形界⾯来控制树结构。</p>
+<h4 id="案例-4">案例</h4>
+<p>一些决策树问题，例如优惠券的分发，如果购物不多，则对其会经常增加促销力度，增加用户粘性。和ifelse的作用，但方便以后的拓展和修改。</p>
+<h3 id="装饰器模式">装饰器模式</h3>
+<p>装饰器的核心就是不再修改原有类的基础上给新类新增功能，<strong>不改变原有类</strong>。例如继承、AOP切面都可以实现，但装饰器模式能避免继承子类过多的情况，避免AOP带来的复杂性。</p>
+<h3 id="外观模式">外观模式</h3>
+<p>主要解决的是降低调用方的使用接口的复杂逻辑组合。这样调用方与实际的接口提供方提供了一个中间件层，对服务中的通用性复杂逻辑进行中间件包装，让使用方只关心业务开发。</p>
+<p>这样的模式十分常见，例如以前注册一个网站的时候需要补全很多信息，但现在一步就可以注册，需要的信息在要使用到的时候再让用户进行补充。</p>
+<h3 id="享元模式">享元模式</h3>
+<p>享元模式主要在于共享通用对象，减少内存的使用，提升系统的访问资源效率。而这部分共享对象通常比较占用内存或需要大量的接口或者使用数据库资源，因此统一抽离作为共享对象使用。</p>
+<p>在享元模式下，需要享元工厂来进行管理这部分独立的对象和共享的对象，避免出现线程安全的问题。</p>
+<h4 id="案例-5">案例</h4>
+<p>例如数据库连接池的使用、线程池的使用等等</p>
+<h3 id="代理模式">代理模式</h3>
+<p>代理模式类似于分销商，主要解决某些资源的访问、对象的类的易用操作上提供方便使用的代理服务。。⽽这种设计思想的模式经常会出现在我们的系统中，或者你⽤到过 的组件中，它们都提供给你⼀种⾮常简单易⽤的⽅式控制原本你需要编写很多代码的进⾏使⽤的服务类。</p>
+<p>类似这样的场景可以想到；</p>
+<ol>
+<li>你的数据库访问层⾯经常会提供⼀个较为基础的应⽤，以此来减少应⽤服务扩容时不⾄于数据库连 接数暴增。</li>
+<li>使⽤过的⼀些中间件例如；RPC框架，在拿到jar包对接⼝的描述后，中间件会在服务启动的时候⽣ 成对应的代理类，当调⽤接⼝的时候，实际是通过代理类发出的socket信息进⾏通过。</li>
+<li>另外像我们常⽤的 MyBatis ，基本是定义接⼝但是不需要写实现类，就可以对 xml 或者⾃定义注 解⾥的 sql 语句进⾏增删改查操作。</li>
+</ol>
+<h2 id="行为型模式">行为型模式</h2>
+<p><strong>该模式负责对象间的高效沟通和职责委派</strong></p>
+<p>行为型模式包括：</p>
+<ol>
+<li>责任链 Chain of Responsesiability</li>
+<li>命令 Command</li>
+<li>迭代器 Iterator</li>
+<li>中介者 Mediator</li>
+<li>备忘录 Memento</li>
+<li>观察者 Observer</li>
+<li>状态 State</li>
+<li>策略 Strategy</li>
+<li>模板 Template</li>
+<li>访问者 Visitor</li>
+</ol>
+<h3 id="责任链模式">责任链模式</h3>
+<p>责任链模式的核心就是解决一组服务中的先后执行处理关系，例如学校请假，普通的请假班长审批辅导员审批，长假就需要班长辅导员院长审批。</p>
+<h3 id="命令模式">命令模式</h3>
+<p>命令模式相对于互联网开发来说相对教授，但日常中很常见，就是cmd+c和cmd+v，这就是把逻辑实现与操作请求进行分离，降低耦合方面方便拓展。</p>
+<p>命令方式以数据驱动的方式命令对象，可以使用构造函数的方式传递给调用者。调用者再提供相应的实现命令执行提供操作方法。</p>
+<ol>
+<li>抽象命令类：声明执行命令的接口和方法</li>
+<li>具体的命令实现类：接口类的具体实现，可以是一组相似的行为逻辑</li>
+<li>实现者：也就是为命令做实现的具体实现类</li>
+<li>调用者：处理命令，实现的具体操作者，负责对外提供命令服务</li>
+</ol>
+<h3 id="迭代器模式">迭代器模式</h3>
+<p>迭代器模式，常见的就是日常使用的iterator遍历。虽然在实际业务开发中不常见，但每天都要使用JDK提供的list集合遍历。</p>
+<blockquote>
+<p>注意：增强for循环不是迭代器模式，迭代器模式的特点是实现Iterable接口，通过next方式获取集合，同时具备删除等操作。而增强for循环可以做到。</p>
+</blockquote>
+<p>这种设计模式的优点就是让我以相同的方式可以去遍历不同的数据结构元素。</p>
+<h4 id="迭代器模式的遍历组织结构">迭代器模式的遍历组织结构</h4>
+<ol>
+<li>Collection，集合方法部分对于自定义的数据结构添加通用方法：add、remove、Iterator等核心方法</li>
+<li>Iterable，提供获取迭代器，这个接口类会被Collection继承</li>
+<li>Iterator，提供两个方法定义：hasNext、next会在具体的数据结构中写实现方法</li>
+</ol>
+<h3 id="中介者模式">中介者模式</h3>
+<p>中介者模式要解决的就是复杂功能之间的重复调用，在这中间添加一层中介者包装服务，对外提供简单、通用、易拓展的服务能力。</p>
+<p>例如ORM框架——MyBatis等</p>
+<h3 id="备忘录模式">备忘录模式</h3>
+<p>备忘录模式是以可以恢复或者说回滚、配置、版本、悔棋为核心功能的设计模式。在功能上是以不破坏原对象为基础增加备忘录操作类，记录原对象的行为从而实现备忘录模式。</p>
+<p>如果cmd+z，返回上一个操作，游戏回档等。</p>
+<p>备忘录的设计模式实现⽅式，重点在于不更改原有类的基础上，增加备忘录类存放记录。可能平时虽然 不⼀定⾮得按照这个设计模式的代码结构来实现⾃⼰的需求，但是对于功能上可能也完成过类似的功 能，记录系统的信息。</p>
+<h3 id="观察者模式">观察者模式</h3>
+<p>简单来说，就是当一个行为发生时传递消息给另外一个用户接收做出相应的处理，两者之间没有直接的耦合关联。例如经常使用的MQ服务，虽然MQ服务是有个一个通知中心并不是每个类进行服务，但整体上也算是观察者模式的设计思路。</p>
+<p>即一个对象发生改变的时候自动通知其他对象，其他对象将相应做出反应。在此，发生改变的对象称为观察目标，而被通知的对象称为观察者。</p>
+<h3 id="状态模式">状态模式</h3>
+<p>状态模式描述的是⼀个⾏为下的多种状态变更，⽐如我们最常⻅见的⼀个⽹站的⻚页⾯，在你登录与不登录 下展示的内容是略有差异的( 不登录不能展示个⼈信息 )，⽽这种 登录 与 不登录 就是我们通过改变状态， ⽽让整个⾏为发⽣了变化。</p>
+<p>一个对象的行为取决于一个或多个动态变化的属性，这样的属性叫做状态，这样的对象叫做有状态的(stateful)对象，这样的对象状态是从事先定义好的一系列值中取出的。当一个这样的对象与外部事件产生互动时，其内部状态就会改变，从而使得系统的行为也随之发生变化。</p>
+<h3 id="策略模式">策略模式</h3>
+<p>策略模式是⼀种⾏为模式，也是替代⼤量ifelse的利器。它所能帮你解决的是场景，⼀般是具有同类可替代的⾏为逻辑算法场景。⽐如；不同类型的交易⽅式(信⽤卡、⽀付宝、微信)、⽣成唯⼀ID策略 (UUID、DB⾃增、DB+Redis、雪花算法、Leaf算法)等，都可以使⽤策略模式进⾏⾏为包装，供给外部 使⽤。定义一系列算法，将每一个算法封装起来，并让它们可以相互替换。策略模式让算法独立于使用它的客户而变化。</p>
+<ul>
+<li>完成一项任务，往往可以有多种不同的方式，每一种方式称为一个策略，我们可以根据环境或者条件的不同选择不同的策略来完成该项任务。</li>
+<li>在软件开发中也常常遇到类似的情况，实现某一个功能有多个途径，此时可以使用一种设计模式来使得系统可以灵活地选择解决途径，也能够方便地增加新的解决途径。</li>
+</ul>
+<h3 id="模板模式">模板模式</h3>
+<p>模板模式的核⼼设计思路是通过在，抽象类中定义抽象⽅法的执⾏顺序，并将抽象⽅法设定为只有⼦类 实现，但不设计 独⽴访问 的⽅法。简单说也就是把你安排的明明⽩⽩的。</p>
+<p>就像⻄西游记的99⼋⼗⼀难，基本每⼀关都是；师傅被掳⾛、打妖怪、妖怪被收⾛，具体什么妖怪你⾃⼰ 定义，怎么打你想办法，最后收⾛还是弄死看你本事，我只定义执⾏顺序和基本策略，具体的每⼀难由 观⾳来安排。</p>
+<p>即你的人生从出生起就被安排好了如何过完，出生-》死亡，但你的经历随便你。</p>
+<h3 id="访问者模式">访问者模式</h3>
+<p>访问者要解决的核⼼事项是，在⼀个稳定的数据结构下，例如⽤户信息、雇员信息等，增加易变的业务 访问逻辑。为了增强扩展性，将这两部分的业务解耦的⼀种设计模式。</p>
+<p>说⽩了访问者模式的核⼼在于同⼀个事物不同视⻆角下的访问信息不同。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-11-14 13:12:33</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re/" data-title="设计模式(re)" data-hashtags="设计模式"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re/" data-hashtag="设计模式"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re/" data-title="设计模式(re)" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re/" data-title="设计模式(re)"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re/" data-title="设计模式(re)" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re/" data-title="设计模式(re)" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re/" data-title="设计模式(re)" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-re/" data-title="设计模式(re)"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/11/java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" class="prev" rel="prev" title="Java反射机制"><i class="fas fa-angle-left fa-fw"></i>Java反射机制</a>
+            <a href="/2020/11/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BA%8C/" class="next" rel="next" title="Java并发编程二">Java并发编程二<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

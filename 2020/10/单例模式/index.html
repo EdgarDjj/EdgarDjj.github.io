@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>单例模式 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="单例模式" />
+<meta property="og:description" content="Java实现单例模式 单例定义 Singleton 模式主要作用保证在Java应用程序中，一个类Class只有一个实例存在。 另外方面，Singleton 也能够被无状态化。提供工具性质的功能， Singleton 模式就为我们提供了这样实现的可" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-26T10:33:31&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-26T10:33:31&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="单例模式"/>
+<meta name="twitter:description" content="Java实现单例模式 单例定义 Singleton 模式主要作用保证在Java应用程序中，一个类Class只有一个实例存在。 另外方面，Singleton 也能够被无状态化。提供工具性质的功能， Singleton 模式就为我们提供了这样实现的可"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-collections%E5%B7%A5%E5%85%B7%E7%B1%BB/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "单例模式",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F\/"
+        },"genre": "posts","keywords": "设计模式","wordcount":  1819 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F\/","datePublished": "2020-10-26T10:33:31+00:00","dateModified": "2020-10-26T10:33:31+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">单例模式</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><i class="far fa-folder fa-fw"></i>设计模式</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-26 10:33:31">2020-10-26 10:33:31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1819 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li><a href="#单例定义">单例定义</a></li>
+    <li><a href="#案例场景">案例场景</a></li>
+    <li><a href="#设计思想">设计思想</a></li>
+    <li><a href="#如何使用">如何使用？</a>
+      <ol>
+        <li><a href="#饿汉式可用">饿汉式[可用]：</a></li>
+        <li><a href="#懒汉式">懒汉式：</a></li>
+        <li><a href="#枚举极其推荐使用">枚举[极其推荐使用]</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="java实现单例模式">Java实现单例模式</h1>
+<h2 id="单例定义">单例定义</h2>
+<p>Singleton 模式主要作用保证在Java应用程序中，一个类Class只有一个实例存在。</p>
+<p>另外方面，Singleton 也能够被无状态化。提供工具性质的功能， Singleton 模式就为我们提供了这样实现的可能。使用 Singleton 的好处还在于可以节省内存，因为它限制了实例的个数，有 利于 Java 垃圾回收（garbage collection）。</p>
+<h2 id="案例场景">案例场景</h2>
+<ol>
+<li>数据库的连接池不会反复创建</li>
+<li>spring中一个单例模式bean的生成和使用</li>
+<li>在我们平常开发的代码中需要设置全局的一些属性保存</li>
+</ol>
+<p>主要解决的是，一个全局使用的类频繁的创建和消费，从而提升整体的代码性能。</p>
+<h2 id="设计思想">设计思想</h2>
+<p>及解决问题的关键就是保证应用中仅存有一个对象。</p>
+<ul>
+<li>不允许其它应用程序用new对象
+<ul>
+<li>因为new就是开辟新的空间，更改数据只是更改所创建对象的数据，如果可以new的话，每一次new都产生一个对象，这样肯定保证不了对象的唯一性。</li>
+</ul>
+</li>
+<li>在该类中创建对象
+<ul>
+<li>因为不允许其它程序new对象，所以这里的对象需要在本类中new出来</li>
+</ul>
+</li>
+<li>对外提供一个可以让其它程序获取该对象的方法
+<ul>
+<li>因为对象是在本类中创建的，所以需要提供一个方法让其它类获取该对象</li>
+</ul>
+</li>
+</ul>
+<p>1、私有化该类的构造函数</p>
+<p>2、通过new在本类中创建一个本类对象</p>
+<p>3、定义一个公有方法</p>
+<h2 id="如何使用">如何使用？</h2>
+<p>一般有以下几种模式：</p>
+<ul>
+<li>懒汉式</li>
+<li>饿汉式</li>
+<li>双重校验锁</li>
+<li>静态内部类</li>
+<li>枚举</li>
+</ul>
+<p>饿汉与懒汉的区别：</p>
+<p>饿汉是在内部已经创建好了实例，只要Singleton被装载就会实例化，因此会产生延迟（来源实例化）</p>
+<h3 id="饿汉式可用">饿汉式[可用]：</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Singleton</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">Singleton</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// 在自己内部定义自己一个实例
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 注意这里是private只供内部调用
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> Singleton instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Singleton<span style="color:#f92672">();</span>
+    <span style="color:#75715e">// 这里提供一个外部访问本class 的静态方法
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Singleton <span style="color:#a6e22e">getInstance</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">return</span> instance<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>获取实例方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Singleton instance <span style="color:#f92672">=</span> Singleton<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">();</span>
+</code></pre></div><p>及它在类创建的时候就已经实例化了对象。</p>
+<p>这种方式跟饿汉式方式采用的机制类似，但又有不同。两者都是采用了类装载的机制来保证初始化实例时只有一个线程。不同的地方在饿汉式方式是只要Singleton类被装载就会实例化，没有Lazy-Loading的作用，而静态内部类方式在Singleton类被装载时并不会立即实例化，而是在需要实例化时，调用getInstance方法，才会装载SingletonHolder类，从而完成Singleton的实例化。</p>
+<p>类的静态属性只会在第一次加载类的时候初始化，所以在这里，JVM帮助我们保证了线程的安全性，在类进行初始化时，别的线程是无法进入的。</p>
+<p>优点：避免了线程不安全，延迟加载，效率高。</p>
+<h3 id="懒汉式">懒汉式：</h3>
+<h4 id="单例模式的懒汉式线程安全效率低">单例模式的懒汉式[线程安全，效率低]：</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Singleton</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> Singleton instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">synchronized</span> Singleton <span style="color:#a6e22e">getInstance</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// 这个方法比上面有所改进，不用每次都进行生成对象，只是第一次
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 使用时生成实例，提高了效率
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>instance <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Singleton<span style="color:#f92672">();</span>
+      <span style="color:#66d9ef">return</span> instance<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>这种方式是在调用getInstance方法时才创建对象的，因为比较懒，才被称为懒汉式。</p>
+<p>缺点：效率太低了，每个线程在想获得类的实例时候，执行getInstance()方法都要进行同步。而其实这个方法只执行一次实例化代码就够了，后面的想获得该类实例，直接return就行了。方法进行同步效率太低要改进。</p>
+<h4 id="单例模式懒汉式双重校验锁推荐用">单例模式懒汉式双重校验锁[推荐用]</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> Advance.design_pattern.singleton<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Description:
+</span><span style="color:#75715e"> * static + 锁 双重锁检验
+</span><span style="color:#75715e"> * 减少了锁带来的资源开销
+</span><span style="color:#75715e"> * 注意实例前的volatile关键字，由于实例化一个对象需要三步
+</span><span style="color:#75715e"> * 1、为instance分配内存
+</span><span style="color:#75715e"> * 2、初始化instance
+</span><span style="color:#75715e"> * 3、将instance指向内存空间
+</span><span style="color:#75715e"> * 由于JVM具有指令重排的特性，所以以上的执行步骤有可能变为132，因此有可能对象拿到了一个未初始化的对象实例
+</span><span style="color:#75715e"> * 在多线程的情况下，可能会有线程在进行判断未初始化成功，进入锁代码块中重新实例化了一次，从而破坏了单例模式
+</span><span style="color:#75715e"> * 使用volatile修饰变量，防止指令的重排列
+</span><span style="color:#75715e"> * 1、解决内存可见性问题 2、防止指令重排列
+</span><span style="color:#75715e"> * @author:edgarding
+</span><span style="color:#75715e"> * @date:2020/11/4
+</span><span style="color:#75715e"> **/</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SingletonLanHan03</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">volatile</span> SingletonLanHan03 instance<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">SingletonLanHan03</span><span style="color:#f92672">()</span> <span style="color:#f92672">{}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> SingletonLanHan03 <span style="color:#a6e22e">getInstance</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// 判断对象是否实例化过，没有才进入
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>instance <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#75715e">// 没有实例化，对其类对象进行加锁
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>SingletonLanHan03<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>instance <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    <span style="color:#75715e">// 进行实例化，但注意这里是非原子性操作
+</span><span style="color:#75715e"></span>                    instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SingletonLanHan03<span style="color:#f92672">();</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> instance<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>访问方式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Singleton instance <span style="color:#f92672">=</span> Singleton<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">();</span>
+</code></pre></div><p>优点：线程安全；延迟加载；效率较高。</p>
+<h3 id="枚举极其推荐使用">枚举[极其推荐使用]</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * 枚举[极推荐使用]
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * 这里SingletonEnum.instance
+</span><span style="color:#75715e"> * 这里的instance即为SingletonEnum类型的引用所以得到它就可以调用枚举中的方法了。
+</span><span style="color:#75715e"> 借助JDK1.5中添加的枚举来实现单例模式。不仅能避免多线程同步问题，而且还能防止反序列化重新创建新的对象
+</span><span style="color:#75715e"> */</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> SingletonEnum <span style="color:#f92672">{</span>
+
+    instance<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">SingletonEnum</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">whateverMethod</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">// SingletonEnum.instance.method();
+</span><span style="color:#75715e"></span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>访问方式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">SingletonEnum<span style="color:#f92672">.</span><span style="color:#a6e22e">instance</span><span style="color:#f92672">.</span><span style="color:#a6e22e">method</span><span style="color:#f92672">();</span>
+</code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-26 10:33:31</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" data-title="单例模式" data-hashtags="设计模式"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" data-hashtag="设计模式"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" data-title="单例模式" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" data-title="单例模式"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" data-title="单例模式" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" data-title="单例模式" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" data-title="单例模式" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" data-title="单例模式"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6-collections%E5%B7%A5%E5%85%B7%E7%B1%BB/" class="prev" rel="prev" title="集合框架-Collections工具类"><i class="fas fa-angle-left fa-fw"></i>集合框架-Collections工具类</a>
+            <a href="/2020/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="next" rel="next" title="设计模式">设计模式<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

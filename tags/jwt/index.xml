@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>JWT - 标签 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/tags/jwt/</link>
+        <description>JWT - 标签 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Tue, 10 Nov 2020 16:52:25 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/tags/jwt/" rel="self" type="application/rss+xml" /><item>
+    <title>什么是JWT</title>
+    <link>https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/</link>
+    <pubDate>Tue, 10 Nov 2020 16:52:25 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/%E4%BB%80%E4%B9%88%E6%98%AFjwt/</guid>
+    <description><![CDATA[什么是JWT 本质上它是一段签名的 JSON 格式的数据。由于它是带有签名的，因此接收者便可以验证它的真实性。同时由于它是 JSON 格式的因此它的体积也很小。如果你想了解有关它的正式定义，可以在 RFC 7519 中找到。 Session]]></description>
+</item></channel>
+</rss>

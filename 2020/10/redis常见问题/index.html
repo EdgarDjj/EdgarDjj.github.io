@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Redis常见问题 - Fortuna7</title><meta name="Description" content="You Only Live Once"><meta property="og:title" content="Redis常见问题" />
+<meta property="og:description" content="Redis常见问题 Redis是什么？ Redis是通过C编写的一种键值对存储数据库，由于是基于内存的，因此读写速度非常快，多被用于做缓存。 Redis过期Key是怎么清理的？ 惰性清理 在访问key时，如果发" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" /><meta property="og:image" content="https://EdgarDjj.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-28T18:34:24&#43;00:00" />
+<meta property="article:modified_time" content="2020-10-28T18:34:24&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://EdgarDjj.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Redis常见问题"/>
+<meta name="twitter:description" content="Redis常见问题 Redis是什么？ Redis是通过C编写的一种键值对存储数据库，由于是基于内存的，因此读写速度非常快，多被用于做缓存。 Redis过期Key是怎么清理的？ 惰性清理 在访问key时，如果发"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" /><link rel="prev" href="https://EdgarDjj.github.io/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" /><link rel="next" href="https://EdgarDjj.github.io/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Redis常见问题",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/EdgarDjj.github.io\/2020\/10\/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98\/"
+        },"genre": "posts","keywords": "Redis","wordcount":  4271 ,
+        "url": "https:\/\/EdgarDjj.github.io\/2020\/10\/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98\/","datePublished": "2020-10-28T18:34:24+00:00","dateModified": "2020-10-28T18:34:24+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "EdgarDing"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i> 友链 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Fortuna7"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" /></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/friends/" title="友链"><i class='fas fa-fw fa-fan fa-spin'></i>友链</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Redis常见问题</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="fortuna7.top" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>EdgarDing</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-28 18:34:24">2020-10-28 18:34:24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4271 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#redis是什么">Redis是什么？</a></li>
+        <li><a href="#redis过期key是怎么清理的">Redis过期Key是怎么清理的？</a></li>
+        <li><a href="#如何解决redis缓存穿透问题">如何解决Redis缓存穿透问题？</a></li>
+        <li><a href="#如何解决redis缓存击穿问题">如何解决Redis缓存击穿问题？</a></li>
+        <li><a href="#如何解决redis缓存雪崩的问题">如何解决Redis缓存雪崩的问题？</a></li>
+        <li><a href="#如何解决缓存与数据库的数据一致性问题">如何解决缓存与数据库的数据一致性问题？</a></li>
+        <li><a href="#redis为什么采用单线程模型">Redis为什么采用单线程模型</a></li>
+        <li><a href="#redis的性能为何高">Redis的性能为何高</a></li>
+      </ol>
+    </li>
+    <li><a href="#linux中io模型有哪些">Linux中IO模型有哪些</a></li>
+    <li><a href="#redis主从同步是如何实现的">Redis主从同步是如何实现的</a>
+      <ol>
+        <li><a href="#redis中哨兵是什么">Redis中哨兵是什么</a></li>
+        <li><a href="#客户端是怎么接入哨兵系统的">客户端是怎么接入哨兵系统的</a></li>
+      </ol>
+    </li>
+    <li><a href="#补充">补充</a>
+      <ol>
+        <li><a href="#布隆过滤器">布隆过滤器</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="redis常见问题">Redis常见问题</h1>
+<h3 id="redis是什么">Redis是什么？</h3>
+<p>Redis是通过C编写的一种<strong>键值对存储数据库</strong>，由于是<strong>基于内存</strong>的，因此<strong>读写速度非常快</strong>，多被用于做<strong>缓存</strong>。</p>
+<h3 id="redis过期key是怎么清理的">Redis过期Key是怎么清理的？</h3>
+<ol>
+<li>惰性清理</li>
+</ol>
+<p>在访问key时，如果发现key过期，将其清理</p>
+<ol start="2">
+<li>定时清理</li>
+</ol>
+<p>Redis配置项hz定义了serverCron任务的执行周期，默认每次清理时间为25ms，每次清理会依次遍历所有DB，从db随机取出20个key，如果过期就删除，如果其中有5个key过期，那么久继续对这个db进行清理，否则开始清理下一个db。</p>
+<ol start="3">
+<li>内存不够时进行清理</li>
+</ol>
+<p>当执行写command时，如果发现内存不够，则会按照配置的淘汰策略清理内存，淘汰策略一般有6种，Redis4.0又增加了两种，主要分为三类：</p>
+<ul>
+<li>不处理，等报错（默认）
+<ul>
+<li>noeviction，发现内存不够时，不删除key，执行写入命令时直接返回错误信息。（Redis默认的配置就是noeviction）</li>
+</ul>
+</li>
+<li>从所有结果集的key中挑选，进行淘汰
+<ul>
+<li>allkeys-random 就是从所有的key中随机挑选key，进行淘汰</li>
+<li>allkeys-lru 就是从所有的key中挑选最近使用时间距离现在最远的key，进行淘汰</li>
+<li>allkeys-lfu 就是从所有的key中挑选使用频率最低的key，进行淘汰。（这是Redis 4.0版本后新增的策略）</li>
+</ul>
+</li>
+<li>从设置了过期时间的key中挑选，进行淘汰
+<ul>
+<li>volatile-random 从设置了过期时间的结果集中随机挑选key删除。</li>
+<li>volatile-lru 从设置了过期时间的结果集中挑选上次使用时间距离现在最久的key开始删除</li>
+<li>volatile-ttl 从设置了过期时间的结果集中挑选可存活时间最短的key开始删除(也就是从哪些快要过期的key中先删除)</li>
+<li>volatile-lfu 从过期时间的结果集中选择使用频率最低的key开始删除（这是Redis 4.0版本后新增的策略）</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何解决redis缓存穿透问题">如何解决Redis缓存穿透问题？</h3>
+<p>Redis<strong>缓存穿透</strong>指的事攻击者故意大量请求一些Redis缓存中不存在的key的数据，导致请求打在数据库上，导致数据库压力过大。</p>
+<p>总结来说就是：</p>
+<ol>
+<li>缓存层不中</li>
+<li>存储层不命中，不将空结果写入缓存</li>
+<li>返回空结果给客户端</li>
+</ol>
+<h4 id="解决方案">解决方案</h4>
+<ol>
+<li>做好参数校验，无效请求直接返回，只能避免部分</li>
+<li>如果缓存和数据库都查不到某个key的数据就写入到一个redis中去并设置过期时间，如 <code>SET key value EX 10086</code>。可以解决请求key变化不频繁的情况，如果黑客恶意攻击，每次构建不同的请求key，会导致redis中缓存大量无效的key，因此这种方案不能从根本上解决问题，如果非要用这种方式，就需尽量将key的过期时间设置的短些，如1分钟。</li>
+<li>也可以使用布隆过滤器，将所有可能存在的数据通过hash值的方法存入到一个足够大的bitmap中去，处理请求时在bitmap中查找，可以将不存在的数据拦截掉。</li>
+</ol>
+<blockquote>
+<p>Bit-map就是一个bit位用来标记某个元素对应的Value，而Key是该元素。采用以Bit为单位来存储数据。</p>
+<p>Bit（Byte）</p>
+</blockquote>
+<h3 id="如何解决redis缓存击穿问题">如何解决Redis缓存击穿问题？</h3>
+<p>Redis<strong>缓存击穿</strong>指的是某个key失效，导致大量请求全部转向数据库，导致数据库压力过大。</p>
+<h4 id="解决方案-1">解决方案</h4>
+<ol>
+<li>对热点key设置永不过期</li>
+<li>加互斥锁，缓存中没有热点key对应的数据时，等待100ms，由获得的线程去读取数据库然后设置缓存</li>
+</ol>
+<h3 id="如何解决redis缓存雪崩的问题">如何解决Redis缓存雪崩的问题？</h3>
+<p><strong>缓存雪崩</strong>主要指短时间内大量key失效，导致请求全部转向数据库，导致数据库压力过大。</p>
+<h4 id="解决方案-2">解决方案</h4>
+<ol>
+<li>给缓存设置失效时间加一个随机值，避免集体同时失效</li>
+<li>双缓存机制，缓存A的失效时间为20分钟，缓存B没有失效时间。从缓存A中读取数据，缓存A中没有时，去缓存B中读取，并且启动一个异步线程来更新缓存A</li>
+</ol>
+<h3 id="如何解决缓存与数据库的数据一致性问题">如何解决缓存与数据库的数据一致性问题？</h3>
+<p>多个诱因：</p>
+<ul>
+<li>多个写请求顺序不同，导致脏数据。（丢失修改）</li>
+<li>更新时正好有读请求，导致还没更新数据，进行读操作（脏读）</li>
+<li>或者数据库读写分离，在主库更新完后，需要一定的时间，从库才更新</li>
+</ul>
+<ol>
+<li>
+<p>先更新数据库，后更新缓存</p>
+</li>
+<li>
+<p>先删除缓存，在更新数据库</p>
+</li>
+<li>
+<p>先更新数据库，再删除缓存</p>
+</li>
+</ol>
+<h4 id="正确的方案">正确的方案</h4>
+<ol>
+<li>写请求串行化</li>
+</ol>
+<p>将写请求更新之前获取分布式锁，获得之后才能更新，这样实现请求的串行化，但是会导致效率遍变低。</p>
+<ol start="2">
+<li>先更新数据库，异步删除缓存，删除失败之后再重试</li>
+</ol>
+<p>先更新数据库，异步删除缓存，删除缓存失败时，继续异步重试，或者将操作放到消息队列中，再进行删除操作。（如果数据库是读写分离的，那么删除缓存时需要延迟删除，否则可能会删除缓存时，从库中还没有收到更新后的数据，其他读请求就去从库读到旧数据然后设置到缓存中。）</p>
+<ol start="3">
+<li>业务项目更新数据库，其他项目订阅binlog更新</li>
+</ol>
+<p>业务项目直接更新数据库，然后其他项目订略binlog，接收到更新数据库操作的消息后，更新缓存，更新缓存失败时，新建异步线程去重试或者将操作发到消息队列，然后后续进行处理。但是这种方案更新mysql后还是有一定延迟，缓冲中才是新值。</p>
+<h3 id="redis为什么采用单线程模型">Redis为什么采用单线程模型</h3>
+<p>Redis是基于内存进行操作，因此CPU不会成为瓶颈所在。</p>
+<p><strong>采用单线程带来的好处：</strong></p>
+<ol>
+<li>Redis项目代码清晰，处理逻辑简单</li>
+<li>不用考虑多格线程修改数据的情况，修改数据时也不用加锁，解锁等问题</li>
+<li>不存在多进程或多线程切换带来的性能开销</li>
+</ol>
+<p><strong>劣势：</strong></p>
+<p>无法充分发挥多核机器的优势，但可以启动多个Redis实例来利用资源</p>
+<h3 id="redis的性能为何高">Redis的性能为何高</h3>
+<ol>
+<li>完全基于内存操作，少去了I/O操作</li>
+<li>采用单线程模型，没有上下文开销</li>
+<li>Redis项目中使用的数据结构都是经过专门设计的，例如SDS（Simple Dynamic String）对C语言中的字符串频繁修改，会频繁地进行内存分配，十分消耗性能，而SDS会使用预空间分配和惰性空间来释放避免出现这些问题。</li>
+</ol>
+<blockquote>
+<p>如果修改后SDS实际长度为len</p>
+<p>当len &lt; 1M时，分配的空间会是2*len + 1，也就是预留len长度的未使用空间，其中1存储空字符</p>
+<p>当len &gt; 1M时，分配的空间会是len + 1 + 1M，会预留1M长度未使用空间，其中1存储空字符</p>
+</blockquote>
+<ol start="4">
+<li>采用多路复用IO模型，可以同时检测多个流的IO事件能力，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有I/O事件时，就从阻塞态唤醒，轮询那些真正发出请求的流，并依次处理就绪的流。可以让单个线程高效的处理多个连接请求。</li>
+</ol>
+<h2 id="linux中io模型有哪些">Linux中IO模型有哪些</h2>
+<p>IO模型主要有 阻塞式I/O模型，非阻塞式I/O模型，I/O复用模型，信息驱动型I/O模型，异步I/O模型</p>
+<p><strong>阻塞式</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg0MKrwAUosJqimgYwgAU4xQI.png"
+        data-srcset="Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg0MKrwAUosJqimgYwgAU4xQI.png, Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg0MKrwAUosJqimgYwgAU4xQI.png 1.5x, Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg0MKrwAUosJqimgYwgAU4xQI.png 2x"
+        data-sizes="auto"
+        alt="Redis常见问题/ABUIABAEGAAg0MKrwAUosJqimgYwgAU4xQI.png"
+        title="阻塞式" /></p>
+<p>用户发出一个IO请求，如果当前内核中的数据报未准备好，会让其一直占用CPU时间片，知道准备完成后，才让出，然后将数据报从内核拷贝用户空间内存，然后返回成功的信号，此时用户态才接触阻塞的状态处理数据报。</p>
+<p><strong>非阻塞式</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg7MKrwAUogfiO-QUwgAU48gI.png"
+        data-srcset="Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg7MKrwAUogfiO-QUwgAU48gI.png, Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg7MKrwAUogfiO-QUwgAU48gI.png 1.5x, Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg7MKrwAUogfiO-QUwgAU48gI.png 2x"
+        data-sizes="auto"
+        alt="Redis常见问题/ABUIABAEGAAg7MKrwAUogfiO-QUwgAU48gI.png"
+        title="非阻塞式" /></p>
+<p>当线程处于等待内核的时候，当数据未准备成功的时候，用户态进程会一直轮询内核，直到内核准备好。</p>
+<p>多路复用式</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg_sKrwAUojMPt1gIwgAU4mgM.png"
+        data-srcset="Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg_sKrwAUojMPt1gIwgAU4mgM.png, Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg_sKrwAUojMPt1gIwgAU4mgM.png 1.5x, Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAg_sKrwAUojMPt1gIwgAU4mgM.png 2x"
+        data-sizes="auto"
+        alt="Redis常见问题/ABUIABAEGAAg_sKrwAUojMPt1gIwgAU4mgM.png"
+        title="多路复用" /></p>
+<p>指多个IO复用一个进程。最初级的I/O复用，就是一个进程对应多个连接，每次从头至尾进行遍历，判断是否有I/O事件需要处理，有的话就进行处理，缺点是效率比较低，如果一直没有事件进来，会导致CPU空转。</p>
+<p>升级版的I/O复用模型</p>
+<p>当没有I/O事件时，进程处于阻塞状态，当有I/O事件时，就会有一个代理去唤醒进程，去进行轮询，来处理I/O事件。（这里的代理也就是select和poll，select只能观察1024个连接，poll可以观察无限个连接，因为poll是基于链表来实现的）</p>
+<p>epoll是对select和poll的升级版，解决了很多问题，是线程安全的，而且可以通知进程是哪个Socket连接有I/O事件,提高了查找效率。</p>
+<p>epoll和select/poll最大区别是</p>
+<p>(1)epoll内部使用了mmap共享了用户和内核的部分空间，避免了数据的来回拷贝</p>
+<p>(2)epoll基于事件驱动，epoll_wait只返回发生的事件避免了像select和poll对事件的整个轮寻操作（时间复杂度为O（N）），epoll时间复杂度为O（1）。</p>
+<p><strong>信号驱动式</strong></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAglcOrwAUoqPiNiQYwgAU4lgM.png"
+        data-srcset="Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAglcOrwAUoqPiNiQYwgAU4lgM.png, Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAglcOrwAUoqPiNiQYwgAU4lgM.png 1.5x, Redis%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98/ABUIABAEGAAglcOrwAUoqPiNiQYwgAU4lgM.png 2x"
+        data-sizes="auto"
+        alt="Redis常见问题/ABUIABAEGAAglcOrwAUoqPiNiQYwgAU4lgM.png"
+        title="信号驱动式" /></p>
+<p>是非阻塞的，当需要数据等待的时候，用户态进程会给内核发送一个信号，告知自己需要数据，然后就去执行其他任务，待内核准备好数据会给用户态发送信号，用户态接收到信号后，会返回revfrom，等待数据从内核复制到用户内存空间，待完成之后的revfrom返回成功指示，用户态进程才处理数据。</p>
+<p><strong>异步IO模型</strong></p>
+<p>与信息驱动式I/O模型区别在于，是在数据从内核态拷贝到用户空间之后，内核才通知用户态进程来处理数据。在复制数据到用户空间这个时间段内，用户态进程也是不阻塞的。</p>
+<h2 id="redis主从同步是如何实现的">Redis主从同步是如何实现的</h2>
+<h3 id="redis中哨兵是什么">Redis中哨兵是什么</h3>
+<p>edis中的哨兵服务器是一个运行在哨兵模式下的Redis服务器，核心功能是监测主节点和从节点的运行情况，在主节点出现故障后， 完成自动故障转移，让某个从节点升级为主节点</p>
+<h3 id="客户端是怎么接入哨兵系统的">客户端是怎么接入哨兵系统的</h3>
+<p>首先Redis中的哨兵节点是一个配置提供者，而不是代理。 区别在于，<strong>配置提供者</strong></p>
+<p>前者只负责存储当前最新的主从节点信息，供客户端获取。</p>
+<h5 id="代理客户端">代理客户端</h5>
+<p>所有请求都会经过哨兵节点。</p>
+<p>所以实际开发中，通过在客户端配置哨兵节点的地址+主节点的名称(哨兵系统可能会监控多个主从节点，名称用于区分)就可以获取到主节点信息， 下面的代码在底层实现是客户端向依次向哨兵节点发送&quot;sentinel get-master-addr-by-name&quot;命令， 成功获得主节点信息就不向后面的哨兵节点发送命令。 同时客户端会订阅哨兵节点的+switch-master频道，一旦主节点发送故障，哨兵服务器对主节点进行自动故障转移，会将从节点升级主节点， 并且更新哨兵服务器中存储的主节点信息，会向+switch-master频道发送消息，客户端得到消息后重新从哨兵节点获取主节点信息，初始化连接池。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> String masterName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;mymaster&#34;</span>;
+ Set&lt;String&gt; sentinels <span style="color:#f92672">=</span> new HashSet&lt;&gt;<span style="color:#f92672">()</span>;
+ sentinels.add<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.92.128:26379&#34;</span><span style="color:#f92672">)</span>;
+ sentinels.add<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.92.128:26380&#34;</span><span style="color:#f92672">)</span>;
+
+ JedisSentinelPool pool <span style="color:#f92672">=</span> new JedisSentinelPool<span style="color:#f92672">(</span>masterName, sentinels<span style="color:#f92672">)</span>; //初始化过程做了很多工作
+ Jedis jedis <span style="color:#f92672">=</span> pool.getResource<span style="color:#f92672">()</span>;
+ jedis.set<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;key1&#34;</span>, <span style="color:#e6db74">&#34;value1&#34;</span><span style="color:#f92672">)</span>;
+ pool.close<span style="color:#f92672">()</span>;
+</code></pre></div><h2 id="补充">补充</h2>
+<h3 id="布隆过滤器">布隆过滤器</h3>
+<p>布隆过滤器在针对大数据海量数据去重或验证数据合法性的时候非常有用。</p>
+<p><strong>本质上是（bit）数组，即每一个存入布隆过滤器的数据都只占一位，相比平时我们使用的list、map、set等数据结构，占用的空间更少且效率更高，但缺点是返回的结果是概率性的，不是非常准确</strong>。</p>
+<h4 id="操作">操作</h4>
+<p>当一个元素加入布隆过滤器中的时候：</p>
+<ol>
+<li>使用布隆过滤器中的hash（）函数对元素值进行计算，得到hash值（有几个hash函数得到几个hash值）</li>
+<li>根据得到的hash值，在位数组中把对应下标的值置为1</li>
+</ol>
+<p>当我们需要判断一个元素是否存在于布隆过滤器的时候：</p>
+<ol>
+<li>对给定的元素再次进行相同的hash计算</li>
+<li>得到值之后判断位数组中的每个元素是否都为1，如果为1，则在这个布隆过滤器中，如果存在一个值不为1，则说明该元素不在布隆过滤器中。</li>
+</ol>
+<p><strong>布隆过滤器说某个元素存在，小概率会误判，但说某个元素不存在，那一定不存在。</strong></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-28 18:34:24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" data-title="Redis常见问题" data-hashtags="Redis"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" data-hashtag="Redis"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" data-title="Redis常见问题" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" data-title="Redis常见问题"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" data-title="Redis常见问题" data-ralateuid="5030957155"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" data-title="Redis常见问题" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" data-title="Redis常见问题" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://EdgarDjj.github.io/2020/10/redis%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" data-title="Redis常见问题"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/redis/">Redis</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/2020/10/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="prev" rel="prev" title="消息中间件"><i class="fas fa-angle-left fa-fw"></i>消息中间件</a>
+            <a href="/2020/10/linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" class="next" rel="next" title="Linux常用指令">Linux常用指令<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">You Only Live Once.</div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="fortuna7.top" target="_blank">EdgarDing</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer>
+        </div>
+        
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?https:\/\/hm.baidu.com\/hm.js?";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script></body>
+</html>

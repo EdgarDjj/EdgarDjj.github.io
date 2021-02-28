@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>工具 - 分类 - Fortuna7</title>
+        <link>https://EdgarDjj.github.io/categories/%E5%B7%A5%E5%85%B7/</link>
+        <description>工具 - 分类 - Fortuna7</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>edgarding97@gmail.com (EdgarDing)</managingEditor>
+            <webMaster>edgarding97@gmail.com (EdgarDing)</webMaster><lastBuildDate>Thu, 12 Nov 2020 09:14:10 &#43;0000</lastBuildDate><atom:link href="https://EdgarDjj.github.io/categories/%E5%B7%A5%E5%85%B7/" rel="self" type="application/rss+xml" /><item>
+    <title>Alfred的使用</title>
+    <link>https://EdgarDjj.github.io/2020/11/alfred%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+    <pubDate>Thu, 12 Nov 2020 09:14:10 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/alfred%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+    <description><![CDATA[Alfred 默认情况下，alfred 至少能胜任 15 项工作： 应用搜索 文件或目录搜索 文本内容搜索 标记搜索 快捷网页搜索 书签搜索 计算器 词典搜索 通讯录搜索 剪切板搜索 代码片段搜索 iTunes管理 1Password搜索 系统常用]]></description>
+</item><item>
+    <title>Chrome DevTools</title>
+    <link>https://EdgarDjj.github.io/2020/11/chrome-devtools/</link>
+    <pubDate>Sun, 01 Nov 2020 10:53:05 &#43;0000</pubDate>
+    <author>作者</author>
+    <guid>https://EdgarDjj.github.io/2020/11/chrome-devtools/</guid>
+    <description><![CDATA[Chrome DevTools 网络面板 控件。控制功能 过滤器。可以控制在请求表中显示的内容。 概述。显示了何时检索资源的时间表。 请求表。列出检索的到的资源列表，默认按时间顺序排序。 摘要。告诉请求总数，传输数据量和加载时间等。 默认情]]></description>
+</item></channel>
+</rss>
