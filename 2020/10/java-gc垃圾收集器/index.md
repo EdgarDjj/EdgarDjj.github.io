@@ -9,7 +9,7 @@ Java GC（Garbage Collection，垃圾回收）机制是Java 与 C++之间区别�
 
 ## JVM内存管理
 
-![jvm内存管理](Java-GC垃圾收集器/jvm内存管理.png)
+![jvm内存管理](/Java-GC/jvm内存管理.png)
 
 根据JVM规范，JVM把内存划分为以下几个区域
 

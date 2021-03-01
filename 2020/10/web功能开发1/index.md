@@ -5,7 +5,7 @@
 
 ## DispatchServlet 简介
 
-![dispatcherservlet](Web功能开发/dispatcherservlet.png)
+![dispatcherservlet](/Web/dispatcherservlet.png)
 
 
 

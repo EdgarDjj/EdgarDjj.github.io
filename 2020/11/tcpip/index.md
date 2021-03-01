@@ -3,7 +3,7 @@
 
 # TCP / IP
 
-![TCP/IP](./TCPIP/tcp-ip.png)
+![TCP/IP](/TCPIP/tcp-ip.png)
 
 ### 三次握手的验证
 

@@ -2,7 +2,7 @@
 
 # HTTP/HTTPS
 
-![五层体系结构.png](HttpHttps/TELNET.png)
+![五层体系结构.png](/HttpHttps/TELNET.png)
 
 ## HTTP是什么？
 

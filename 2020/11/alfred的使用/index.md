@@ -49,11 +49,11 @@ google alfred // 使用goole搜索alfred
 gmail // 打开gmail
 ```
 
-![alfred的web功能](./Alfred的使用/alfred.png)
+![alfred的web功能](/Alfred/alfred.png)
 
 ### 计算器
 
-![alfred-calculator](Alfred的使用/alfred-calculator.png)
+![alfred-calculator](/Alfred/alfred-calculator.png)
 
 ### 词典搜索
 
@@ -63,4 +63,4 @@ gmail // 打开gmail
 
 ### 系统操作指令
 
-![系统操作指令](Alfred的使用/截屏2020-11-12 上午9.49.36.png)
+![系统操作指令](/Alfred/截屏2020-11-12 上午9.49.36.png)

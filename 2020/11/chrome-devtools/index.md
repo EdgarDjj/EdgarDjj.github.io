@@ -11,11 +11,11 @@
 4. **请求表**。列出检索的到的资源列表，默认按时间顺序排序。
 5. **摘要**。告诉请求总数，传输数据量和加载时间等。
 
-![panels](./Chrome-DevTools/panes.png)
+![panels](/Chrome-DevTools/panes.png)
 
 默认情况，“请求表”显示以下列。可以“添加”和“删除列”。
 
-![panes2](./Chrome-DevTools/panes2.png)
+![panes2](/Chrome-DevTools/panes2.png)
 
 - **Name**. The name of the resource.
 - **Status**. The HTTP status code.

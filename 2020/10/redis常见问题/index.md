@@ -132,19 +132,19 @@ IO模型主要有 阻塞式I/O模型，非阻塞式I/O模型，I/O复用模型�
 
 **阻塞式**
 
-![阻塞式](Redis常见问题/ABUIABAEGAAg0MKrwAUosJqimgYwgAU4xQI.png)
+![阻塞式](/Redis/ABUIABAEGAAg0MKrwAUosJqimgYwgAU4xQI.png)
 
 用户发出一个IO请求，如果当前内核中的数据报未准备好，会让其一直占用CPU时间片，知道准备完成后，才让出，然后将数据报从内核拷贝用户空间内存，然后返回成功的信号，此时用户态才接触阻塞的状态处理数据报。
 
 **非阻塞式**
 
-![非阻塞式](Redis常见问题/ABUIABAEGAAg7MKrwAUogfiO-QUwgAU48gI.png)
+![非阻塞式](/Redis/ABUIABAEGAAg7MKrwAUogfiO-QUwgAU48gI.png)
 
 当线程处于等待内核的时候，当数据未准备成功的时候，用户态进程会一直轮询内核，直到内核准备好。
 
 多路复用式
 
-![多路复用](Redis常见问题/ABUIABAEGAAg_sKrwAUojMPt1gIwgAU4mgM.png)
+![多路复用](/Redis/ABUIABAEGAAg_sKrwAUojMPt1gIwgAU4mgM.png)
 
 指多个IO复用一个进程。最初级的I/O复用，就是一个进程对应多个连接，每次从头至尾进行遍历，判断是否有I/O事件需要处理，有的话就进行处理，缺点是效率比较低，如果一直没有事件进来，会导致CPU空转。
 
@@ -162,7 +162,7 @@ epoll和select/poll最大区别是
 
 **信号驱动式**
 
-![信号驱动式](Redis常见问题/ABUIABAEGAAglcOrwAUoqPiNiQYwgAU4lgM.png)
+![信号驱动式](/Redis/ABUIABAEGAAglcOrwAUoqPiNiQYwgAU4lgM.png)
 
 是非阻塞的，当需要数据等待的时候，用户态进程会给内核发送一个信号，告知自己需要数据，然后就去执行其他任务，待内核准备好数据会给用户态发送信号，用户态接收到信号后，会返回revfrom，等待数据从内核复制到用户内存空间，待完成之后的revfrom返回成功指示，用户态进程才处理数据。
 

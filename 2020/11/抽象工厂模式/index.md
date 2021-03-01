@@ -21,7 +21,7 @@
 
 * Product：具体产品
 
-  ![AbstractFactory](./抽象工厂模式/AbatractFactory.jpg)
+  ![AbstractFactory](/design-pattern/AbatractFactory.jpg)
 
 ## 模式应用
 
